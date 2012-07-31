@@ -19,9 +19,9 @@ namespace OneApi.Scenarios
       *  1.) Download 'OneApiExample' project - available at www.github.com/parseco   or   www.parseco.com/apis    
       *
       *  2.) Open 'Scenarios.SendSMS' class to edit where you should populate the following fields: 
-      *		'apiUrl'    'senderAddress'     'recipientAddress2'
-      *		'username'  'message'           'notifyUrl'
-      *		'password'  'recipientAddress1' 'criteria'
+      *		'senderAddress'      'recipientAddress2'  'username'
+      *		'message'            'notifyUrl'          'password'
+      *		'recipientAddress1'  'criteria'
       *
       *  3.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
       *       There you will enter the appropriate example number in the console and press 'Enter' key 
@@ -36,8 +36,8 @@ namespace OneApi.Scenarios
     public class SendSMS_PushDeliveryStatusNotification 
     {
         private static string apiUrl = "http://api.parseco.com";
-        private static string username = "";
-        private static string password = "";
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string senderAddress = "";
         private static string message = "";
         private static string recipientAddress = "";

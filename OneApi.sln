@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneApi", "OneApi\OneApi.csproj", "{BB105549-1799-4601-9D24-652773A187F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneApiVSClientAll", "OneApiVSClientAll\OneApiVSClientAll.csproj", "{BC8F3CEB-F308-430B-BB2F-E05B3F7A1F38}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneApiExamples", "OneApiExamples\OneApiExamples.csproj", "{BDEB00D8-8C1D-4DA7-BE4C-75FB247E076D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication2", "WindowsFormsApplication2\WindowsFormsApplication2.csproj", "{2EE5C2AA-7438-4EBC-80B4-1B94E4C44DD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

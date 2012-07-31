@@ -17,14 +17,14 @@ namespace OneApi.Scenarios
       *
       *  2.) Open 'Scenarios.SendSMS_GetDeliveryReportsUsingRetriever' class to edit where you should populate the following fields: 
       *		'senderAddress' 'username' 
-      *	  'message'       'password'
+      *	    'message'       'password'
       *		'recipientAddress'	
       *
       *  3.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
       *       There you will enter the appropriate example number in the console and press 'Enter' key 
       *       on which the result will be displayed in the Console.
       *       
-      *     Note: 'Delviery Reports' are retrieved default every 5000 milisecons (5 seconds). Retrieving interval can be changed
+      *     Note: 'Delivery Reports' are retrieved default every 5000 milisecons (5 seconds). Retrieving interval can be changed
       *     by setting the 'Configuration' property 'DlrRetrievingInterval'.
       **/
 

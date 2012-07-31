@@ -19,8 +19,8 @@ namespace OneApi.Scenarios
       *  1.) Download 'OneApiExample' project - available at www.github.com/parseco   or   www.parseco.com/apis    
       *
       *  2.) Open 'Scenarios.SendHLRSyncRequest' class to edit where you should populate the following fields: 
-      *		'address'    'username'   
-      *		'notifyUrl'  'password'         
+      *		'address'    'password'   
+      *		'username'        
       *		
       *
       *  3.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 

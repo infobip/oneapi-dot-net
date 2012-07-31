@@ -14,8 +14,7 @@ namespace OneApi.Scenarios
      *
      *  1.) Download 'OneApiExample' project - available at www.github.com/parseco   or   www.parseco.com/apis    
      *
-     *  2.) Open 'Scenarios.GetInboundMessages' class to edit where you should populate the following fields: 
-     *		'apiUrl'   
+     *  2.) Open 'Scenarios.GetInboundMessages' class to edit where you should populate the following fields:  
      *		'username' 
      *		'password'  
      *
@@ -27,8 +26,8 @@ namespace OneApi.Scenarios
     public class GetInboundMessages 
     {
         private static string apiUrl = "http://api.parseco.com";
-        private static string username = "";
-        private static string password = "";
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
        
         public static void Execute()
         {

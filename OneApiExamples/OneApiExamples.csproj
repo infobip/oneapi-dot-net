@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BDEB00D8-8C1D-4DA7-BE4C-75FB247E076D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OneApiExamples</RootNamespace>
+    <AssemblyName>OneApiExamples</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\OneApiExamples\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>OneApi.Examples.OneApiExamples</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Downloads\log4net-1.2.11-bin-newkey\log4net-1.2.11\bin\net\4.0\release\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Examples\ConfigFile\LoadConfigFileExample.cs" />
+    <Compile Include="Examples\ConfigFile\LoadDefaultConfigFileExample.cs" />
+    <Compile Include="Examples\ConfigFile\SaveToConfigFileExample.cs" />
+    <Compile Include="Examples\ConfigFile\SaveToDefaultConfigFileExample.cs" />
+    <Compile Include="Examples\ExampleBase.cs" />
+    <Compile Include="Examples\Hlr\ConvertJsonToRoamingNotificationExample.cs" />
+    <Compile Include="Examples\Hlr\RemoveHLRDeliveryNotificationsSubscriptionExample.cs" />
+    <Compile Include="Examples\Hlr\GetHLRDeliveryNotificationsSubscriptionsExample.cs" />
+    <Compile Include="Examples\Hlr\QueryHLRAsyncExample.cs" />
+    <Compile Include="Examples\Hlr\QueryHLRSyncExample.cs" />
+    <Compile Include="Examples\Hlr\SubscribeToHLRDeliveryNotificationsExample.cs" />
+    <Compile Include="Examples\OneApiExamples.cs" />
+    <Compile Include="Examples\Logger\EnableLoggerExample.cs" />
+    <Compile Include="Scenarios\SendSMS_GetDeliveryReportsUsingRetriever.cs" />
+    <Compile Include="Scenarios\GetInboundMessagesUsingRetriever.cs" />
+    <Compile Include="Scenarios\PushInboundMessagesNotification.cs" />
+    <Compile Include="Scenarios\SendHLRSyncRequest.cs" />
+    <Compile Include="Scenarios\SendHLRAsyncRequest_PushHLRNotification.cs" />
+    <Compile Include="Scenarios\SendSMS_PushDeliveryStatusNotification.cs" />
+    <Compile Include="Scenarios\GetInboundMessages.cs" />
+    <Compile Include="Scenarios\SendSMS_GetDeliveryReports.cs" />
+    <Compile Include="Examples\SmsMessaging\RemoveDeliveryNotificationsSubscriptionExample.cs" />
+    <Compile Include="Examples\SmsMessaging\RemoveInboundMessagesNotificationsSubscriptionExample.cs" />
+    <Compile Include="Examples\SmsMessaging\ConvertJsonToDeliveryInfoListExample.cs" />
+    <Compile Include="Examples\SmsMessaging\GetDeliveryReportsExample.cs" />
+    <Compile Include="Examples\SmsMessaging\DeliveryReportsRetrieverExample.cs" />
+    <Compile Include="Examples\SmsMessaging\ConvertJsonToInboundSMSMessageListExample.cs" />
+    <Compile Include="Examples\SmsMessaging\InboundMessagesRetrieverExample.cs" />
+    <Compile Include="Examples\SmsMessaging\QueryDeliveryStatusExample.cs" />
+    <Compile Include="Examples\SmsMessaging\GetDeliveryNotificationsSubscriptionsExample.cs" />
+    <Compile Include="Examples\SmsMessaging\GetInboundMessagesExample.cs" />
+    <Compile Include="Examples\SmsMessaging\GetInboundMessagesNotificationsSubscriptionsExample.cs" />
+    <Compile Include="Examples\SmsMessaging\SendSMSExample.cs" />
+    <Compile Include="Examples\SmsMessaging\SendSMSToMultipleRecipientsExample.cs" />
+    <Compile Include="Examples\SmsMessaging\SubscribeToDeliveryStatusNotificationsExample.cs" />
+    <Compile Include="Examples\SmsMessaging\SubscribeToInboundMessagesNotificationsExample.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OneApi\OneApi.csproj">
+      <Project>{BB105549-1799-4601-9D24-652773A187F5}</Project>
+      <Name>OneApi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy “$(SolutionDir)\OneApi\Etc” “$(TargetDir)”
+if  not exist "$(TargetDir)\Src" mkdir  "$(TargetDir)\Src"
+XCOPY "$(ProjectDir)\Examples" "$(TargetDir)\Src" /E /I /F /Y
+
+
+</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

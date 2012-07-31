@@ -1,0 +1,5 @@
+*.suo
+OneApi/obj
+OneApi/bin
+OneApiExamples/obj
+OneApiExamples/bin

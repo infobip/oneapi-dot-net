@@ -1,0 +1,88 @@
+using System;
+using System.IO;
+using log4net.Config;
+using OneApi.Client.Impl;
+using OneApi.Model;
+using OneApi.Config;
+using OneApi.Exceptions;
+using OneApi.Listeners;
+
+namespace OneApi.Scenarios
+{
+
+    /**
+      * To run this example follow these 3 steps:
+      *
+      *  1.) Download 'OneApiExample' project - available at www.github.com/parseco   or   www.parseco.com/apis    
+      *
+      *  2.) Open 'Scenarios.SendSMS_GetDeliveryReportsUsingRetriever' class to edit where you should populate the following fields: 
+      *		'apiUrl'    'senderAddress'
+      *		'username'  'message'
+      *		'password'  'recipientAddress'	
+      *
+      *  3.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
+      *       There you will enter the appropriate example number in the console and press 'Enter' key 
+      *       on which the result will be displayed in the Console.
+      *       
+      *     Note: 'Delviery Reports' are retrieved default every 5000 milisecons (5 seconds). Retrieving interval can be changed
+      *     by setting the 'Configuration' property 'DlrRetrievingInterval'.
+      **/
+
+    public class SendSMS_GetDeliveryReportsUsingRetriever
+    {
+        private static string apiUrl = "http://api.parseco.com";
+        private static string username = "";
+        private static string password = "1";
+        private static string senderAddress = "";
+        private static string message = "";
+        private static string recipientAddress = "";
+
+        public static void Execute()
+        {
+            //Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
+            //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
+            XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
+
+            //Initialize Configuration object 
+            Configuration configuration = new Configuration(username, password);
+            configuration.ApiUrl = apiUrl;
+          
+            //Initialize SMSClient using the Configuration object
+            SMSClient smsClient = new SMSClient(configuration);
+
+            //Add listener(start retriever and pull Delivery Reports)  
+            smsClient.SmsMessagingClient.AddPullDeliveryReportListener(new DeliveryReportListener(OnDeliveryReportReceived));
+
+            try
+            {
+                //Send SMS to 1 recipients (instead passing one recipient address you can put the recipeints addresses string array)
+                string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
+                Console.WriteLine("Request Id: " +  requestId);
+
+                //Waiting 2 minutes for the 'Delivery Reports' before stop the retriever.   
+                Console.WriteLine("Waiting 2 minutes for the Delivery Reports.. after that 'Delivery Reports' retriever will be stopped.");
+                System.Threading.Thread.Sleep(120000);
+
+                //Remove Delivery Reports Listeners and stop the retriever
+                smsClient.SmsMessagingClient.RemovePullDeliveryReportListeners();
+            }
+            catch (RequestException e)
+            {
+                Console.WriteLine("Exception: " + e.Message); 
+            }  
+        }
+
+        //Handle pulled Delivery Reports
+        private static void OnDeliveryReportReceived(DeliveryReport[] deliveryReports, Exception e)
+        {
+            if (e == null)
+            {
+                Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReports));
+            }
+            else
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+        }
+    }
+}

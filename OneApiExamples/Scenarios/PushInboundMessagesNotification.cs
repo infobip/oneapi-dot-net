@@ -19,9 +19,9 @@ namespace OneApi.Scenarios
       *  1.) Download 'OneApiExample' project - available at www.github.com/parseco   or   www.parseco.com/apis    
       *
       *  2.) Open 'Scenarios.PushInboundMessagesNotification' class to edit where you should populate the following fields: 
-      *		'apiUrl'    'destinationAddress'    'notificationFormat'
-      *		'username'  'notifyUrl'           
-      *		'password'  'criteria' 
+      *		'destinationAddress'    'notificationFormat'
+      *		'username'              'notifyUrl'           
+      *		'password'              'criteria' 
       *
       *  3.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
       *       There you will enter the appropriate example number in the console and press 'Enter' key 
@@ -36,8 +36,8 @@ namespace OneApi.Scenarios
     public class PushInboundMessagesNotification 
     {
         private static string apiUrl = "http://api.parseco.com";
-        private static string username = "";
-        private static string password = "";
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string destinationAddress = "";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3001/" 3001=Default port for 'Inbound Messages Notifications' server simulator
         private static string criteria = "";

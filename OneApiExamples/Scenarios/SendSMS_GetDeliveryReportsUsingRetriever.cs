@@ -16,9 +16,9 @@ namespace OneApi.Scenarios
       *  1.) Download 'OneApiExample' project - available at www.github.com/parseco   or   www.parseco.com/apis    
       *
       *  2.) Open 'Scenarios.SendSMS_GetDeliveryReportsUsingRetriever' class to edit where you should populate the following fields: 
-      *		'apiUrl'    'senderAddress'
-      *		'username'  'message'
-      *		'password'  'recipientAddress'	
+      *		'senderAddress' 'username' 
+      *	  'message'       'password'
+      *		'recipientAddress'	
       *
       *  3.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
       *       There you will enter the appropriate example number in the console and press 'Enter' key 
@@ -31,8 +31,8 @@ namespace OneApi.Scenarios
     public class SendSMS_GetDeliveryReportsUsingRetriever
     {
         private static string apiUrl = "http://api.parseco.com";
-        private static string username = "";
-        private static string password = "1";
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string senderAddress = "";
         private static string message = "";
         private static string recipientAddress = "";

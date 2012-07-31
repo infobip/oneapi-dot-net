@@ -19,9 +19,9 @@ namespace OneApi.Scenarios
       *  1.) Download 'OneApiExample' project - available at www.github.com/parseco   or   www.parseco.com/apis    
       *
       *  2.) Open 'Scenarios.SendHLRAsyncRequest_PushHLRNotification' class to edit where you should populate the following fields: 
-      *		'apiUrl'    'address'     
-      *		'username'  'notifyUrl'         
-      *		'password'  
+      *		'address'   'username'    
+      *		'notifyUrl' 'password'         
+      *		
       *
       *  3.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
       *       There you will enter the appropriate example number in the console and press 'Enter' key 
@@ -35,8 +35,8 @@ namespace OneApi.Scenarios
     public class SendHLRAsyncRequest_PushHLRNotification 
     {
         private static string apiUrl = "http://api.parseco.com";
-        private static string username = "";
-        private static string password = "";    
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";    
         private static string address = "";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3002/" 3002=Default port for 'HLR Notifications' server simulator
                 

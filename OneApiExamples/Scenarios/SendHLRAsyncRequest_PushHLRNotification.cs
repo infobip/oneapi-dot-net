@@ -14,18 +14,19 @@ namespace OneApi.Scenarios
 {
 
     /**
-      * To run this example follow these 3 steps:
+      * To run this example follow these 4 steps:
       *
-      *  1.) Download 'OneApiExample' project - available at www.github.com/parseco   or   www.parseco.com/apis    
+      *  1.) Download 'Parseco C# library' - available at www.github.com/parseco   or   www.parseco.com/apis    
       *
-      *  2.) Open 'Scenarios.SendHLRAsyncRequest_PushHLRNotification' class to edit where you should populate the following fields: 
+      *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project    
+      *
+      *  3.) Open 'Scenarios.SendHLRAsyncRequest_PushHLRNotification' class to edit where you should populate the following fields: 
       *		'address'   'username'    
       *		'notifyUrl' 'password'         
       *		
-      *
-      *  3.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
-      *       There you will enter the appropriate example number in the console and press 'Enter' key 
-      *       on which the result will be displayed in the Console.
+      *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
+      *      There you will enter the appropriate example number in the console and press 'Enter' key 
+      *      on which the result will be displayed in the Console.
       *
       *  Note: 'HLR Notifications' push server is started automatically by adding 'HLRNotificationsListener'
       *  using the 'AddPushHlrNotificationsListener' method. Default server port is 3002 and it can be changed by set the 
@@ -46,16 +47,25 @@ namespace OneApi.Scenarios
             //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
+
             //Initialize Configuration object 
             Configuration configuration = new Configuration(username, password);
             configuration.ApiUrl = apiUrl;
-         
+
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
+            //Check if configured data is valid
+            ValidateClientResponse validateClientResponse = smsClient.IsValid();
+            if (validateClientResponse.IsValid.Equals(false))
+            {
+                Console.WriteLine("Configuration exception: " + validateClientResponse.ErrorMessage);
+                return;
+            }
+
             //Add listener(start push server and wait for the HLR Notifications)
             smsClient.HlrClient.AddPushHlrNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
-         
+
             try
             {
                 //Send HLR Request Asynchronously
@@ -64,7 +74,7 @@ namespace OneApi.Scenarios
             }
             catch (RequestException e)
             {
-                Console.WriteLine("Exception: " + e.Message); 
+                Console.WriteLine("Request Exception: " + e.Message);
             }  
         }
 

@@ -14,24 +14,26 @@ namespace OneApi.Scenarios
 {
 
     /**
-      * To run this example follow these 3 steps:
-      *
-      *  1.) Download 'OneApiExample' project - available at www.github.com/parseco   or   www.parseco.com/apis    
-      *
-      *  2.) Open 'Scenarios.PushInboundMessagesNotification' class to edit where you should populate the following fields: 
-      *		'destinationAddress'    'notificationFormat'
-      *		'username'              'notifyUrl'           
-      *		'password'              'criteria' 
-      *
-      *  3.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
-      *       There you will enter the appropriate example number in the console and press 'Enter' key 
-      *       on which the result will be displayed in the Console.
-      *
-      *  Note: 'Inbound Message Notifications' push server is started automatically by adding 'InboundMessageNotificationsListener'
-      *  using the 'AddPushInboundMessageListener' method. Default server port is 3001 and it can be changed by set the 
-      *  'Configuration' property 'InboundMessagesPushServerSimulatorPort'. Used port should match the one used in the 'notifyUrl' property when 
-      *  subscribing for the notifications using the 'SubscribeToInboundMessagesNotifications' method.
-      **/
+     * To run this example follow these 4 steps:
+     *
+     *  1.) Download 'Parseco C# library' - available at www.github.com/parseco   or   www.parseco.com/apis    
+     *
+     *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project    
+     *
+     *  3.) Open 'Scenarios.PushInboundMessagesNotification' class to edit where you should populate the following fields: 
+     *		'destinationAddress'    'notificationFormat'
+     *		'username'              'notifyUrl'           
+     *		'password'              'criteria' 
+     *
+     *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
+     *       There you will enter the appropriate example number in the console and press 'Enter' key 
+     *       on which the result will be displayed in the Console.
+     *
+     *  Note: 'Inbound Message Notifications' push server is started automatically by adding 'InboundMessageNotificationsListener'
+     *  using the 'AddPushInboundMessageListener' method. Default server port is 3001 and it can be changed by set the 
+     *  'Configuration' property 'InboundMessagesPushServerSimulatorPort'. Used port should match the one used in the 'notifyUrl' property when 
+     *  subscribing for the notifications using the 'SubscribeToInboundMessagesNotifications' method.
+     **/
 
     public class PushInboundMessagesNotification 
     {
@@ -49,18 +51,27 @@ namespace OneApi.Scenarios
             //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
+
             //Initialize Configuration object 
             Configuration configuration = new Configuration(username, password);
             configuration.ApiUrl = apiUrl;
-         
+
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
+            //Check if configured data is valid
+            ValidateClientResponse validateClientResponse = smsClient.IsValid();
+            if (validateClientResponse.IsValid.Equals(false))
+            {
+                Console.WriteLine("Configuration exception: " + validateClientResponse.ErrorMessage);
+                return;
+            }
+
             //Add listener(start push server and wait for the Inbound Message Notifications)    
             smsClient.SmsMessagingClient.AddPushInboundMessageListener(new InboundMessageNotificationsListener(OnMessageReceived));
-         
+
             try
-            {
+            {             
                 //Subscribe to the Inbound Message notifications
                 string subscriptionId = smsClient.SmsMessagingClient.SubscribeToInboundMessagesNotifications(new SubscribeToInboundMessagesRequest(destinationAddress, notifyUrl, criteria, notificationFormat, "", ""));
                 Console.WriteLine("Subscription Id: " + subscriptionId);
@@ -70,15 +81,15 @@ namespace OneApi.Scenarios
                 System.Threading.Thread.Sleep(120000);
 
                 //Remove Inbound Message Notifications subscription
-                smsClient.SmsMessagingClient.RemoveInboundMessagesSubscription(subscriptionId);
-
-                //Remove Inbound Message Notification Listeners and stop the server
-                smsClient.SmsMessagingClient.RemovePushInboundMessageListeners();    
+                smsClient.SmsMessagingClient.RemoveInboundMessagesSubscription(subscriptionId);     
             }
             catch (RequestException e)
             {
-                Console.WriteLine("Exception: " + e.Message); 
-            }  
+                Console.WriteLine("Request Exception: " + e.Message);
+            }
+
+            //Remove Inbound Message Notification Listeners and stop the server
+            smsClient.SmsMessagingClient.RemovePushInboundMessageListeners();    
         }
 
         //Handle pushed Inbound Messages Notification

@@ -12,8 +12,8 @@ namespace OneApi.Client.Impl
 
 	public class HLRClientImpl : OneAPIBaseClientImpl, HLRClient
 	{
-		private const string DATA_CONNECTION_PROFILE_URL_BASE = "/terminalstatus/queries";
-		private const string DATA_response_PROFILE_SUBSCRIPTION_URL_BASE = "/smsmessaging/hlr/subscriptions";
+		private const string HLR_URL_BASE = "/terminalstatus/queries";
+		private const string HLR_SUBSCRIPTION_URL_BASE = "/smsmessaging/hlr/subscriptions";
       
         private volatile IList<HLRNotificationsListener> hlrMessagePushListenerList = null;
         private PushServerSimulator hlrPushServerSimulator;
@@ -37,7 +37,7 @@ namespace OneApi.Client.Impl
 				throw new RequestException("'notifiyURL' parmeter is mandatory using asynchronous method.");
 			}
 
-			StringBuilder urlBuilder = new StringBuilder(DATA_CONNECTION_PROFILE_URL_BASE);
+			StringBuilder urlBuilder = new StringBuilder(HLR_URL_BASE);
 			urlBuilder.Append("/roamingStatus?address=");
 			urlBuilder.Append(HttpUtility.UrlEncode(address));
 			urlBuilder.Append("&includeExtendedData=true");
@@ -75,7 +75,7 @@ namespace OneApi.Client.Impl
         /// <returns> RoamingSync </returns>
         public RoamingSync QueryHLRSync(string address)
 		{
-			StringBuilder urlBuilder = new StringBuilder(DATA_CONNECTION_PROFILE_URL_BASE);
+			StringBuilder urlBuilder = new StringBuilder(HLR_URL_BASE);
 			urlBuilder.Append("/roamingStatus?address=");
 			urlBuilder.Append(HttpUtility.UrlEncode(address));
 			urlBuilder.Append("&includeExtendedData=true");
@@ -98,7 +98,7 @@ namespace OneApi.Client.Impl
 		/// <returns> string - Subscription Id </returns>
 		public string SubscribeToHLRDeliveryNotifications(SubscribeToHLRDeliveryNotificationsRequest subscribeToHLRDeliveryNotificationsRequest)
 		{
-			HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(DATA_response_PROFILE_SUBSCRIPTION_URL_BASE), subscribeToHLRDeliveryNotificationsRequest);
+			HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(HLR_SUBSCRIPTION_URL_BASE), subscribeToHLRDeliveryNotificationsRequest);
             DeliveryReceiptSubscription deliveryReceiptSubscription = Deserialize<DeliveryReceiptSubscription>(response, RESPONSE_CODE_201_CREATED, "deliveryReceiptSubscription");
             return GetIdFromResourceUrl(deliveryReceiptSubscription.ResourceURL);
         }
@@ -109,7 +109,7 @@ namespace OneApi.Client.Impl
 		/// <returns> DeliveryReportSubscription[] </returns>
 		public DeliveryReportSubscription[] GetHLRDeliveryNotificationsSubscriptionsById(string subscriptionId)
 		{
-			StringBuilder urlBuilder = (new StringBuilder(DATA_response_PROFILE_SUBSCRIPTION_URL_BASE)).Append("/");
+			StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
 			urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
 			HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
@@ -121,7 +121,7 @@ namespace OneApi.Client.Impl
 		/// <param name="subscriptionId"> (mandatory) contains the subscriptionId of a previously created HLR delivery receipt subscription </param>
 		public void RemoveHLRDeliveryNotificationsSubscription(string subscriptionId)
 		{
-			StringBuilder urlBuilder = (new StringBuilder(DATA_response_PROFILE_SUBSCRIPTION_URL_BASE)).Append("/");
+			StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
 			urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
 			HttpWebResponse response = ExecuteDelete(AppendMessagingBaseUrl(urlBuilder.ToString()));

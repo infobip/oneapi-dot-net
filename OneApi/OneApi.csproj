@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\HLRClient.cs" />
+    <Compile Include="Client\CustomerProfileClient.cs" />
+    <Compile Include="Client\Impl\CustomerProfileClientImpl.cs" />
     <Compile Include="Client\Impl\HLRClientImpl.cs" />
     <Compile Include="Client\Impl\OneAPIBaseClientImpl.cs" />
     <Compile Include="Client\Impl\SMSClient.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="Listeners\InboundMessageListener.cs" />
     <Compile Include="Model\AsyncHLRExtendedData.cs" />
     <Compile Include="Model\Authentication.cs" />
+    <Compile Include="Model\CustomerProfile.cs" />
     <Compile Include="Model\RoamingAsync.cs" />
     <Compile Include="Model\RoamingSync.cs" />
     <Compile Include="Model\SyncHLRExtendedData.cs" />
@@ -91,6 +94,7 @@
     <Compile Include="Model\SubscribeToDeliveryNotificationsRequest.cs" />
     <Compile Include="Model\SubscribeToHLRDeliveryNotificationsRequest.cs" />
     <Compile Include="Model\SubscribeToInboundMessagesRequest.cs" />
+    <Compile Include="Model\ValidateClientResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PushServer\PushServerSimulator.cs" />
     <Compile Include="Retrievers\DeliveryReportRetriever.cs" />

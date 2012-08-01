@@ -1,10 +1,13 @@
 using OneApi.Config;
+using OneApi.Exceptions;
+using OneApi.Model;
 
 namespace OneApi.Client.Impl
 {
 
 	public class SMSClient
 	{
+        private CustomerProfileClient customerProfileClient  = null;
 		private SMSMessagingClient smsMessagingClient = null;
 		private HLRClient hlrClient = null;
 		private Configuration configuration = null;
@@ -17,13 +20,24 @@ namespace OneApi.Client.Impl
 		{
 			this.configuration = configuration;
 
-			//Initialize Clients
+			//Initialize Clients   
+            customerProfileClient = new CustomerProfileClientImpl(configuration);
 			smsMessagingClient = new SMSMessagingClientImpl(configuration);
 			hlrClient = new HLRClientImpl(configuration);
 		}
 
-		//*************************SMSClient public***********************************************************************************************************************************************
-		/// <summary>
+        /// <summary>
+        /// Customer Profile client </summary>
+        /// <returns> CustomerProfileClient </returns>
+        public CustomerProfileClient CustomerProfileClient
+        {
+            get
+            {
+                return customerProfileClient;
+            }
+        }
+        
+        /// <summary>
 		/// SMS Messaging client </summary>
 		/// <returns> SMSMessagingClient </returns>
 		public SMSMessagingClient SmsMessagingClient
@@ -44,5 +58,26 @@ namespace OneApi.Client.Impl
                 return hlrClient;
            }      
 		}
+
+        /// <summary>
+        /// Validate configured data and connection to the API </summary>
+        /// <returns>ValidateClientResponse </returns>
+        public ValidateClientResponse IsValid()
+        {
+            ValidateClientResponse validateClientResponse = new ValidateClientResponse();
+
+            try
+            {
+                //Dummy call to check configured data and connection to the api
+                customerProfileClient.GetCustomerProfile();
+            }
+            catch (RequestException e)
+            {
+                validateClientResponse.IsValid = false;
+                validateClientResponse.ErrorMessage = e.Message;
+            }
+
+            return validateClientResponse;
+        }
 	}
 }

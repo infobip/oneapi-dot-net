@@ -385,6 +385,7 @@ namespace OneApi.Client.Impl
             settings.MissingMemberHandling = MissingMemberHandling.Ignore;
             settings.DateParseHandling = DateParseHandling.DateTime;
             settings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+            settings.NullValueHandling = NullValueHandling.Ignore;
 
             try
             {

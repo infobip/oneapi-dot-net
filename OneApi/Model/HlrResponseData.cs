@@ -11,10 +11,12 @@ namespace OneApi.Model
         public string DestinationAddress;
 
         [JsonProperty(PropertyName = "submitTime")]
-        public string SubmitTime;
+        [JsonConverter(typeof(CustomDateConverter))]
+        public DateTime SubmitTime;
 
         [JsonProperty(PropertyName = "doneTime")]
-        public string DoneTime;
+        [JsonConverter(typeof(CustomDateConverter))]
+        public DateTime DoneTime;
 
         [JsonProperty(PropertyName = "statusId")]
         public int StatusId;

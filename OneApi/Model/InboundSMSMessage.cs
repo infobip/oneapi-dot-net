@@ -16,7 +16,8 @@ namespace OneApi.Model
 		/// return the date/time that the SMS message was sent.
 		/// </summary>
         [JsonProperty(PropertyName = "dateTime")]
-        public String SubmitTime;
+        [JsonConverter(typeof(CustomDateConverter))]
+        public DateTime SubmitTime;
 
 		/// <summary>
 		/// return the recipient MSISDN or other identifying number
@@ -62,7 +63,7 @@ namespace OneApi.Model
 		/// <param name="message"> </param>
 		/// <param name="resourceURL"> </param>
 		/// <param name="senderAddress"> </param>
-        public InboundSMSMessage(String submitTime, string destinationAddress, string messageId, string message, string resourceURL, string senderAddress)
+        public InboundSMSMessage(DateTime submitTime, string destinationAddress, string messageId, string message, string resourceURL, string senderAddress)
 		{
             this.SubmitTime = submitTime;
 			this.DestinationAddress = destinationAddress;

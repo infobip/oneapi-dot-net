@@ -70,6 +70,7 @@
     <Compile Include="Listeners\DeliveryStatusNotificationsListener.cs" />
     <Compile Include="Listeners\InboundMessageListener.cs" />
     <Compile Include="Model\Authentication.cs" />
+    <Compile Include="Converter\CustomDateConverter.cs" />
     <Compile Include="Model\CustomerProfile.cs" />
     <Compile Include="Model\RoamingNotification.cs" />
     <Compile Include="Model\DeliveryInfoList.cs" />

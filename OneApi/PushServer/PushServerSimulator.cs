@@ -16,6 +16,7 @@ public class PushServerSimulator
     private bool running = false;
     private SMSMessagingClientImpl smsMessagingImpl = null;
     private HLRClientImpl hlrClientImpl = null;
+    private int port;
 
     public PushServerSimulator(SMSMessagingClientImpl smsMessagingImpl)
     {
@@ -39,6 +40,8 @@ public class PushServerSimulator
             return;
         }
 
+        this.port = port;
+
         IPEndPoint ipEnd = new IPEndPoint(IPAddress.Any, port);
         listener = new TcpListener(ipEnd);
 
@@ -48,7 +51,7 @@ public class PushServerSimulator
             running = true;
             if (LOGGER.IsInfoEnabled)
             {
-                LOGGER.Info("Push Server Simulator is successfully started");
+                LOGGER.Info("Push Server Simulator is successfully started on port " + port.ToString());
             }
 
             thread = new Thread(new ThreadStart(listen));
@@ -58,7 +61,7 @@ public class PushServerSimulator
         {
             if (LOGGER.IsErrorEnabled)
             {
-                LOGGER.Error("Error occured while trying to start Push Server Simulator. Message: " + e.Message);
+                LOGGER.Error("Error occured while trying to start Push Server Simulator on port " + port.ToString() + " . Message: " + e.Message);
             }
         }
     }
@@ -77,9 +80,10 @@ public class PushServerSimulator
 
             if (arrReceivedData.Length == 2)
             {
+                string json = "";
                 try
                 {
-                    string json = arrReceivedData[1];
+                    json = arrReceivedData[1];
                     if (json.Trim().Length > 0)
                     {
                         if (smsMessagingImpl != null)
@@ -130,7 +134,7 @@ public class PushServerSimulator
                 {
                     if (LOGGER.IsErrorEnabled)
                     {
-                        LOGGER.Error("Error occured while trying to proccess pushed JSON. Message: " + e.Message);
+                        LOGGER.Error("Error occured while trying to proccess pushed JSON: " + json +  ". Message: " + e.Message);
                     }
                 }
             }
@@ -141,14 +145,14 @@ public class PushServerSimulator
             listener.Server.Close();
             if (LOGGER.IsInfoEnabled)
             {
-                LOGGER.Info("Push Server Simulator connection is successfully closed.");
+                LOGGER.Info("Push Server Simulator connection on port " + port.ToString()  + " is successfully closed.");
             }
         }
         catch (Exception e)
         {
             if (LOGGER.IsErrorEnabled)
             {
-                LOGGER.Error("Error occured while trying to stop Push Server Simulator. Message: " + e.Message);
+                LOGGER.Error("Error occured while trying to close Push Server Simulator connection on port " + port.ToString() + ". Message: " + e.Message);
             }
         }
     }

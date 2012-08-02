@@ -72,8 +72,8 @@ namespace OneApi.Client.Impl
 		/// <summary>
 		/// Get synchronously the customer’s roaming status for a single network-connected mobile device (HLR) </summary>
 		/// <param name="address"> (mandatory) mobile device number being queried </param>
-        /// <returns> RoamingSync </returns>
-        public RoamingSync QueryHLRSync(string address)
+        /// <returns> Roaming </returns>
+        public Roaming QueryHLRSync(string address)
 		{
 			StringBuilder urlBuilder = new StringBuilder(HLR_URL_BASE);
 			urlBuilder.Append("/roamingStatus?address=");
@@ -81,7 +81,7 @@ namespace OneApi.Client.Impl
 			urlBuilder.Append("&includeExtendedData=true");
 
 			HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<RoamingSync>(response, RESPONSE_CODE_200_OK, "roaming");
+            return Deserialize<Roaming>(response, RESPONSE_CODE_200_OK, "roaming");
 		}
 
         /// <summary>

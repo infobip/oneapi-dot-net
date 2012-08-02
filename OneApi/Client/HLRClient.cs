@@ -24,8 +24,8 @@ namespace OneApi.Client
 		/// <summary>
 		/// Get synchronously the customer’s roaming status for a single network-connected mobile device (HLR) </summary>
 		/// <param name="address"> (mandatory) mobile device number being queried </param>
-        /// <returns> RoamingSync </returns>
-        RoamingSync QueryHLRSync(string address);
+        /// <returns> Roaming </returns>
+        Roaming QueryHLRSync(string address);
 
         /// <summary>
         /// Convert JSON to RoamingNotification </summary>

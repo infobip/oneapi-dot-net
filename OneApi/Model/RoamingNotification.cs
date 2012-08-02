@@ -10,7 +10,7 @@ namespace OneApi.Model
     public class RoamingNotification
     {
         [JsonProperty(PropertyName = "roaming")]
-        public RoamingAsync Roaming;
+        public Roaming Roaming;
 
         [JsonProperty(PropertyName = "callbackData")]
         public string CallbackData;

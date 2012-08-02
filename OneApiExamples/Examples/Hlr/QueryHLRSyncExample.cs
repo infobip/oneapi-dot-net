@@ -20,7 +20,7 @@ namespace OneApi.Examples.Hlr
 
 			SMSClient smsClient = new SMSClient(configuration);
 
-            RoamingSync roaming = smsClient.HlrClient.QueryHLRSync(address);
+            Roaming roaming = smsClient.HlrClient.QueryHLRSync(address);
 			Console.WriteLine("HLR: " + roaming);
 		}
 	}

@@ -57,7 +57,7 @@
     <Compile Include="Examples\ConfigFile\SaveToConfigFileExample.cs" />
     <Compile Include="Examples\ConfigFile\SaveToDefaultConfigFileExample.cs" />
     <Compile Include="Examples\ExampleBase.cs" />
-    <Compile Include="Examples\Hlr\ConvertJsonToRoamingNotificationExample.cs" />
+    <Compile Include="Examples\Hlr\ConvertJsonToHLRNotificationExample.cs" />
     <Compile Include="Examples\Hlr\RemoveHLRDeliveryNotificationsSubscriptionExample.cs" />
     <Compile Include="Examples\Hlr\GetHLRDeliveryNotificationsSubscriptionsExample.cs" />
     <Compile Include="Examples\Hlr\QueryHLRAsyncExample.cs" />

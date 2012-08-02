@@ -61,7 +61,7 @@ namespace OneApi.Scenarios
             try
             {
                 //Send HLR Request Synchronously
-                RoamingSync roaming = smsClient.HlrClient.QueryHLRSync(address);
+                Roaming roaming = smsClient.HlrClient.QueryHLRSync(address);
                 Console.WriteLine("HLR: " + roaming);    
             }
             catch (RequestException e)

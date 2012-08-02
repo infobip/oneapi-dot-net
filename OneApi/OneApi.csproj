@@ -69,12 +69,8 @@
     <Compile Include="Listeners\DeliveryReportListener.cs" />
     <Compile Include="Listeners\DeliveryStatusNotificationsListener.cs" />
     <Compile Include="Listeners\InboundMessageListener.cs" />
-    <Compile Include="Model\AsyncHLRExtendedData.cs" />
     <Compile Include="Model\Authentication.cs" />
     <Compile Include="Model\CustomerProfile.cs" />
-    <Compile Include="Model\RoamingAsync.cs" />
-    <Compile Include="Model\RoamingSync.cs" />
-    <Compile Include="Model\SyncHLRExtendedData.cs" />
     <Compile Include="Model\RoamingNotification.cs" />
     <Compile Include="Model\DeliveryInfoList.cs" />
     <Compile Include="Model\DeliveryInfoNotification.cs" />

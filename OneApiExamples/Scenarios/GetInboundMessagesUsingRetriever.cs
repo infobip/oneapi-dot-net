@@ -32,7 +32,6 @@ namespace OneApi.Scenarios
 
     public class GetInboundMessagesUsingRetriever
     {
-        private static string apiUrl = "http://api.parseco.com";
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
 
@@ -45,8 +44,7 @@ namespace OneApi.Scenarios
 
             //Initialize Configuration object 
             Configuration configuration = new Configuration(username, password);
-            configuration.ApiUrl = apiUrl;
-
+          
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 

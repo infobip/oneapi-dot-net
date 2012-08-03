@@ -41,9 +41,9 @@ namespace OneApi.Config
 		}
 
 		/// <summary>
-		/// Initialize configuration object using the 'Basic' Authentication </summary>
-		/// <param name="username"> - 'Basic' Authentication user name </param>
-		/// <param name="password"> - 'Basic' Authentication password </param>
+		/// Initialize configuration object using the 'IBSSO' Authentication credentials </summary>
+        /// <param name="username"> - 'IBSSO' Authentication user name </param>
+        /// <param name="password"> - 'IBSSO' Authentication password </param>
 		public Configuration(string username, string password)
 		{
 			authentication.Username = username;
@@ -51,7 +51,7 @@ namespace OneApi.Config
 		}
 
 		/// <summary>
-		/// Initialize configuration object using the 'OAuth' Authentication </summary>
+        /// Initialize configuration object using the 'OAuth' Authentication </summary>
 		/// <param name="accessToken"> - 'OAuth' Authentication Access Token </param>
 		public Configuration(string accessToken)
 		{
@@ -59,11 +59,11 @@ namespace OneApi.Config
 		}
 
 		/// <summary>
-		/// Initialize configuration object using the 'Basic' Authentication </summary>
+        /// Initialize configuration object using the 'IBSSO' Authentication credentials </summary>
 		/// <param name="messagingBaseUrl"> - Base URL containing host name and port of the OneAPI SMS server </param>
 		/// <param name="versionOneAPISMS"> - Version of OneAPI SMS you are accessing (the default is the latest version supported by that server) </param>
-		/// <param name="username"> - 'Basic' Authentication user name </param>
-		/// <param name="password"> - 'Basic' Authentication password </param>
+        /// <param name="username"> - 'IBSSO' Authentication user name </param>
+        /// <param name="password"> - 'IBSSO' Authentication password </param>
 		public Configuration(string messagingBaseUrl, int versionOneAPISMS, string username, string password) : this(username, password)
 		{
 			this.apiUrl = messagingBaseUrl;

@@ -15,9 +15,7 @@ namespace OneApi.Examples.Hlr
 		{
             log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo("OneApiExamples.exe.config"));
 
-            Configuration configuration = new Configuration(username, password);
-            configuration.ApiUrl = apiUrl;
-
+            Configuration configuration = new Configuration(username, password);    
 			SMSClient smsClient = new SMSClient(configuration);
 
             //Login user

@@ -37,7 +37,6 @@ namespace OneApi.Scenarios
 
     public class PushInboundMessagesNotification 
     {
-        private static string apiUrl = "http://api.parseco.com";
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
         private static string destinationAddress = "";
@@ -53,8 +52,7 @@ namespace OneApi.Scenarios
 
 
             //Initialize Configuration object 
-            Configuration configuration = new Configuration(username, password);
-            configuration.ApiUrl = apiUrl;
+            Configuration configuration = new Configuration(username, password);           
 
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);

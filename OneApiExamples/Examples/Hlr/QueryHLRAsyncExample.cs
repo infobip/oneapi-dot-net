@@ -15,9 +15,7 @@ namespace OneApi.Examples.Hlr
 
         public static void Execute(bool isInputConfigData)
 		{
-            Configuration configuration = new Configuration(username, password);
-            configuration.ApiUrl = apiUrl;
-
+            Configuration configuration = new Configuration(username, password);   
 			SMSClient smsClient = new SMSClient(configuration);
 
             //Login user

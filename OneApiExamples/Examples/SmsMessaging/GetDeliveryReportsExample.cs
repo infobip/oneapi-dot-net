@@ -16,6 +16,14 @@ namespace OneApi.Examples.SmsMessaging
 
             SMSClient smsClient = new SMSClient(configuration);
 
+            //Login user
+            LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+            if (loginResponse.Verified == false)
+            {
+                Console.WriteLine("User is not verified!");
+                return;
+            }
+
             DeliveryReport[] deliveryReports = smsClient.SmsMessagingClient.GetDeliveryReports();
             Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReports)); 
         }    

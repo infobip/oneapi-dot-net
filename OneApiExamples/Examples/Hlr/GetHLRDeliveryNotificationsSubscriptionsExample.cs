@@ -18,6 +18,14 @@ namespace OneApi.Examples.Hlr
            
 			SMSClient smsClient = new SMSClient(configuration);
 
+            //Login user
+            LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+            if (loginResponse.Verified == false)
+            {
+                Console.WriteLine("User is not verified!");
+                return;
+            }
+
             DeliveryReportSubscription[] deliveryReportSubscriptions = smsClient.HlrClient.GetHLRDeliveryNotificationsSubscriptionsById(subscriptionId);
             Console.WriteLine("HLR Subscriptions: " + string.Join("HLR Subscription: ", (Object[])deliveryReportSubscriptions)); 
 		}  

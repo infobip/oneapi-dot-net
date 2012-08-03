@@ -54,23 +54,26 @@ namespace OneApi.Scenarios
 
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
-
-            //Check if configured data is valid
-            ValidateClientResponse validateClientResponse = smsClient.IsValid();
-            if (validateClientResponse.IsValid.Equals(false))
-            {
-                Console.WriteLine("Configuration exception: " + validateClientResponse.ErrorMessage);
-                return;
-            }
-
-            //Add listener(start push server and wait for the HLR Notifications)
-            smsClient.HlrClient.AddPushHlrNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
-
+ 
             try
             {
+                //Login user
+                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+                if (loginResponse.Verified == false)
+                {
+                    Console.WriteLine("User is not verified!");
+                    return;
+                }
+
+                //Add listener(start push server and wait for the HLR Notifications)
+                smsClient.HlrClient.AddPushHlrNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
+
                 //Send HLR Request Asynchronously
                 smsClient.HlrClient.QueryHLRAsync(address, notifyUrl);
-                Console.WriteLine("Asynchronous HLR request sent successfully, waiting for the 'HLR Notification'...");    
+                Console.WriteLine("Asynchronous HLR request sent successfully, waiting for the 'HLR Notification'...");
+
+                //Logout user
+                smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {

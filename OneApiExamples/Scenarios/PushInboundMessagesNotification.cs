@@ -59,19 +59,19 @@ namespace OneApi.Scenarios
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            //Check if configured data is valid
-            ValidateClientResponse validateClientResponse = smsClient.IsValid();
-            if (validateClientResponse.IsValid.Equals(false))
-            {
-                Console.WriteLine("Configuration exception: " + validateClientResponse.ErrorMessage);
-                return;
-            }
-
-            //Add listener(start push server and wait for the Inbound Message Notifications)    
-            smsClient.SmsMessagingClient.AddPushInboundMessageListener(new InboundMessageNotificationsListener(OnMessageReceived));
-
             try
-            {             
+            {
+                //Login user
+                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+                if (loginResponse.Verified == false)
+                {
+                    Console.WriteLine("User is not verified!");
+                    return;
+                }
+
+                //Add listener(start push server and wait for the Inbound Message Notifications)    
+                smsClient.SmsMessagingClient.AddPushInboundMessageListener(new InboundMessageNotificationsListener(OnMessageReceived));
+
                 //Subscribe to the Inbound Message notifications
                 string subscriptionId = smsClient.SmsMessagingClient.SubscribeToInboundMessagesNotifications(new SubscribeToInboundMessagesRequest(destinationAddress, notifyUrl, criteria, notificationFormat, "", ""));
                 Console.WriteLine("Subscription Id: " + subscriptionId);
@@ -81,7 +81,10 @@ namespace OneApi.Scenarios
                 System.Threading.Thread.Sleep(120000);
 
                 //Remove Inbound Message Notifications subscription
-                smsClient.SmsMessagingClient.RemoveInboundMessagesSubscription(subscriptionId);     
+                smsClient.SmsMessagingClient.RemoveInboundMessagesSubscription(subscriptionId);
+
+                //Logout user
+                smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {

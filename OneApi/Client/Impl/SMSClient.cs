@@ -1,6 +1,8 @@
+using System;
 using OneApi.Config;
 using OneApi.Exceptions;
 using OneApi.Model;
+
 
 namespace OneApi.Client.Impl
 {
@@ -11,7 +13,7 @@ namespace OneApi.Client.Impl
 		private SMSMessagingClient smsMessagingClient = null;
 		private HLRClient hlrClient = null;
 		private Configuration configuration = null;
-		
+      
 		//*************************SMSClient initialization***********************************************************************************************************************************************
 		/// <summary>
 		/// Initialize SMS client using specified 'configuration' parameter </summary>
@@ -21,7 +23,7 @@ namespace OneApi.Client.Impl
 			this.configuration = configuration;
 
 			//Initialize Clients   
-            customerProfileClient = new CustomerProfileClientImpl(configuration);
+            customerProfileClient = new CustomerProfileClientImpl(configuration, onLogin, onLogout);
 			smsMessagingClient = new SMSMessagingClientImpl(configuration);
 			hlrClient = new HLRClientImpl(configuration);
 		}
@@ -59,25 +61,18 @@ namespace OneApi.Client.Impl
            }      
 		}
 
-        /// <summary>
-        /// Validate configured data and connection to the API </summary>
-        /// <returns>ValidateClientResponse </returns>
-        public ValidateClientResponse IsValid()
+        private void onLogin(LoginResponse response)
         {
-            ValidateClientResponse validateClientResponse = new ValidateClientResponse();
-
-            try
+            if ((response != null) && (response.IbAuthCookie.Length > 0))
             {
-                //Dummy call to check configured data and connection to the api
-                customerProfileClient.GetCustomerProfile();
+                configuration.Authentication.Type = OneApi.Model.Authentication.AuthType.IBSSO;
+                configuration.Authentication.IbssoToken = response.IbAuthCookie;
             }
-            catch (RequestException e)
-            {
-                validateClientResponse.IsValid = false;
-                validateClientResponse.ErrorMessage = e.Message;
-            }
+        }
 
-            return validateClientResponse;
+        private void onLogout()
+        {
+            configuration.Authentication.IbssoToken = "";
         }
 	}
 }

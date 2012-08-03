@@ -50,12 +50,19 @@ namespace OneApi.Scenarios
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            //Check if configured data is valid
-            ValidateClientResponse validateClientResponse = smsClient.IsValid();
-            if (validateClientResponse.IsValid.Equals(false))
+            //Login user
+            try
             {
-                Console.WriteLine("Configuration exception: " + validateClientResponse.ErrorMessage);
-                return;
+                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+                if (loginResponse.Verified == false)
+                {
+                    Console.WriteLine("User is not verified!");
+                    return;
+                }
+            }
+            catch (Exception e)
+            {              
+                Console.WriteLine("Request Exception: " + e.Message);
             }
 
             //Add listener(start retriever and pull Inbound Messages)    
@@ -67,6 +74,9 @@ namespace OneApi.Scenarios
 
             //Remove Inbound Messages Listeners and stop the retriever
             smsClient.SmsMessagingClient.RemovePullInboundMessageListeners();
+
+            //Logout user
+            smsClient.CustomerProfileClient.Logout();
         }
 
         //Handle pulled Inbound Messages

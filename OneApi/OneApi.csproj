@@ -72,6 +72,7 @@
     <Compile Include="Model\Authentication.cs" />
     <Compile Include="Converter\CustomDateConverter.cs" />
     <Compile Include="Model\CustomerProfile.cs" />
+    <Compile Include="Model\LoginResponse.cs" />
     <Compile Include="Model\RoamingNotification.cs" />
     <Compile Include="Model\DeliveryInfoList.cs" />
     <Compile Include="Model\DeliveryInfoNotification.cs" />
@@ -100,7 +101,9 @@
   <ItemGroup>
     <None Include="Etc\client.cfg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Model\LoginRequest.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy “$(ProjectDir)\Etc” “$(TargetDir)”</PostBuildEvent>

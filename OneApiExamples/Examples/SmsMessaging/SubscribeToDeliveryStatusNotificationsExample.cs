@@ -20,6 +20,14 @@ namespace OneApi.Examples.SmsMessaging
 
 			SMSClient smsClient = new SMSClient(configuration);
 
+            //Login user
+            LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+            if (loginResponse.Verified == false)
+            {
+                Console.WriteLine("User is not verified!");
+                return;
+            }
+
             string subscriptionId = smsClient.SmsMessagingClient.SubscribeToDeliveryStatusNotifications(new SubscribeToDeliveryNotificationsRequest(senderAddress, notifyUrl, criteria, "", ""));
             Console.WriteLine("Subscription Id: " + subscriptionId); 
 		}

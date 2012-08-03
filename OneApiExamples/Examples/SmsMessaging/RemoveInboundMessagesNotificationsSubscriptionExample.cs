@@ -18,6 +18,14 @@ namespace OneApi.Examples.SmsMessaging
 
 			SMSClient smsClient = new SMSClient(configuration);
 
+            //Login user
+            LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+            if (loginResponse.Verified == false)
+            {
+                Console.WriteLine("User is not verified!");
+                return;
+            }
+
             smsClient.SmsMessagingClient.RemoveInboundMessagesSubscription(subscriptionId);
 
             Console.WriteLine("Subscription canceled.");      

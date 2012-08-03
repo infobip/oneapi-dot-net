@@ -53,19 +53,19 @@ namespace OneApi.Scenarios
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            //Check if configured data is valid
-            ValidateClientResponse validateClientResponse = smsClient.IsValid();
-            if (validateClientResponse.IsValid.Equals(false))
-            {
-                Console.WriteLine("Configuration exception: " + validateClientResponse.ErrorMessage);
-                return;
-            }
-
-            //Add listener(start retriever and pull Delivery Reports)  
-            smsClient.SmsMessagingClient.AddPullDeliveryReportListener(new DeliveryReportListener(OnDeliveryReportReceived));
-
             try
             {
+                //Login user
+                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+                if (loginResponse.Verified == false)
+                {
+                    Console.WriteLine("User is not verified!");
+                    return;
+                }
+
+                //Add listener(start retriever and pull Delivery Reports)  
+                smsClient.SmsMessagingClient.AddPullDeliveryReportListener(new DeliveryReportListener(OnDeliveryReportReceived));
+
                 //Send SMS to 1 recipients (instead passing one recipient address you can put the recipeints addresses string array)
                 string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
                 Console.WriteLine("Request Id: " +  requestId);
@@ -73,6 +73,9 @@ namespace OneApi.Scenarios
                 //Waiting 2 minutes for the 'Delivery Reports' before stop the retriever.   
                 Console.WriteLine("Waiting 2 minutes for the Delivery Reports.. after that 'Delivery Reports' retriever will be stopped.");
                 System.Threading.Thread.Sleep(120000);
+
+                //Logout user
+                smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {
@@ -80,7 +83,7 @@ namespace OneApi.Scenarios
             }
 
             //Remove Delivery Reports Listeners and stop the retriever
-            smsClient.SmsMessagingClient.RemovePullDeliveryReportListeners();
+            smsClient.SmsMessagingClient.RemovePullDeliveryReportListeners();        
         }
 
         //Handle pulled Delivery Reports

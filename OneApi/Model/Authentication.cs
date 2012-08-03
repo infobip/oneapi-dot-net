@@ -6,17 +6,17 @@ namespace OneApi.Model
 	{
 		public enum AuthType
 		{
-			BASIC,
-			OAUTH			
+            IBSSO,
+			OAUTH
 		}
 
 		public Authentication() : base()
 		{
-            Type = AuthType.BASIC;
+            Type = AuthType.IBSSO;
 		}
 
 		/// <summary>
-		/// Initialize 'BASIC' Authentication</summary>
+		/// Initialize Authentication</summary>
 		/// <param name="username"> </param>
 		/// <param name="password"> </param>
 		public Authentication(string username, string password) : this()
@@ -36,7 +36,7 @@ namespace OneApi.Model
 
 		/// <summary>
 		/// Get Authentication type </summary>
-		/// <returns> AuthType - (AuthType.BASIC, AuthType.OAUTH, AuthType.IBSSO) </returns>
+		/// <returns> AuthType - (AuthType.OAUTH, AuthType.IBSSO) </returns>
         [JsonProperty(PropertyName = "type")]
         public AuthType Type;
 
@@ -51,6 +51,12 @@ namespace OneApi.Model
 		/// <returns> String </returns>
         [JsonProperty(PropertyName = "password")]
         public string Password;
+
+        /// <summary>
+        /// Get Ibsso token </summary>
+        /// <returns> String </returns>
+        [JsonIgnore]
+        public string IbssoToken;
 
 		/// <summary>
 		/// Get 'OAuth' Authentication Access Token </summary>

@@ -44,20 +44,23 @@ namespace OneApi.Scenarios
 
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
-            
-            //Check if configured data is valid
-            ValidateClientResponse validateClientResponse = smsClient.IsValid();
-            if (validateClientResponse.IsValid.Equals(false))
-            {
-                Console.WriteLine("Configuration exception: " + validateClientResponse.ErrorMessage);
-                return;
-            }
-          
+       
             try
             {
+                //Login user
+                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+                if (loginResponse.Verified == false)
+                {
+                    Console.WriteLine("User is not verified!");
+                    return;
+                }
+          
                 //Get Inbound Messages
                 InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.GetInboundMessages();
-                Console.WriteLine("Inbound Messages " + string.Join("Inbound Message: ", (Object[])inboundSMSMessageList.InboundSMSMessage));             
+                Console.WriteLine("Inbound Messages " + string.Join("Inbound Message: ", (Object[])inboundSMSMessageList.InboundSMSMessage));
+
+                //Logout user
+                smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {

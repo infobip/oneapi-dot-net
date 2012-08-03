@@ -49,16 +49,16 @@ namespace OneApi.Scenarios
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            //Check if configured data is valid
-            ValidateClientResponse validateClientResponse = smsClient.IsValid();
-            if (validateClientResponse.IsValid.Equals(false))
-            {
-                Console.WriteLine("Configuration exception: " + validateClientResponse.ErrorMessage);
-                return;
-            }
-
             try
             {
+                //Login user
+                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+                if (loginResponse.Verified == false)
+                {
+                    Console.WriteLine("User is not verified!");
+                    return;
+                }
+
                 //Send SMS to 1 recipients (instead passing one recipient address you can put the recipeints addresses string array)
                 string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
                 Console.WriteLine("Request Id: " +  requestId);
@@ -69,7 +69,10 @@ namespace OneApi.Scenarios
 
                 //Get Delivery Reports
                 DeliveryReport[] deliveryReports = smsClient.SmsMessagingClient.GetDeliveryReports();
-                Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReports)); 
+                Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReports));
+
+                //Logout user
+                smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {

@@ -137,14 +137,14 @@ namespace OneApi.Client.Impl
                 HttpWebResponse response = null;
 
                 //setup connection with custom authorization
-                if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.BASIC))
+                if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.IBSSO))
                 {
-                    request = SetupRequestWithCustomAuthorization(apiUrl, "Basic", GetAuthorizationHeader(configuration.Authentication.Username, configuration.Authentication.Password));
+                    request = SetupRequestWithCustomAuthorization(apiUrl, "IBSSO", configuration.Authentication.IbssoToken);
                 }
                 else if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.OAUTH))
                 {
-                    request = SetupRequestWithCustomAuthorization(apiUrl, "OAuth", configuration.Authentication.AccessToken);
-                }
+                    request = SetupRequestWithCustomAuthorization(apiUrl, "OAuth", configuration.Authentication.AccessToken);      
+                } 
                
                 //Set Content Type
                 if ((contentType != null) && (contentType.Length > 0))

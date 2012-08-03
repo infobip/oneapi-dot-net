@@ -60,19 +60,19 @@ namespace OneApi.Scenarios
             //Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            //Check if configured data is valid
-            ValidateClientResponse validateClientResponse = smsClient.IsValid();
-            if (validateClientResponse.IsValid.Equals(false))
-            {
-                Console.WriteLine("Configuration exception: " + validateClientResponse.ErrorMessage);
-                return;
-            }
-
-            //Add listener(start push server and wait for the Delivery Status Notifications)    
-            smsClient.SmsMessagingClient.AddPushDeliveryStatusNotificationListener(new DeliveryStatusNotificationsListener(OnDeliveryInfoNotificationReceived));
-
             try
-            {   
+            {
+                //Login user
+                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+                if (loginResponse.Verified == false)
+                {
+                    Console.WriteLine("User is not verified!");
+                    return;
+                }
+
+                //Add listener(start push server and wait for the Delivery Status Notifications)    
+                smsClient.SmsMessagingClient.AddPushDeliveryStatusNotificationListener(new DeliveryStatusNotificationsListener(OnDeliveryInfoNotificationReceived));
+
                 //Subscribe to the Delivery Status notifications
                 string subscriptionId = smsClient.SmsMessagingClient.SubscribeToDeliveryStatusNotifications(new SubscribeToDeliveryNotificationsRequest(senderAddress, notifyUrl, criteria, "", ""));
                 Console.WriteLine("Subscription Id: " + subscriptionId);
@@ -87,12 +87,14 @@ namespace OneApi.Scenarios
 
                 //Remove Delivery Status Notifications subscription
                 smsClient.SmsMessagingClient.RemoveDeliveryNotificationsSubscription(subscriptionId);
+
+                //Logout user
+                smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {
                 Console.WriteLine("Request Exception: " + e.Message);
             }
-
 
             //Remove Delivery Status Notification Listeners and stop the server
             smsClient.SmsMessagingClient.RemovePushDeliveryStatusNotificationListeners();     

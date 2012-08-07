@@ -88,14 +88,14 @@ namespace OneApi.Scenarios
 
                 //Logout user
                 smsClient.CustomerProfileClient.Logout();
+
+                //Remove Delivery Status Notification Listeners and stop the server
+                smsClient.SmsMessagingClient.RemovePushDeliveryStatusNotificationListeners();     
             }
             catch (RequestException e)
             {
                 Console.WriteLine("Request Exception: " + e.Message);
-            }
-
-            //Remove Delivery Status Notification Listeners and stop the server
-            smsClient.SmsMessagingClient.RemovePushDeliveryStatusNotificationListeners();     
+            }          
         }
 
         //Handle pushed Delivery Info Notification

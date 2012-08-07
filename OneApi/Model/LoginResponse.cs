@@ -2,9 +2,6 @@ namespace OneApi.Model
 {
 	public class LoginResponse
 	{
-		private bool verified;
-		private string ibAuthCookie;
-
 		public LoginResponse()
 		{
 		}
@@ -14,7 +11,7 @@ namespace OneApi.Model
 		
 		public override string ToString()
 		{
-			return this.GetType().Name + "{" + "verified=" + verified + ", ibAuthCookie='" + ibAuthCookie + '\'' + '}';
+            return this.GetType().Name + "{" + "verified=" + Verified + ", ibAuthCookie='" + IbAuthCookie + '\'' + '}';
 		}
 	}
 

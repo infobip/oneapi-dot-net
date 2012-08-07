@@ -83,14 +83,14 @@ namespace OneApi.Scenarios
 
                 //Logout user
                 smsClient.CustomerProfileClient.Logout();
+
+                //Remove Inbound Message Notification Listeners and stop the server
+                smsClient.SmsMessagingClient.RemovePushInboundMessageListeners();    
             }
             catch (RequestException e)
             {
                 Console.WriteLine("Request Exception: " + e.Message);
             }
-
-            //Remove Inbound Message Notification Listeners and stop the server
-            smsClient.SmsMessagingClient.RemovePushInboundMessageListeners();    
         }
 
         //Handle pushed Inbound Messages Notification

@@ -64,7 +64,7 @@ namespace OneApi.Scenarios
                 }
 
                 //Add listener(start push server and wait for the HLR Notifications)
-                smsClient.HlrClient.AddPushHlrNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
+                smsClient.HlrClient.AddPushHLRNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
 
                 //Send HLR Request Asynchronously
                 smsClient.HlrClient.QueryHLRAsync(address, notifyUrl);

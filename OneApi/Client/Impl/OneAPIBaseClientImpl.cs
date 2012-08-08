@@ -48,7 +48,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Initialize OneAPIClientBase </summary>
         /// <param name="configuration"> </param>
-        protected internal OneAPIBaseClientImpl(Configuration configuration)
+        protected OneAPIBaseClientImpl(Configuration configuration)
         {
             this.configuration = configuration;
         }
@@ -56,7 +56,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Get Configuration object </summary>
         /// <returns> Configuration </returns>
-        protected internal Configuration Configuration
+        protected Configuration Configuration
         {
             get
             {
@@ -68,7 +68,7 @@ namespace OneApi.Client.Impl
         /// Execute POST Request </summary>
         /// <param name="apiUrl"> </param>
         /// <returns> HttpWebResponse </returns>
-        protected internal HttpWebResponse ExecutePost(string apiUrl)
+        protected HttpWebResponse ExecutePost(string apiUrl)
         {
             return ExecutePost(apiUrl, null);
         }
@@ -78,7 +78,7 @@ namespace OneApi.Client.Impl
         /// <param name="apiUrl"> </param>
         /// <param name="formParams"> </param>
         /// <returns> HttpWebResponse </returns>
-        protected internal HttpWebResponse ExecutePost(string apiUrl, object formParams)
+        protected HttpWebResponse ExecutePost(string apiUrl, object formParams)
         {
             return SendOneAPIRequest(POST_REQUEST_METHOD, apiUrl, formParams, URL_ENCODED_CONTENT_TYPE);
         }
@@ -88,7 +88,7 @@ namespace OneApi.Client.Impl
         /// <param name="apiUrl"> </param>
         /// <param name="formParams"> </param>
         /// <returns> HttpWebResponse </returns>
-        protected internal HttpWebResponse ExecutePut(string apiUrl, object formParams)
+        protected HttpWebResponse ExecutePut(string apiUrl, object formParams)
         {
             return SendOneAPIRequest(PUT_REQUEST_METHOD, apiUrl, formParams, URL_ENCODED_CONTENT_TYPE);
         }
@@ -97,7 +97,7 @@ namespace OneApi.Client.Impl
         /// Execute GET Request </summary>
         /// <param name="apiUrl"> </param>
         /// <returns> HttpWebResponse </returns>
-        protected internal HttpWebResponse ExecuteGet(string apiUrl)
+        protected HttpWebResponse ExecuteGet(string apiUrl)
         {
             return SendOneAPIRequest(GET_REQUEST_METHOD, apiUrl);
         }
@@ -106,7 +106,7 @@ namespace OneApi.Client.Impl
         /// Execute DELETE Request </summary>
         /// <param name="apiUrl"> </param>
         /// <returns> HttpWebResponse </returns>
-        protected internal HttpWebResponse ExecuteDelete(string apiUrl)
+        protected HttpWebResponse ExecuteDelete(string apiUrl)
         {
             return SendOneAPIRequest(DELETE_REQUEST_METHOD, apiUrl);
         }
@@ -153,6 +153,8 @@ namespace OneApi.Client.Impl
                 }
 
                 request.Accept = "*/*";
+                request.UserAgent = "OneApi-Java-" + SMSClient.VERSION;
+
 
                 //Set Request Method
                 request.Method = requestMethod;

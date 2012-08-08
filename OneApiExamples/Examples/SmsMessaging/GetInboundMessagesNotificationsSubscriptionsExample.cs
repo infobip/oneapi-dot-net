@@ -22,7 +22,7 @@ namespace OneApi.Examples.SmsMessaging
                 return;
             }
 
-            MoSubscription[] moSubscriptions = smsClient.SmsMessagingClient.GetInboundMessagesSubscriptions();
+            MoSubscription[] moSubscriptions = smsClient.SmsMessagingClient.GetInboundMessagesNotificationsSubscriptions();
             Console.WriteLine("MO Subscriptions: " + string.Join("MO Subscription: ", (Object[])moSubscriptions));
 		}
 	}

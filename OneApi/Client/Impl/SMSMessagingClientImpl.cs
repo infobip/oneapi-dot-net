@@ -185,7 +185,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Get inbound messages notifications subscriptions for the current user </summary>
         /// <returns> MoSubscription[] </returns>
-        public MoSubscription[] GetInboundMessagesSubscriptions(int page, int pageSize)
+        public MoSubscription[] GetInboundMessagesNotificationsSubscriptions(int page, int pageSize)
         {
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_INBOUND_URL_BASE)).Append("/subscriptions");
             urlBuilder.Append("?page=");
@@ -200,15 +200,15 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Get inbound messages notifications subscriptions for the current user </summary>
         /// <returns> MoSubscription[] </returns>
-        public MoSubscription[] GetInboundMessagesSubscriptions()
+        public MoSubscription[] GetInboundMessagesNotificationsSubscriptions()
         {
-            return GetInboundMessagesSubscriptions(1, 10);
+            return GetInboundMessagesNotificationsSubscriptions(1, 10);
         }
 
         /// <summary>
         /// Stop subscribing to message receipt notifications for all your received SMS over OneAPI </summary>
         /// <param name="subscriptionId"> (mandatory) contains the subscriptionId of a previously created SMS message receipt subscription </param>
-        public void RemoveInboundMessagesSubscription(string subscriptionId)
+        public void RemoveInboundMessagesNotificationsSubscription(string subscriptionId)
         {
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_INBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
@@ -355,7 +355,7 @@ namespace OneApi.Client.Impl
         /// <summary> 
         /// Add OneAPI PUSH 'Delivery Status' Notifications listener  and start push server simulator </summary>
         /// <param name="listener"> - (new DeliveryStatusNotificationListener) </param>
-        public void AddPushDeliveryStatusNotificationListener(DeliveryStatusNotificationsListener listener)
+        public void AddPushDeliveryStatusNotificationsListener(DeliveryStatusNotificationsListener listener)
         {
             if (listener == null)
             {
@@ -380,7 +380,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Add OneAPI PUSH 'INBOUND Messages' Notifications listener and start push server simulator
         /// <param name="listener"> - (new InboundMessageNotificationsListener) </param>
-        public void AddPushInboundMessageListener(InboundMessageNotificationsListener listener)
+        public void AddPushInboundMessageNotificationsListener(InboundMessageNotificationsListener listener)
         {
             if (listener == null)
             {
@@ -405,7 +405,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Returns Delivery Status Notifications PUSH Listeners list 
         /// </summary>
-        public IList<DeliveryStatusNotificationsListener> DeliveryStatusNotificationPushListeners
+        public IList<DeliveryStatusNotificationsListener> DeliveryStatusPushNotificationsListeners
         {
             get
             {
@@ -416,7 +416,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Returns INBOUND Message Notifications PUSH Listeners list
         /// </summary>
-        public IList<InboundMessageNotificationsListener> InboundMessagePushListeners
+        public IList<InboundMessageNotificationsListener> InboundMessagePushNotificationsListeners
         {
             get
             {
@@ -427,7 +427,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Remove PUSH Delivery Reports Notifications listeners and stop server
         /// </summary>
-        public void RemovePushDeliveryStatusNotificationListeners()
+        public void RemovePushDeliveryStatusNotificationsListeners()
         {
             StopDlrStatusPushServerSimulator(); 
             deliveryStatusNotificationPushListenerList = null;
@@ -441,7 +441,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Remove PUSH INBOUND Messages Notifications listeners and stop server
         /// </summary>
-        public void RemovePushInboundMessageListeners()
+        public void RemovePushInboundMessageNotificationsListeners()
         {
             StopInboundMessagesPushServerSimulator();
             inboundMessagePushListenerList = null;

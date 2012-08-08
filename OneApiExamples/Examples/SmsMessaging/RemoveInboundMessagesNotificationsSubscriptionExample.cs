@@ -24,7 +24,7 @@ namespace OneApi.Examples.SmsMessaging
                 return;
             }
 
-            smsClient.SmsMessagingClient.RemoveInboundMessagesSubscription(subscriptionId);
+            smsClient.SmsMessagingClient.RemoveInboundMessagesNotificationsSubscription(subscriptionId);
 
             Console.WriteLine("Subscription canceled.");      
 		}   

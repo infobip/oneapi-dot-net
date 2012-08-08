@@ -122,11 +122,11 @@ public class PushServerSimulator
                     if (json.Contains("deliveryInfoNotification"))
                     {
                         DeliveryInfoNotification deliveryInfoNotification = smsMessagingImpl.ConvertJsonToDeliveryInfo(json);
-                        if (smsMessagingImpl.DeliveryStatusNotificationPushListeners != null)
+                        if (smsMessagingImpl.DeliveryStatusPushNotificationsListeners != null)
                         {
-                            for (int i = 0; i < smsMessagingImpl.DeliveryStatusNotificationPushListeners.Count; i++)
+                            for (int i = 0; i < smsMessagingImpl.DeliveryStatusPushNotificationsListeners.Count; i++)
                             {
-                                smsMessagingImpl.DeliveryStatusNotificationPushListeners[i].OnDeliveryStatusNotificationReceived(deliveryInfoNotification);
+                                smsMessagingImpl.DeliveryStatusPushNotificationsListeners[i].OnDeliveryStatusNotificationReceived(deliveryInfoNotification);
                             }
                         }
                     }
@@ -134,12 +134,12 @@ public class PushServerSimulator
                     {
                         if (smsMessagingImpl != null)
                         {
-                            if (smsMessagingImpl.InboundMessagePushListeners != null)
+                            if (smsMessagingImpl.InboundMessagePushNotificationsListeners != null)
                             {
                                 InboundSMSMessageList smsMessagesList = smsMessagingImpl.ConvertJsonToInboundSMSMessageList(json);
-                                for (int i = 0; i < smsMessagingImpl.InboundMessagePushListeners.Count; i++)
+                                for (int i = 0; i < smsMessagingImpl.InboundMessagePushNotificationsListeners.Count; i++)
                                 {
-                                    smsMessagingImpl.InboundMessagePushListeners[i].OnMessageReceived(smsMessagesList);
+                                    smsMessagingImpl.InboundMessagePushNotificationsListeners[i].OnMessageReceived(smsMessagesList);
                                 }
                             }
                         }
@@ -149,12 +149,12 @@ public class PushServerSimulator
                 {
                     if (json.Contains("terminalRoamingStatusList"))
                     {
-                        if (hlrClientImpl.HlrPushListeners != null)
+                        if (hlrClientImpl.HlrPushNotificationsListeners != null)
                         {
                             RoamingNotification roamingNotification = hlrClientImpl.ConvertJsonToRoamingNotification(json);
-                            for (int i = 0; i < hlrClientImpl.HlrPushListeners.Count; i++)
+                            for (int i = 0; i < hlrClientImpl.HlrPushNotificationsListeners.Count; i++)
                             {
-                                hlrClientImpl.HlrPushListeners[i].OnHLRReceived(roamingNotification);
+                                hlrClientImpl.HlrPushNotificationsListeners[i].OnHLRReceived(roamingNotification);
                             }
                         }
                     }

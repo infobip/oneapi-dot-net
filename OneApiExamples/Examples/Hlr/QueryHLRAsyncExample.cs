@@ -26,7 +26,7 @@ namespace OneApi.Examples.Hlr
                 return;
             }
 
-            smsClient.HlrClient.AddPushHlrNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
+            smsClient.HlrClient.AddPushHLRNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
 
             smsClient.HlrClient.QueryHLRAsync(address, notifyUrl);
             Console.WriteLine("Async HLR request sent successfully.");

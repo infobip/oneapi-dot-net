@@ -7,6 +7,7 @@ using OneApi.Listeners;
 using OneApi.Config;
 using OneApi.Exceptions;
 using OneApi.Model;
+using org.oneapi.model;
 
 namespace OneApi.Client.Impl
 {
@@ -17,14 +18,15 @@ namespace OneApi.Client.Impl
         private Action<LoginResponse> onLogin;
         private Action onLogout;
 
-        public CustomerProfileClientImpl(Configuration configuration, Action<LoginResponse> onLogin, Action onLogout) : base(configuration)      
+        public CustomerProfileClientImpl(Configuration configuration, Action<LoginResponse> onLogin, Action onLogout)
+            : base(configuration)
         {
             this.onLogin = onLogin;
             this.onLogout = onLogout;
         }
 
         /// <summary>
-        /// Get configured user customer profile </summary>
+        /// Get logged user customer profile </summary>
         /// <returns> CustomerProfile </returns>
         public CustomerProfile GetCustomerProfile()
         {
@@ -33,23 +35,60 @@ namespace OneApi.Client.Impl
         }
 
         /// <summary>
+        /// Get logged user customer profiles list </summary>
+        /// </summary>
+        /// <returns>CustomerProfile[]</returns>
+        public CustomerProfile[] GetCustomerProfiles()
+        {
+            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE) + "/list");
+            return Deserialize<CustomerProfile[]>(response, RESPONSE_CODE_200_OK, "customerProfiles");
+        }
+
+        /// <summary>
         /// User Login </summary>
         /// <returns> LoginResponse </returns>
-        public LoginResponse Login() {
-		    LoginRequest loginRequest = new LoginRequest(Configuration.Authentication.Username, Configuration.Authentication.Password);	
-		    HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE + "/login"), loginRequest);
+        public LoginResponse Login()
+        {
+            LoginRequest loginRequest = new LoginRequest(Configuration.Authentication.Username, Configuration.Authentication.Password);
+            HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE + "/login"), loginRequest);
             LoginResponse loginResponse = Deserialize<LoginResponse>(response, RESPONSE_CODE_200_OK, "login");
-            
+
             onLogin(loginResponse);
             return loginResponse;
-	    }
+        }
 
         /// <summary>
         /// User Logout </summary>
-	    public void Logout() {	  
+        public void Logout()
+        {
             HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE + "/logout"));
             validateResponse(response, RESPONSE_CODE_204_NO_CONTENT);
             onLogout();
-	    }
+        }
+
+        /// <summary>
+        /// Get specific user customer profile by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> CustomerProfile </returns>
+        public CustomerProfile GetCustomerProfileByUserId(int id)
+        {
+            StringBuilder urlBuilder = new StringBuilder(CUSTOMER_PROFILE_URL_BASE).Append("/");
+            urlBuilder.Append(HttpUtility.UrlEncode(id.ToString()));
+
+            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
+            return Deserialize<CustomerProfile>(response, RESPONSE_CODE_200_OK);
+        }
+
+        /// <summary>
+        /// Insert new user customer profile data
+        /// </summary>
+        /// <param name="insertCustomerProfileRequest"></param>
+        /// <returns>CustomerProfile</returns>
+        public CustomerProfile InsertCustomerProfile(InsertCustomerProfileRequest insertCustomerProfileRequest)
+        {
+            HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE), insertCustomerProfileRequest);
+            return Deserialize<CustomerProfile>(response, RESPONSE_CODE_201_CREATED);
+        }
     }
 }

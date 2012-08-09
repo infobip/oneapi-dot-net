@@ -18,32 +18,25 @@ using OneApi.Model;
 
 namespace OneApi.Client.Impl
 {
- 		
+
     /// <summary>
-	/// Client base class containing common methods and properties
-	/// 
-	/// </summary>
+    /// Client base class containing common methods and properties
+    /// 
+    /// </summary>
     public class OneAPIBaseClientImpl
     {
         protected static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        protected internal const int RESPONSE_CODE_200_OK = 200;
+        protected const int RESPONSE_CODE_200_OK = 200;
 
-        protected internal const int RESPONSE_CODE_201_CREATED = 201;
+        protected const int RESPONSE_CODE_201_CREATED = 201;
 
-        protected internal const int RESPONSE_CODE_204_NO_CONTENT = 204;
-
-        private const string POST_REQUEST_METHOD = "POST";
-
-        private const string PUT_REQUEST_METHOD = "PUT";
-
-        private const string GET_REQUEST_METHOD = "GET";
-
-        private const string DELETE_REQUEST_METHOD = "DELETE";
+        protected const int RESPONSE_CODE_204_NO_CONTENT = 204;
 
         private const string URL_ENCODED_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
         private Configuration configuration = null;
+
 
         /// <summary>
         /// Initialize OneAPIClientBase </summary>
@@ -65,60 +58,25 @@ namespace OneApi.Client.Impl
         }
 
         /// <summary>
-        /// Execute POST Request </summary>
-        /// <param name="apiUrl"> </param>
-        /// <returns> HttpWebResponse </returns>
-        protected HttpWebResponse ExecutePost(string apiUrl)
+        /// Execute method and deserialize response json
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestData"></param>
+        /// <returns></returns>
+        protected T Execute<T>(RequestData requestData)
         {
-            return ExecutePost(apiUrl, null);
+            HttpWebResponse response = SendOneAPIRequest(requestData);
+            return Deserialize<T>(response, requestData.RequiredStatus, requestData.RootElement);
         }
 
         /// <summary>
-        /// Execute POST Request </summary>
-        /// <param name="apiUrl"> </param>
-        /// <param name="formParams"> </param>
-        /// <returns> HttpWebResponse </returns>
-        protected HttpWebResponse ExecutePost(string apiUrl, object formParams)
+        /// Execute method and validate response
+        /// </summary>
+        /// <param name="requestData"></param>
+        protected void Execute(RequestData requestData)
         {
-            return SendOneAPIRequest(POST_REQUEST_METHOD, apiUrl, formParams, URL_ENCODED_CONTENT_TYPE);
-        }
-
-        /// <summary>
-        /// Execute PUT Request </summary>
-        /// <param name="apiUrl"> </param>
-        /// <param name="formParams"> </param>
-        /// <returns> HttpWebResponse </returns>
-        protected HttpWebResponse ExecutePut(string apiUrl, object formParams)
-        {
-            return SendOneAPIRequest(PUT_REQUEST_METHOD, apiUrl, formParams, URL_ENCODED_CONTENT_TYPE);
-        }
-
-        /// <summary>
-        /// Execute GET Request </summary>
-        /// <param name="apiUrl"> </param>
-        /// <returns> HttpWebResponse </returns>
-        protected HttpWebResponse ExecuteGet(string apiUrl)
-        {
-            return SendOneAPIRequest(GET_REQUEST_METHOD, apiUrl);
-        }
-
-        /// <summary>
-        /// Execute DELETE Request </summary>
-        /// <param name="apiUrl"> </param>
-        /// <returns> HttpWebResponse </returns>
-        protected HttpWebResponse ExecuteDelete(string apiUrl)
-        {
-            return SendOneAPIRequest(DELETE_REQUEST_METHOD, apiUrl);
-        }
-
-        /// <summary>
-        /// Setup connection </summary>
-        /// <param name="requestMethod"> </param>
-        /// <param name="apiUrl"> </param>
-        /// <returns> HttpWebResponse </returns>
-        private HttpWebResponse SendOneAPIRequest(string requestMethod, string apiUrl)
-        {
-            return SendOneAPIRequest(requestMethod, apiUrl, null, null);
+            HttpWebResponse response = SendOneAPIRequest(requestData);
+            validateResponse(response, requestData.RequiredStatus);
         }
 
         /// <summary>
@@ -129,52 +87,54 @@ namespace OneApi.Client.Impl
         /// <param name="contentType"> </param>
         /// <returns> HttpWebResponse </returns>
         /// <exception cref="RequestException"> </exception>
-        private HttpWebResponse SendOneAPIRequest(string requestMethod, string apiUrl, object formParams, string contentType)
+        private HttpWebResponse SendOneAPIRequest(RequestData requestData)
         {
             try
             {
                 HttpWebRequest request = null;
                 HttpWebResponse response = null;
 
+                //append base url
+                requestData.ApiUrl = AppendMessagingBaseUrl(requestData.ApiUrl);
+
                 //setup connection with custom authorization
                 if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.IBSSO))
                 {
-                    request = SetupRequestWithCustomAuthorization(apiUrl, "IBSSO", configuration.Authentication.IbssoToken);
+                    request = SetupRequestWithCustomAuthorization(requestData.ApiUrl, "IBSSO", configuration.Authentication.IbssoToken);
                 }
                 else if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.OAUTH))
                 {
-                    request = SetupRequestWithCustomAuthorization(apiUrl, "OAuth", configuration.Authentication.AccessToken);      
-                } 
-               
+                    request = SetupRequestWithCustomAuthorization(requestData.ApiUrl, "OAuth", configuration.Authentication.AccessToken);
+                }
+
                 //Set Content Type
-                if ((contentType != null) && (contentType.Length > 0))
+                if (requestData.RequestMethod == RequestData.REQUEST_METHOD.POST)
                 {
-                    request.ContentType = contentType;
+                    request.ContentType = URL_ENCODED_CONTENT_TYPE;
                 }
 
                 request.Accept = "*/*";
                 request.UserAgent = "OneApi-C#-" + SMSClient.VERSION;
 
-
                 //Set Request Method
-                request.Method = requestMethod;
+                request.Method = requestData.RequestMethod.ToString();
 
                 //Set Request Body
-                if (formParams != null)
-                {    
+                if (requestData.FormParams != null)
+                {
                     // Encode form params to byte array
-                    byte[] formParamsByteArray = FormEncodeParams(formParams);
+                    byte[] formParamsByteArray = FormEncodeParams(requestData.FormParams);
                     if (formParamsByteArray != null)
                     {
                         request.ContentLength = formParamsByteArray.Length;
-                      
+
                         // Get the request stream.
                         Stream dataStream = request.GetRequestStream();
-                        
+
                         // Write the data to the request stream.
                         dataStream.Write(formParamsByteArray, 0, formParamsByteArray.Length);
                         // Close the Stream object.
-                        dataStream.Close();  
+                        dataStream.Close();
                     }
                 }
 
@@ -193,8 +153,8 @@ namespace OneApi.Client.Impl
                     throw new RequestException(e.Message);
                 }
 
-                return (HttpWebResponse)e.Response;  
-            }   
+                return (HttpWebResponse)e.Response;
+            }
         }
 
         private HttpWebRequest SetupRequestWithCustomAuthorization(string url, string authorizationScheme, string authHeaderValue)
@@ -209,7 +169,7 @@ namespace OneApi.Client.Impl
             if (authHeaderValue != null)
             {
                 request.Headers.Add("Authorization", authorizationScheme + " " + authHeaderValue);
-               
+
                 if (LOGGER.IsDebugEnabled)
                 {
                     LOGGER.Debug("Authorization type " + authorizationScheme + " using " + authHeaderValue);
@@ -246,7 +206,7 @@ namespace OneApi.Client.Impl
                 {
                     if (entry.Value is string[])
                     {
-                        string[] arr = (string[]) entry.Value;
+                        string[] arr = (string[])entry.Value;
                         foreach (string arrItem in arr)
                         {
                             if (arrItem != null)
@@ -302,11 +262,6 @@ namespace OneApi.Client.Impl
             return urlBuilder.ToString();
         }
 
-        protected internal T Deserialize<T>(HttpWebResponse response, int requiredStatus)
-        {
-            return Deserialize<T>(response, requiredStatus, null);
-        }
-
         /// <summary>
         /// Deserialize response stream
         /// </summary>
@@ -314,14 +269,14 @@ namespace OneApi.Client.Impl
         /// <param name="requiredStatus"> </param>
         /// <param name="rootElement"> </param>
         protected internal T Deserialize<T>(HttpWebResponse response, int requiredStatus, string rootElement)
-        {     
+        {
             String json = String.Empty;
-            
+
             if (((int)response.StatusCode) == (requiredStatus))
             {
                 try
                 {
-                    return DeserializeStream<T>(response.GetResponseStream(), response.CharacterSet, rootElement);    
+                    return DeserializeStream<T>(response.GetResponseStream(), response.CharacterSet, rootElement);
                 }
                 catch (Exception e)
                 {
@@ -351,15 +306,15 @@ namespace OneApi.Client.Impl
         /// <param name="request"> </param>
         /// <param name="rootElement"> </param>
         protected internal T DeserializeStream<T>(Stream stream, string characterSet, string rootElement)
-        { 
+        {
             string json = String.Empty;
-            
+
             Encoding encoding = Encoding.UTF8;
             if ((characterSet != null) && (characterSet.Trim() != ""))
             {
                 encoding = Encoding.GetEncoding(characterSet);
             }
-                   
+
             // read response
             using (StreamReader sr = new StreamReader(stream, encoding))
             {
@@ -376,7 +331,7 @@ namespace OneApi.Client.Impl
             return ConvertJsonToObject<T>(json, null);
         }
 
-        protected internal T ConvertJsonToObject<T>(String json, string rootElement) 
+        protected internal T ConvertJsonToObject<T>(String json, string rootElement)
         {
             if (LOGGER.IsDebugEnabled)
             {
@@ -415,7 +370,7 @@ namespace OneApi.Client.Impl
             string messageId = "";
             string json = String.Empty;
             try
-            {  
+            {
                 RequestError requestError = DeserializeStream<RequestError>(response.GetResponseStream(), response.CharacterSet, "requestError");
 
                 if (requestError != null)
@@ -448,7 +403,7 @@ namespace OneApi.Client.Impl
             }
         }
 
-        protected string GetIdFromResourceUrl(string resourceUrl) 
+        protected string GetIdFromResourceUrl(string resourceUrl)
         {
             string id = "";
             if (resourceUrl.Contains('/'))

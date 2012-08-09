@@ -24,15 +24,14 @@ namespace OneApi.Client.Impl
             this.onLogout = onLogout;
         }
 
-         /// <summary>
+        /// <summary>
         /// User Login </summary>
         /// <returns> LoginResponse </returns>
         public LoginResponse Login()
         {
             LoginRequest loginRequest = new LoginRequest(Configuration.Authentication.Username, Configuration.Authentication.Password);
-            HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE + "/login"), loginRequest);
-            LoginResponse loginResponse = Deserialize<LoginResponse>(response, RESPONSE_CODE_200_OK, "login");
-
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/login", RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.POST, "login", loginRequest);
+            LoginResponse loginResponse = Execute<LoginResponse>(requestData);
             onLogin(loginResponse);
             return loginResponse;
         }
@@ -41,8 +40,8 @@ namespace OneApi.Client.Impl
         /// User Logout </summary>
         public void Logout()
         {
-            HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE + "/logout"));
-            validateResponse(response, RESPONSE_CODE_204_NO_CONTENT);
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/logout", RESPONSE_CODE_204_NO_CONTENT, RequestData.REQUEST_METHOD.POST);
+            Execute(requestData);
             onLogout();
         }
 
@@ -51,8 +50,8 @@ namespace OneApi.Client.Impl
         /// <returns> CustomerProfile </returns>
         public CustomerProfile GetCustomerProfile()
         {
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE));
-            return Deserialize<CustomerProfile>(response, RESPONSE_CODE_200_OK);
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE, RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET);
+            return Execute<CustomerProfile>(requestData);
         }
 
         /// <summary>
@@ -61,8 +60,8 @@ namespace OneApi.Client.Impl
         /// <returns> CustomerProfile[] </returns>
         public CustomerProfile[] GetCustomerProfiles()
         {
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE) + "/list");
-            return Deserialize<CustomerProfile[]>(response, RESPONSE_CODE_200_OK, "customerProfiles");
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/list", RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET);
+            return Execute<CustomerProfile[]>(requestData);
         }
 
         /// <summary>
@@ -75,8 +74,8 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = new StringBuilder(CUSTOMER_PROFILE_URL_BASE).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(id.ToString()));
 
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<CustomerProfile>(response, RESPONSE_CODE_200_OK);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET);
+            return Execute<CustomerProfile>(requestData);
         }
     }
 }

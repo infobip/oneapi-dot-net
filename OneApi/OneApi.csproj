@@ -73,6 +73,7 @@
     <Compile Include="Converter\CustomDateConverter.cs" />
     <Compile Include="Model\CustomerProfile.cs" />
     <Compile Include="Model\LoginResponse.cs" />
+    <Compile Include="Model\RequestData.cs" />
     <Compile Include="Model\RoamingNotification.cs" />
     <Compile Include="Model\DeliveryInfoList.cs" />
     <Compile Include="Model\DeliveryInfoNotification.cs" />

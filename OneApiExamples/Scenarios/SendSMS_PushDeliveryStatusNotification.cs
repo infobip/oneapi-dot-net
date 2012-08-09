@@ -44,6 +44,7 @@ namespace OneApi.Scenarios
         private static string recipientAddress = "";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3000/" 3000=Default port for 'Delivery status Notifications' server simulator
         private static string criteria = "";
+
            
         public static void Execute()
         {

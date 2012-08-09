@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OneApi.Model;
+using org.infobip.oneapi.model;
 
 namespace OneApi.Client.Impl
 {
@@ -34,5 +35,11 @@ namespace OneApi.Client.Impl
         /// <param name="id"></param>
         /// <returns> CustomerProfile </returns>
         CustomerProfile GetCustomerProfileByUserId(int id);
+
+        /// <summary>
+        /// Get logged user account balance </summary>
+        /// </summary>
+        /// <returns> AccountBalance </returns>
+        AccountBalance GetAccountBalance();
     }
 }

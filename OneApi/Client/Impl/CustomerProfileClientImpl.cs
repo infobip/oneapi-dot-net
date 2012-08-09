@@ -7,6 +7,7 @@ using OneApi.Listeners;
 using OneApi.Config;
 using OneApi.Exceptions;
 using OneApi.Model;
+using org.infobip.oneapi.model;
 
 namespace OneApi.Client.Impl
 {
@@ -76,6 +77,16 @@ namespace OneApi.Client.Impl
 
             RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET);
             return Execute<CustomerProfile>(requestData);
+        }
+
+        /// <summary>
+        /// Get logged user account balance </summary>
+        /// </summary>
+        /// <returns> AccountBalance </returns>
+        public AccountBalance GetAccountBalance()
+        {
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/balance", RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET);
+            return Execute<AccountBalance>(requestData);
         }
     }
 }

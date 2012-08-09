@@ -69,8 +69,10 @@
     <Compile Include="Listeners\DeliveryReportListener.cs" />
     <Compile Include="Listeners\DeliveryStatusNotificationsListener.cs" />
     <Compile Include="Listeners\InboundMessageListener.cs" />
+    <Compile Include="Model\AccountBalance.cs" />
     <Compile Include="Model\Authentication.cs" />
     <Compile Include="Converter\CustomDateConverter.cs" />
+    <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\CustomerProfile.cs" />
     <Compile Include="Model\LoginResponse.cs" />
     <Compile Include="Model\RequestData.cs" />

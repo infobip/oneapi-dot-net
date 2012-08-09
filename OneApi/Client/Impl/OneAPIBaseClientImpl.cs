@@ -153,7 +153,7 @@ namespace OneApi.Client.Impl
                 }
 
                 request.Accept = "*/*";
-                request.UserAgent = "OneApi-Java-" + SMSClient.VERSION;
+                request.UserAgent = "OneApi-C#-" + SMSClient.VERSION;
 
 
                 //Set Request Method

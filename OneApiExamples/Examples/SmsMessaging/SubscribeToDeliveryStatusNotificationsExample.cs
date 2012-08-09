@@ -13,7 +13,7 @@ namespace OneApi.Examples.SmsMessaging
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3000/" 3000=Default port for 'Delivery status Notifications' server simulator
         private static string criteria = "";
 
-		public static void Execute(bool isInputConfigData)
+		public static void Execute()
 		{
             Configuration configuration = new Configuration(username, password);         
 			SMSClient smsClient = new SMSClient(configuration);

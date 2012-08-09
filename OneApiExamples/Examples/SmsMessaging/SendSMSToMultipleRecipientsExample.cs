@@ -14,7 +14,7 @@ namespace OneApi.Examples.SmsMessaging
         private static string recipientAddress1 = "";
         private static string recipientAddress2 = "";
 
-		public static void Execute(bool isInputConfigData)
+		public static void Execute()
 		{
             Configuration configuration = new Configuration(username, password);           
 			SMSClient smsClient = new SMSClient(configuration);

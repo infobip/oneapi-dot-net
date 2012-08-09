@@ -9,7 +9,7 @@ namespace OneApi.Examples.SmsMessaging
 	public class GetInboundMessagesExample : ExampleBase
 	{
 
-		public static void Execute(bool isInputConfigData)
+		public static void Execute()
 		{
             Configuration configuration = new Configuration(username, password);          
 			SMSClient smsClient = new SMSClient(configuration);

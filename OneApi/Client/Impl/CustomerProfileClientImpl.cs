@@ -7,7 +7,6 @@ using OneApi.Listeners;
 using OneApi.Config;
 using OneApi.Exceptions;
 using OneApi.Model;
-using org.oneapi.model;
 
 namespace OneApi.Client.Impl
 {
@@ -25,26 +24,7 @@ namespace OneApi.Client.Impl
             this.onLogout = onLogout;
         }
 
-        /// <summary>
-        /// Get logged user customer profile </summary>
-        /// <returns> CustomerProfile </returns>
-        public CustomerProfile GetCustomerProfile()
-        {
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE));
-            return Deserialize<CustomerProfile>(response, RESPONSE_CODE_200_OK);
-        }
-
-        /// <summary>
-        /// Get logged user customer profiles list </summary>
-        /// </summary>
-        /// <returns>CustomerProfile[]</returns>
-        public CustomerProfile[] GetCustomerProfiles()
-        {
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE) + "/list");
-            return Deserialize<CustomerProfile[]>(response, RESPONSE_CODE_200_OK, "customerProfiles");
-        }
-
-        /// <summary>
+         /// <summary>
         /// User Login </summary>
         /// <returns> LoginResponse </returns>
         public LoginResponse Login()
@@ -67,6 +47,25 @@ namespace OneApi.Client.Impl
         }
 
         /// <summary>
+        /// Get logged user customer profile </summary>
+        /// <returns> CustomerProfile </returns>
+        public CustomerProfile GetCustomerProfile()
+        {
+            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE));
+            return Deserialize<CustomerProfile>(response, RESPONSE_CODE_200_OK);
+        }
+
+        /// <summary>
+        /// Get logged user customer profiles list </summary>
+        /// </summary>
+        /// <returns> CustomerProfile[] </returns>
+        public CustomerProfile[] GetCustomerProfiles()
+        {
+            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE) + "/list");
+            return Deserialize<CustomerProfile[]>(response, RESPONSE_CODE_200_OK, "customerProfiles");
+        }
+
+        /// <summary>
         /// Get specific user customer profile by id
         /// </summary>
         /// <param name="id"></param>
@@ -78,17 +77,6 @@ namespace OneApi.Client.Impl
 
             HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
             return Deserialize<CustomerProfile>(response, RESPONSE_CODE_200_OK);
-        }
-
-        /// <summary>
-        /// Insert new user customer profile data
-        /// </summary>
-        /// <param name="insertCustomerProfileRequest"></param>
-        /// <returns>CustomerProfile</returns>
-        public CustomerProfile InsertCustomerProfile(InsertCustomerProfileRequest insertCustomerProfileRequest)
-        {
-            HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(CUSTOMER_PROFILE_URL_BASE), insertCustomerProfileRequest);
-            return Deserialize<CustomerProfile>(response, RESPONSE_CODE_201_CREATED);
         }
     }
 }

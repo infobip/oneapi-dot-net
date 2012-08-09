@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OneApi.Model;
-using org.oneapi.model;
 
 namespace OneApi.Client.Impl
 {
     public interface CustomerProfileClient
     {
+        /// <summary>
+        /// User Login </summary>
+        /// <returns> LoginResponse </returns>
+        LoginResponse Login();
+
+        /// <summary>
+        /// User Logout </summary>
+        void Logout();
+
         /// <summary>
         /// Get logged user customer profile </summary>
         /// <returns> CustomerProfile </returns>
@@ -26,21 +34,5 @@ namespace OneApi.Client.Impl
         /// <param name="id"></param>
         /// <returns> CustomerProfile </returns>
         CustomerProfile GetCustomerProfileByUserId(int id);
-
-        /// <summary>
-        /// User Login </summary>
-        /// <returns> LoginResponse </returns>
-        LoginResponse Login();
-
-        /// <summary>
-        /// User Logout </summary>
-        void Logout();
-
-        /// <summary>
-        /// Insert new user customer profile data
-        /// </summary>
-        /// <param name="insertCustomerProfileRequest"></param>
-        /// <returns>CustomerProfile</returns>
-        CustomerProfile InsertCustomerProfile(InsertCustomerProfileRequest insertCustomerProfileRequest);
     }
 }

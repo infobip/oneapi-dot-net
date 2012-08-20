@@ -1,16 +1,18 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using OneApi.Config;
 using OneApi.Client.Impl;
 using OneApi.Model;
+using org.infobip.oneapi.model;
 
-
-namespace OneApi.Examples.SmsMessaging
+namespace OneApi.Examples.CustomerProfiles
 {
-    public class GetDeliveryReportsExample : ExampleBase
-    { 
-
-        public static void Execute() 
-        {        
+    class GetAccountBalanceExample : ExampleBase
+    {
+        public static void Execute()
+        {
             Configuration configuration = new Configuration(username, password);    
             SMSClient smsClient = new SMSClient(configuration);
 
@@ -22,9 +24,9 @@ namespace OneApi.Examples.SmsMessaging
                 return;
             }
 
-            DeliveryReport[] deliveryReports = smsClient.SmsMessagingClient.GetDeliveryReports();
-            Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReports)); 
-        }    
+            AccountBalance accountBalance = smsClient.CustomerProfileClient.GetAccountBalance();
+            Console.WriteLine("Account Balance: " + accountBalance);   
+            Console.WriteLine();
+        }
     }
-
 }

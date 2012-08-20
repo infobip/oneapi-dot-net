@@ -18,7 +18,6 @@ namespace OneApi.Scenarios
     *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
     *
     *  3.) Open 'Scenarios.GetInboundMessagesUsingRetriever' class to edit where you should populate the following fields: 
-    *		'apiUrl'   
     *		'username' 
     *		'password'  
     *

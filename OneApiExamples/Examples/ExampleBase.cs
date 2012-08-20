@@ -5,7 +5,7 @@ namespace OneApi.Examples
 {
     public class ExampleBase
     {
-        protected static string username = "";
-        protected static string password = "";
+        protected static string username = "FILL USERNAME HERE !!!";
+        protected static string password = "FILL PASSWORD HERE !!!";
     }
 }

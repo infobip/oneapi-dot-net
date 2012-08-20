@@ -68,24 +68,24 @@ namespace OneApi.Scenarios
                 }
 
                 //Add listener(start push server and wait for the Inbound Message Notifications)    
-                smsClient.SmsMessagingClient.AddPushInboundMessageListener(new InboundMessageNotificationsListener(OnMessageReceived));
+                smsClient.SmsMessagingClient.AddPushInboundMessageNotificationsListener(new InboundMessageNotificationsListener(OnMessageReceived));
 
                 //Subscribe to the Inbound Message notifications
                 string subscriptionId = smsClient.SmsMessagingClient.SubscribeToInboundMessagesNotifications(new SubscribeToInboundMessagesRequest(destinationAddress, notifyUrl, criteria, notificationFormat, "", ""));
                 Console.WriteLine("Subscription Id: " + subscriptionId);
 
                 //Waiting 2 minutes for the  'Inbound Message Notification' before close the server connection and canceling subscription.   
-                Console.WriteLine("Waiting 2 minutes for the Message Info Notifications.. after that subscription will be removed and push server connection will be closed."); 
+                Console.WriteLine("Waiting 2 minutes for the Inbound Message Notifications.. after that subscription will be removed and push server connection will be closed."); 
                 System.Threading.Thread.Sleep(120000);
 
                 //Remove Inbound Message Notifications subscription
-                smsClient.SmsMessagingClient.RemoveInboundMessagesSubscription(subscriptionId);
+                smsClient.SmsMessagingClient.RemoveInboundMessagesNotificationsSubscription(subscriptionId);
 
                 //Logout user
                 smsClient.CustomerProfileClient.Logout();
 
                 //Remove Inbound Message Notification Listeners and stop the server
-                smsClient.SmsMessagingClient.RemovePushInboundMessageListeners();    
+                smsClient.SmsMessagingClient.RemovePushInboundMessageNotificationsListeners();    
             }
             catch (RequestException e)
             {

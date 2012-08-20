@@ -56,6 +56,12 @@
     <Compile Include="Examples\ConfigFile\LoadDefaultConfigFileExample.cs" />
     <Compile Include="Examples\ConfigFile\SaveToConfigFileExample.cs" />
     <Compile Include="Examples\ConfigFile\SaveToDefaultConfigFileExample.cs" />
+    <Compile Include="Examples\CustomersProfiles\GetAccountBalanceExample.cs" />
+    <Compile Include="Examples\CustomersProfiles\LogoutExample.cs" />
+    <Compile Include="Examples\CustomersProfiles\LoginExample.cs" />
+    <Compile Include="Examples\CustomersProfiles\GetCustomerProfilesExample.cs" />
+    <Compile Include="Examples\CustomersProfiles\GetCustomerProfileByUserIdExample.cs" />
+    <Compile Include="Examples\CustomersProfiles\GetCustomerProfileExample.cs" />
     <Compile Include="Examples\ExampleBase.cs" />
     <Compile Include="Examples\Hlr\ConvertJsonToHLRNotificationExample.cs" />
     <Compile Include="Examples\Hlr\RemoveHLRDeliveryNotificationsSubscriptionExample.cs" />
@@ -101,6 +107,7 @@
       <Name>OneApi</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy “$(SolutionDir)\OneApi\Etc” “$(TargetDir)”

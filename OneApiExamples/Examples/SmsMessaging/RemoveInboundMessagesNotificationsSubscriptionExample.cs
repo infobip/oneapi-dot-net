@@ -11,7 +11,7 @@ namespace OneApi.Examples.SmsMessaging
 
         private static string subscriptionId = "";
 
-        public static void Execute(bool isInputConfigData)
+        public static void Execute()
 		{
             Configuration configuration = new Configuration(username, password);  
 			SMSClient smsClient = new SMSClient(configuration);
@@ -24,7 +24,7 @@ namespace OneApi.Examples.SmsMessaging
                 return;
             }
 
-            smsClient.SmsMessagingClient.RemoveInboundMessagesSubscription(subscriptionId);
+            smsClient.SmsMessagingClient.RemoveInboundMessagesNotificationsSubscription(subscriptionId);
 
             Console.WriteLine("Subscription canceled.");      
 		}   

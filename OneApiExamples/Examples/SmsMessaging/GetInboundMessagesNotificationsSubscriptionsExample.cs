@@ -9,7 +9,7 @@ namespace OneApi.Examples.SmsMessaging
 	public class GetInboundMessagesNotificationsSubscriptionsExample : ExampleBase
 	{
 
-		public static void Execute(bool isInputConfigData)
+		public static void Execute()
 		{
             Configuration configuration = new Configuration(username, password);    
 			SMSClient smsClient = new SMSClient(configuration);
@@ -22,7 +22,7 @@ namespace OneApi.Examples.SmsMessaging
                 return;
             }
 
-            MoSubscription[] moSubscriptions = smsClient.SmsMessagingClient.GetInboundMessagesSubscriptions();
+            MoSubscription[] moSubscriptions = smsClient.SmsMessagingClient.GetInboundMessagesNotificationsSubscriptions();
             Console.WriteLine("MO Subscriptions: " + string.Join("MO Subscription: ", (Object[])moSubscriptions));
 		}
 	}

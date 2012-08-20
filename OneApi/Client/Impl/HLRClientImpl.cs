@@ -8,41 +8,42 @@ using OneApi.Exceptions;
 using OneApi.Model;
 
 namespace OneApi.Client.Impl
-{  
+{
 
-	public class HLRClientImpl : OneAPIBaseClientImpl, HLRClient
-	{
-		private const string HLR_URL_BASE = "/terminalstatus/queries";
-		private const string HLR_SUBSCRIPTION_URL_BASE = "/smsmessaging/hlr/subscriptions";
-      
+    public class HLRClientImpl : OneAPIBaseClientImpl, HLRClient
+    {
+        private const string HLR_URL_BASE = "/terminalstatus/queries";
+        private const string HLR_SUBSCRIPTION_URL_BASE = "/smsmessaging/hlr/subscriptions";
+
         private volatile IList<HLRNotificationsListener> hlrMessagePushListenerList = null;
         private PushServerSimulator hlrPushServerSimulator;
 
-		//*************************DataresponseProfileClientImpl Initialization******************************************************************************************************************************************************
-		public HLRClientImpl(Configuration configuration) : base(configuration)
-		{
-		}
+        //*************************DataresponseProfileClientImpl Initialization******************************************************************************************************************************************************
+        public HLRClientImpl(Configuration configuration)
+            : base(configuration)
+        {
+        }
 
-		//*************************DataresponseProfileClientImpl public******************************************************************************************************************************************************		
-		/// <summary>
-		/// Get asynchronously the customer’s roaming status for a single network-connected mobile device  (HLR) </summary>
-		/// <param name="address"> (mandatory) mobile device number being queried </param>
-		/// <param name="notifyURL"> (mandatory) URL to receive the roaming status asynchronously </param>
+        //*************************DataresponseProfileClientImpl public******************************************************************************************************************************************************		
+        /// <summary>
+        /// Get asynchronously the customer’s roaming status for a single network-connected mobile device  (HLR) </summary>
+        /// <param name="address"> (mandatory) mobile device number being queried </param>
+        /// <param name="notifyURL"> (mandatory) URL to receive the roaming status asynchronously </param>
         /// <param name="clientCorrelator"> (optional) Active only if notifyURL is specified, otherwise ignored. Uniquely identifies this request. If there is a communication failure during the request, using the same clientCorrelator when retrying the request helps the operator to avoid call the same request twice. </param>
         /// <param name="callbackData"> (optional) Active only if notifyURL is specified, otherwise ignored. This is custom data to pass back in notification to notifyURL, so you can use it to identify the request or any other useful data, such as a function name. </param>
         public void QueryHLRAsync(string address, string notifyURL, string clientCorrelator, string callbackData)
-		{
-			if (notifyURL == null || notifyURL.Length == 0)
-			{
-				throw new RequestException("'notifiyURL' parmeter is mandatory using asynchronous method.");
-			}
+        {
+            if (notifyURL == null || notifyURL.Length == 0)
+            {
+                throw new RequestException("'notifiyURL' parmeter is mandatory using asynchronous method.");
+            }
 
-			StringBuilder urlBuilder = new StringBuilder(HLR_URL_BASE);
-			urlBuilder.Append("/roamingStatus?address=");
-			urlBuilder.Append(HttpUtility.UrlEncode(address));
-			urlBuilder.Append("&includeExtendedData=true");
-			urlBuilder.Append("&notifyURL=");
-			urlBuilder.Append(HttpUtility.UrlEncode(notifyURL));
+            StringBuilder urlBuilder = new StringBuilder(HLR_URL_BASE);
+            urlBuilder.Append("/roamingStatus?address=");
+            urlBuilder.Append(HttpUtility.UrlEncode(address));
+            urlBuilder.Append("&includeExtendedData=true");
+            urlBuilder.Append("&notifyURL=");
+            urlBuilder.Append(HttpUtility.UrlEncode(notifyURL));
 
             if (clientCorrelator != null && clientCorrelator.Length > 0)
             {
@@ -56,33 +57,33 @@ namespace OneApi.Client.Impl
                 urlBuilder.Append(HttpUtility.UrlEncode(callbackData));
             }
 
-			HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            validateResponse(response, RESPONSE_CODE_200_OK);
-		}
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET);
+            Execute(requestData);
+        }
 
         /// <summary>
-		/// Get asynchronously the customer’s roaming status for a single network-connected mobile device  (HLR) </summary>
-		/// <param name="address"> (mandatory) mobile device number being queried </param>	
+        /// Get asynchronously the customer’s roaming status for a single network-connected mobile device  (HLR) </summary>
+        /// <param name="address"> (mandatory) mobile device number being queried </param>	
         /// <param name="notifyURL"> (mandatory) URL to receive the roaming status asynchronously </param>
         public void QueryHLRAsync(string address, string notifyURL)
         {
-             QueryHLRAsync(address, notifyURL, null, null);
+            QueryHLRAsync(address, notifyURL, null, null);
         }
 
-		/// <summary>
-		/// Get synchronously the customer’s roaming status for a single network-connected mobile device (HLR) </summary>
-		/// <param name="address"> (mandatory) mobile device number being queried </param>
+        /// <summary>
+        /// Get synchronously the customer’s roaming status for a single network-connected mobile device (HLR) </summary>
+        /// <param name="address"> (mandatory) mobile device number being queried </param>
         /// <returns> Roaming </returns>
         public Roaming QueryHLRSync(string address)
-		{
-			StringBuilder urlBuilder = new StringBuilder(HLR_URL_BASE);
-			urlBuilder.Append("/roamingStatus?address=");
-			urlBuilder.Append(HttpUtility.UrlEncode(address));
-			urlBuilder.Append("&includeExtendedData=true");
+        {
+            StringBuilder urlBuilder = new StringBuilder(HLR_URL_BASE);
+            urlBuilder.Append("/roamingStatus?address=");
+            urlBuilder.Append(HttpUtility.UrlEncode(address));
+            urlBuilder.Append("&includeExtendedData=true");
 
-			HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<Roaming>(response, RESPONSE_CODE_200_OK, "roaming");
-		}
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "roaming");
+            return Execute<Roaming>(requestData);
+        }
 
         /// <summary>
         /// Convert JSON to RoamingNotification </summary>
@@ -92,46 +93,46 @@ namespace OneApi.Client.Impl
             return ConvertJsonToObject<RoamingNotification>(json, "terminalRoamingStatusList");
         }
 
-		/// <summary>
-		/// Start subscribing to HLR delivery notifications over OneAPI </summary>
-		/// <param name="subscribeToHLRDeliveryNotificationsRequest"> </param>
-		/// <returns> string - Subscription Id </returns>
-		public string SubscribeToHLRDeliveryNotifications(SubscribeToHLRDeliveryNotificationsRequest subscribeToHLRDeliveryNotificationsRequest)
-		{
-			HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(HLR_SUBSCRIPTION_URL_BASE), subscribeToHLRDeliveryNotificationsRequest);
-            DeliveryReceiptSubscription deliveryReceiptSubscription = Deserialize<DeliveryReceiptSubscription>(response, RESPONSE_CODE_201_CREATED, "deliveryReceiptSubscription");
+        /// <summary>
+        /// Start subscribing to HLR delivery notifications over OneAPI </summary>
+        /// <param name="subscribeToHLRDeliveryNotificationsRequest"> </param>
+        /// <returns> string - Subscription Id </returns>
+        public string SubscribeToHLRDeliveryNotifications(SubscribeToHLRDeliveryNotificationsRequest subscribeToHLRDeliveryNotificationsRequest)
+        {
+            RequestData requestData = new RequestData(HLR_SUBSCRIPTION_URL_BASE, RESPONSE_CODE_201_CREATED, RequestData.REQUEST_METHOD.POST, "deliveryReceiptSubscription", subscribeToHLRDeliveryNotificationsRequest);
+            DeliveryReceiptSubscription deliveryReceiptSubscription = Execute<DeliveryReceiptSubscription>(requestData);
             return GetIdFromResourceUrl(deliveryReceiptSubscription.ResourceURL);
         }
 
-		/// <summary>
-		/// Get HLR delivery notifications subscriptions by subscription id </summary>
-		/// <param name="subscriptionId"> </param>
-		/// <returns> DeliveryReportSubscription[] </returns>
-		public DeliveryReportSubscription[] GetHLRDeliveryNotificationsSubscriptionsById(string subscriptionId)
-		{
-			StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
-			urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
+        /// <summary>
+        /// Get HLR delivery notifications subscriptions by subscription id </summary>
+        /// <param name="subscriptionId"> </param>
+        /// <returns> DeliveryReportSubscription[] </returns>
+        public DeliveryReportSubscription[] GetHLRDeliveryNotificationsSubscriptionsById(string subscriptionId)
+        {
+            StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
+            urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-			HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<DeliveryReportSubscription[]>(response, RESPONSE_CODE_200_OK, "deliveryReceiptSubscriptions");
-		}
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReceiptSubscriptions");
+            return Execute<DeliveryReportSubscription[]>(requestData);
+        }
 
-		/// <summary>
-		/// Stop subscribing to HLR notifications over OneAPI </summary>
-		/// <param name="subscriptionId"> (mandatory) contains the subscriptionId of a previously created HLR delivery receipt subscription </param>
-		public void RemoveHLRDeliveryNotificationsSubscription(string subscriptionId)
-		{
-			StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
-			urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
+        /// <summary>
+        /// Stop subscribing to HLR notifications over OneAPI </summary>
+        /// <param name="subscriptionId"> (mandatory) contains the subscriptionId of a previously created HLR delivery receipt subscription </param>
+        public void RemoveHLRDeliveryNotificationsSubscription(string subscriptionId)
+        {
+            StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
+            urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-			HttpWebResponse response = ExecuteDelete(AppendMessagingBaseUrl(urlBuilder.ToString()));
-			validateResponse(response, RESPONSE_CODE_204_NO_CONTENT);
-		}
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, RequestData.REQUEST_METHOD.DELETE);
+            Execute(requestData);
+        }
 
         /// <summary>
         /// Add OneAPI PUSH 'HLR' Notifications listener and start push server simulator
         /// <param name="listener"> - (new HLRNotificationsListener) </param>
-        public void AddPushHlrNotificationsListener(HLRNotificationsListener listener)
+        public void AddPushHLRNotificationsListener(HLRNotificationsListener listener)
         {
             if (listener == null)
             {
@@ -156,7 +157,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Returns HLR PUSH Notifications Listeners list
         /// </summary>
-        public IList<HLRNotificationsListener> HlrPushListeners
+        public IList<HLRNotificationsListener> HlrPushNotificationsListeners
         {
             get
             {
@@ -167,11 +168,11 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Remove PUSH HLR Notifications listeners and stop server
         /// </summary>
-        public void RemovePushHlrNotificationsListeners()
+        public void RemovePushHLRNotificationsListeners()
         {
             StopPushServerSimulator();
             hlrMessagePushListenerList = null;
-           
+
             if (LOGGER.IsInfoEnabled)
             {
                 LOGGER.Info("Hlr Notifications Listeners are successfully removed.");
@@ -192,7 +193,7 @@ namespace OneApi.Client.Impl
         {
             if (hlrPushServerSimulator != null)
             {
-                hlrPushServerSimulator.Stop(); 
+                hlrPushServerSimulator.Stop();
             }
         }
     }

@@ -69,10 +69,13 @@
     <Compile Include="Listeners\DeliveryReportListener.cs" />
     <Compile Include="Listeners\DeliveryStatusNotificationsListener.cs" />
     <Compile Include="Listeners\InboundMessageListener.cs" />
+    <Compile Include="Model\AccountBalance.cs" />
     <Compile Include="Model\Authentication.cs" />
     <Compile Include="Converter\CustomDateConverter.cs" />
+    <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\CustomerProfile.cs" />
     <Compile Include="Model\LoginResponse.cs" />
+    <Compile Include="Model\RequestData.cs" />
     <Compile Include="Model\RoamingNotification.cs" />
     <Compile Include="Model\DeliveryInfoList.cs" />
     <Compile Include="Model\DeliveryInfoNotification.cs" />
@@ -92,7 +95,6 @@
     <Compile Include="Model\SubscribeToDeliveryNotificationsRequest.cs" />
     <Compile Include="Model\SubscribeToHLRDeliveryNotificationsRequest.cs" />
     <Compile Include="Model\SubscribeToInboundMessagesRequest.cs" />
-    <Compile Include="Model\ValidateClientResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PushServer\PushServerSimulator.cs" />
     <Compile Include="Retrievers\DeliveryReportRetriever.cs" />

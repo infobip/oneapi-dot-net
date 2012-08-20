@@ -1,22 +1,19 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using OneApi.Config;
 using OneApi.Client.Impl;
 using OneApi.Model;
 
-namespace OneApi.Examples.Hlr
+namespace OneApi.Examples.CustomerProfiles
 {
-
-    public class QueryHLRSyncExample : ExampleBase
-	{
-
-        private static string address = "";
-
+    class GetCustomerProfileByUserIdExample : ExampleBase
+    {
         public static void Execute()
-		{
-            log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo("OneApiExamples.exe.config"));
-
+        {
             Configuration configuration = new Configuration(username, password);    
-			SMSClient smsClient = new SMSClient(configuration);
+            SMSClient smsClient = new SMSClient(configuration);
 
             //Login user
             LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
@@ -26,9 +23,8 @@ namespace OneApi.Examples.Hlr
                 return;
             }
 
-            Roaming roaming = smsClient.HlrClient.QueryHLRSync(address);
-			Console.WriteLine("HLR: " + roaming);
-		}
-	}
-
+            CustomerProfile customerProfile = smsClient.CustomerProfileClient.GetCustomerProfileByUserId(1);
+            Console.WriteLine(customerProfile);
+        }
+    }
 }

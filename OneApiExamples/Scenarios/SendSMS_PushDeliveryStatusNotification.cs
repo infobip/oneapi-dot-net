@@ -44,6 +44,7 @@ namespace OneApi.Scenarios
         private static string recipientAddress = "";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3000/" 3000=Default port for 'Delivery status Notifications' server simulator
         private static string criteria = "";
+
            
         public static void Execute()
         {
@@ -69,7 +70,7 @@ namespace OneApi.Scenarios
                 }
 
                 //Add listener(start push server and wait for the Delivery Status Notifications)    
-                smsClient.SmsMessagingClient.AddPushDeliveryStatusNotificationListener(new DeliveryStatusNotificationsListener(OnDeliveryInfoNotificationReceived));
+                smsClient.SmsMessagingClient.AddPushDeliveryStatusNotificationsListener(new DeliveryStatusNotificationsListener(OnDeliveryInfoNotificationReceived));
 
                 //Subscribe to the Delivery Status notifications
                 string subscriptionId = smsClient.SmsMessagingClient.SubscribeToDeliveryStatusNotifications(new SubscribeToDeliveryNotificationsRequest(senderAddress, notifyUrl, criteria, "", ""));
@@ -90,7 +91,7 @@ namespace OneApi.Scenarios
                 smsClient.CustomerProfileClient.Logout();
 
                 //Remove Delivery Status Notification Listeners and stop the server
-                smsClient.SmsMessagingClient.RemovePushDeliveryStatusNotificationListeners();     
+                smsClient.SmsMessagingClient.RemovePushDeliveryStatusNotificationsListeners();     
             }
             catch (RequestException e)
             {

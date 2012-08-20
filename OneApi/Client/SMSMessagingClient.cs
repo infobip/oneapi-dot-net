@@ -79,18 +79,18 @@ namespace OneApi.Client
 		 /// <summary>
 		 /// Get inbound messages notifications subscriptions for the current user </summary>
 		 /// <returns> MoSubscription[] </returns>
-		MoSubscription[] GetInboundMessagesSubscriptions(int page, int pageSize);
+		MoSubscription[] GetInboundMessagesNotificationsSubscriptions(int page, int pageSize);
 
 
 		/// <summary>
 		/// Get inbound messages notifications subscriptions for the current user (Default values are used: page=1, pageSize=10) </summary>
 		/// <returns> MoSubscription[] </returns>
-		MoSubscription[] GetInboundMessagesSubscriptions();
+		MoSubscription[] GetInboundMessagesNotificationsSubscriptions();
 
 		/// <summary>
 		/// Stop subscribing to message receipt notifications for all your received SMS </summary>
 		/// <param name="subscriptionId"> (mandatory) contains the subscriptionId of a previously created SMS message receipt subscription </param>
-		void RemoveInboundMessagesSubscription(string subscriptionId);
+		void RemoveInboundMessagesNotificationsSubscription(string subscriptionId);
 
 		  /// <summary>
 		  /// Get delivery reports </summary>
@@ -150,32 +150,32 @@ namespace OneApi.Client
         /// <summary> 
         /// Add OneAPI PUSH 'Delivery Status' Notifications listener  and start push server simulator </summary>
         /// <param name="listener"> - (new DeliveryStatusNotificationListener) </param>
-        void AddPushDeliveryStatusNotificationListener(DeliveryStatusNotificationsListener listener);
+        void AddPushDeliveryStatusNotificationsListener(DeliveryStatusNotificationsListener listener);
 
         /// <summary>
         /// Add OneAPI PUSH 'INBOUND Messages' Notifications listener and start push server simulator
         /// <param name="listener"> - (new InboundMessageNotificationsListener) </param>
-        void AddPushInboundMessageListener(InboundMessageNotificationsListener listener);
+        void AddPushInboundMessageNotificationsListener(InboundMessageNotificationsListener listener);
 
         /// <summary>
         /// Returns Delivery Status Notifications PUSH Listeners list
         /// </summary>
-        IList<DeliveryStatusNotificationsListener> DeliveryStatusNotificationPushListeners { get;}
+        IList<DeliveryStatusNotificationsListener> DeliveryStatusPushNotificationsListeners { get;}
 
         /// <summary>
         /// Returns INBOUND Message Notifications PUSH Listeners list
         /// </summary>
-        IList<InboundMessageNotificationsListener> InboundMessagePushListeners { get;}
+        IList<InboundMessageNotificationsListener> InboundMessagePushNotificationsListeners { get;}
 
        /// <summary>
         /// Remove PUSH Delivery Reports Notifications listeners and stop server
         /// </summary>
-        void RemovePushDeliveryStatusNotificationListeners();
+        void RemovePushDeliveryStatusNotificationsListeners();
 
          /// <summary>
         /// Remove PUSH INBOUND Messages Notifications listeners and stop server
         /// </summary>
-        void RemovePushInboundMessageListeners();
+        void RemovePushInboundMessageNotificationsListeners();
 
 	}
 

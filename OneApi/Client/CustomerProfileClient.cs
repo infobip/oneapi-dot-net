@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OneApi.Model;
+using org.infobip.oneapi.model;
 
 namespace OneApi.Client.Impl
 {
     public interface CustomerProfileClient
     {
-        /// <summary>
-        /// Get configured user customer profile </summary>
-        /// <returns> CustomerProfile </returns>
-        CustomerProfile GetCustomerProfile();
-
         /// <summary>
         /// User Login </summary>
         /// <returns> LoginResponse </returns>
@@ -21,5 +17,29 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// User Logout </summary>
         void Logout();
+
+        /// <summary>
+        /// Get logged user customer profile </summary>
+        /// <returns> CustomerProfile </returns>
+        CustomerProfile GetCustomerProfile();
+
+        /// <summary>
+        /// Get logged user customer profiles list </summary>
+        /// </summary>
+        /// <returns>CustomerProfile[]</returns>
+        CustomerProfile[] GetCustomerProfiles();
+
+        /// <summary>
+        /// Retrieve specific user customer profile by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> CustomerProfile </returns>
+        CustomerProfile GetCustomerProfileByUserId(int id);
+
+        /// <summary>
+        /// Get logged user account balance </summary>
+        /// </summary>
+        /// <returns> AccountBalance </returns>
+        AccountBalance GetAccountBalance();
     }
 }

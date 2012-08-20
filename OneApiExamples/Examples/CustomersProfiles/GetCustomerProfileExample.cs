@@ -1,19 +1,18 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using OneApi.Config;
 using OneApi.Client.Impl;
 using OneApi.Model;
 
-namespace OneApi.Examples.Hlr
+namespace OneApi.Examples.CustomerProfiles
 {
-
-	public class RemoveHLRDeliveryNotificationsSubscriptionExample : ExampleBase
-	{
-
-        private static string subscriptionId = "";
-
+    class GetCustomerProfileExample : ExampleBase
+    {
         public static void Execute()
-		{
-            Configuration configuration = new Configuration(username, password);   	
+        {
+            Configuration configuration = new Configuration(username, password);    
             SMSClient smsClient = new SMSClient(configuration);
 
             //Login user
@@ -23,12 +22,9 @@ namespace OneApi.Examples.Hlr
                 Console.WriteLine("User is not verified!");
                 return;
             }
-            
-            smsClient.HlrClient.RemoveHLRDeliveryNotificationsSubscription(subscriptionId);
 
-            Console.WriteLine("Subscription canceled.");
-           
+            CustomerProfile customerProfile = smsClient.CustomerProfileClient.GetCustomerProfile();
+            Console.WriteLine(customerProfile);
         }
-	}
-
+    }
 }

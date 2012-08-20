@@ -13,7 +13,7 @@ namespace OneApi.Examples.Hlr
         private static string address = "";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3002/" 3002=Default port for 'HLR Notifications' server simulator
 
-        public static void Execute(bool isInputConfigData)
+        public static void Execute()
 		{
             Configuration configuration = new Configuration(username, password);   
 			SMSClient smsClient = new SMSClient(configuration);
@@ -26,7 +26,7 @@ namespace OneApi.Examples.Hlr
                 return;
             }
 
-            smsClient.HlrClient.AddPushHlrNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
+            smsClient.HlrClient.AddPushHLRNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
 
             smsClient.HlrClient.QueryHLRAsync(address, notifyUrl);
             Console.WriteLine("Async HLR request sent successfully.");

@@ -11,7 +11,7 @@ using OneApi.Model;
 
 namespace OneApi.Client.Impl
 {
-    
+
     public class SMSMessagingClientImpl : OneAPIBaseClientImpl, SMSMessagingClient
     {
         private const string SMS_MESSAGING_OUTBOUND_URL_BASE = "/smsmessaging/outbound";
@@ -37,15 +37,15 @@ namespace OneApi.Client.Impl
         /// Send an SMS over OneAPI to one or more mobile terminals using the customized 'SMS' object </summary>
         /// <param name="sms"> (mandatory) object containing data needed to be filled in order to send the SMS </param>
         /// <returns>string - Request Id</returns>
-        public string SendSMS(SMSRequest sms)
+        public string SendSMS(SMSRequest smsRequest)
         {
             StringBuilder urlBuilder = new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE).Append("/");
-            urlBuilder.Append(HttpUtility.UrlEncode(sms.SenderAddress));
+            urlBuilder.Append(HttpUtility.UrlEncode(smsRequest.SenderAddress));
             urlBuilder.Append("/requests");
 
-            HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(urlBuilder.ToString()), sms);
-            ResourceReference resourceReference = Deserialize<ResourceReference>(response, RESPONSE_CODE_201_CREATED, "resourceReference");
-            return GetIdFromResourceUrl(resourceReference.ResourceURL); 
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, RequestData.REQUEST_METHOD.POST, "resourceReference", smsRequest);
+            ResourceReference resourceReference = Execute<ResourceReference>(requestData);
+            return GetIdFromResourceUrl(resourceReference.ResourceURL);
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace OneApi.Client.Impl
             urlBuilder.Append(HttpUtility.UrlEncode(requestId));
             urlBuilder.Append("/deliveryInfos");
 
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<DeliveryInfoList>(response, RESPONSE_CODE_200_OK, "deliveryInfoList");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryInfoList");
+            return Execute<DeliveryInfoList>(requestData);
         }
 
         /// <summary>
@@ -87,11 +87,11 @@ namespace OneApi.Client.Impl
             }
             urlBuilder.Append("subscriptions");
 
-            HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(urlBuilder.ToString()), subscribeToDeliveryNotificationsRequest);
-            DeliveryReceiptSubscription reliveryReceiptSubscription = Deserialize<DeliveryReceiptSubscription>(response, RESPONSE_CODE_201_CREATED, "deliveryReceiptSubscription");       
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, RequestData.REQUEST_METHOD.POST, "deliveryReceiptSubscription", subscribeToDeliveryNotificationsRequest);
+            DeliveryReceiptSubscription reliveryReceiptSubscription = Execute<DeliveryReceiptSubscription>(requestData);
             return GetIdFromResourceUrl(reliveryReceiptSubscription.ResourceURL);
         }
- 
+
         /// <summary>
         /// Get delivery notifications subscriptions by sender address </summary>
         /// <param name="senderAddress"> </param>
@@ -102,8 +102,8 @@ namespace OneApi.Client.Impl
             urlBuilder.Append(HttpUtility.UrlEncode(senderAddress));
             urlBuilder.Append("/subscriptions");
 
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<DeliveryReportSubscription[]>(response, RESPONSE_CODE_200_OK, "deliveryReceiptSubscriptions");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReceiptSubscriptions");
+            return Execute<DeliveryReportSubscription[]>(requestData);
         }
 
         /// <summary>
@@ -115,8 +115,8 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<DeliveryReportSubscription>(response, RESPONSE_CODE_200_OK, "deliveryReceiptSubscription");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReceiptSubscription");
+            return Execute<DeliveryReportSubscription>(requestData);
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace OneApi.Client.Impl
         /// <returns> DeliveryReportSubscription[] </returns>
         public DeliveryReportSubscription[] GetDeliveryNotificationsSubscriptions()
         {
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(SMS_MESSAGING_OUTBOUND_URL_BASE + "/subscriptions"));
-            return Deserialize<DeliveryReportSubscription[]>(response, RESPONSE_CODE_200_OK, "deliveryReceiptSubscriptions");
+            RequestData requestData = new RequestData(SMS_MESSAGING_OUTBOUND_URL_BASE + "/subscriptions", RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReceiptSubscriptions");
+            return Execute<DeliveryReportSubscription[]>(requestData);
         }
 
         /// <summary>
@@ -136,8 +136,8 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            HttpWebResponse response = ExecuteDelete(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            validateResponse(response, RESPONSE_CODE_204_NO_CONTENT);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, RequestData.REQUEST_METHOD.DELETE);
+            Execute(requestData);
         }
 
         /// <summary>
@@ -159,8 +159,8 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?maxBatchSize=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(maxBatchSize)));
 
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<InboundSMSMessageList>(response, RESPONSE_CODE_200_OK, "inboundSMSMessageList");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "inboundSMSMessageList");
+            return Execute<InboundSMSMessageList>(requestData);
         }
 
         /// <summary>
@@ -177,15 +177,15 @@ namespace OneApi.Client.Impl
         /// <returns>string - Subscription Id </returns>
         public string SubscribeToInboundMessagesNotifications(SubscribeToInboundMessagesRequest subscribeToInboundMessagesRequest)
         {
-            HttpWebResponse response = ExecutePost(AppendMessagingBaseUrl(SMS_MESSAGING_INBOUND_URL_BASE + "/subscriptions"), subscribeToInboundMessagesRequest);
-            ResourceReference resourceReference = Deserialize<ResourceReference>(response, RESPONSE_CODE_201_CREATED, "resourceReference");    
-            return GetIdFromResourceUrl(resourceReference.ResourceURL);     
+            RequestData requestData = new RequestData(SMS_MESSAGING_INBOUND_URL_BASE + "/subscriptions", RESPONSE_CODE_201_CREATED, RequestData.REQUEST_METHOD.POST, "resourceReference", subscribeToInboundMessagesRequest);
+            ResourceReference resourceReference = Execute<ResourceReference>(requestData);
+            return GetIdFromResourceUrl(resourceReference.ResourceURL);
         }
 
         /// <summary>
         /// Get inbound messages notifications subscriptions for the current user </summary>
         /// <returns> MoSubscription[] </returns>
-        public MoSubscription[] GetInboundMessagesSubscriptions(int page, int pageSize)
+        public MoSubscription[] GetInboundMessagesNotificationsSubscriptions(int page, int pageSize)
         {
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_INBOUND_URL_BASE)).Append("/subscriptions");
             urlBuilder.Append("?page=");
@@ -193,28 +193,28 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("&pageSize=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(pageSize)));
 
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<MoSubscription[]>(response, RESPONSE_CODE_200_OK, "subscriptions");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "subscriptions");
+            return Execute<MoSubscription[]>(requestData);
         }
 
         /// <summary>
         /// Get inbound messages notifications subscriptions for the current user </summary>
         /// <returns> MoSubscription[] </returns>
-        public MoSubscription[] GetInboundMessagesSubscriptions()
+        public MoSubscription[] GetInboundMessagesNotificationsSubscriptions()
         {
-            return GetInboundMessagesSubscriptions(1, 10);
+            return GetInboundMessagesNotificationsSubscriptions(1, 10);
         }
 
         /// <summary>
         /// Stop subscribing to message receipt notifications for all your received SMS over OneAPI </summary>
         /// <param name="subscriptionId"> (mandatory) contains the subscriptionId of a previously created SMS message receipt subscription </param>
-        public void RemoveInboundMessagesSubscription(string subscriptionId)
+        public void RemoveInboundMessagesNotificationsSubscription(string subscriptionId)
         {
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_INBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            HttpWebResponse response = ExecuteDelete(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            validateResponse(response, RESPONSE_CODE_204_NO_CONTENT);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, RequestData.REQUEST_METHOD.DELETE);
+            Execute(requestData);
         }
 
         /// <summary>
@@ -227,8 +227,8 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?limit=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
 
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<DeliveryReport[]>(response, RESPONSE_CODE_200_OK, "deliveryReportList");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReportList");
+            return Execute<DeliveryReport[]>(requestData);
         }
 
         /// <summary>
@@ -252,8 +252,8 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?limit=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
 
-            HttpWebResponse response = ExecuteGet(AppendMessagingBaseUrl(urlBuilder.ToString()));
-            return Deserialize<DeliveryReport[]>(response, RESPONSE_CODE_200_OK, "deliveryReportList");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReportList");
+            return Execute<DeliveryReport[]>(requestData);
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace OneApi.Client.Impl
         /// <summary> 
         /// Add OneAPI PUSH 'Delivery Status' Notifications listener  and start push server simulator </summary>
         /// <param name="listener"> - (new DeliveryStatusNotificationListener) </param>
-        public void AddPushDeliveryStatusNotificationListener(DeliveryStatusNotificationsListener listener)
+        public void AddPushDeliveryStatusNotificationsListener(DeliveryStatusNotificationsListener listener)
         {
             if (listener == null)
             {
@@ -380,7 +380,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Add OneAPI PUSH 'INBOUND Messages' Notifications listener and start push server simulator
         /// <param name="listener"> - (new InboundMessageNotificationsListener) </param>
-        public void AddPushInboundMessageListener(InboundMessageNotificationsListener listener)
+        public void AddPushInboundMessageNotificationsListener(InboundMessageNotificationsListener listener)
         {
             if (listener == null)
             {
@@ -405,7 +405,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Returns Delivery Status Notifications PUSH Listeners list 
         /// </summary>
-        public IList<DeliveryStatusNotificationsListener> DeliveryStatusNotificationPushListeners
+        public IList<DeliveryStatusNotificationsListener> DeliveryStatusPushNotificationsListeners
         {
             get
             {
@@ -416,7 +416,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Returns INBOUND Message Notifications PUSH Listeners list
         /// </summary>
-        public IList<InboundMessageNotificationsListener> InboundMessagePushListeners
+        public IList<InboundMessageNotificationsListener> InboundMessagePushNotificationsListeners
         {
             get
             {
@@ -427,11 +427,11 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Remove PUSH Delivery Reports Notifications listeners and stop server
         /// </summary>
-        public void RemovePushDeliveryStatusNotificationListeners()
+        public void RemovePushDeliveryStatusNotificationsListeners()
         {
-            StopDlrStatusPushServerSimulator(); 
+            StopDlrStatusPushServerSimulator();
             deliveryStatusNotificationPushListenerList = null;
-           
+
             if (LOGGER.IsInfoEnabled)
             {
                 LOGGER.Info("Delivery Status Notification Listeners are successfully removed.");
@@ -441,7 +441,7 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Remove PUSH INBOUND Messages Notifications listeners and stop server
         /// </summary>
-        public void RemovePushInboundMessageListeners()
+        public void RemovePushInboundMessageNotificationsListeners()
         {
             StopInboundMessagesPushServerSimulator();
             inboundMessagePushListenerList = null;
@@ -544,8 +544,8 @@ namespace OneApi.Client.Impl
         private void StopDlrStatusPushServerSimulator()
         {
             if (dlrStatusPushServerSimulator != null)
-            {               
-                dlrStatusPushServerSimulator.Stop(); 
+            {
+                dlrStatusPushServerSimulator.Stop();
             }
         }
 
@@ -563,7 +563,7 @@ namespace OneApi.Client.Impl
         {
             if (inboundMessagesPushServerSimulator != null)
             {
-                inboundMessagesPushServerSimulator.Stop();   
+                inboundMessagesPushServerSimulator.Stop();
             }
         }
     }

@@ -53,17 +53,17 @@ namespace OneApi.Client
          /// <summary>
         /// Add OneAPI PUSH 'HLR' Notifications listener and start push server simulator 
         /// <param name="listener"> - (new HLRNotificationsListener) </param>
-        void AddPushHlrNotificationsListener(HLRNotificationsListener listener);
+        void AddPushHLRNotificationsListener(HLRNotificationsListener listener);
 
        /// <summary>
         /// Returns HLR PUSH Notifications Listeners list
         /// </summary>
-        IList<HLRNotificationsListener> HlrPushListeners { get;}
+        IList<HLRNotificationsListener> HlrPushNotificationsListeners { get;}
 
         /// <summary>
         /// Rmeove PUSH HLR Notifications listeners and stop server
         /// </summary>
-        void RemovePushHlrNotificationsListeners();
+        void RemovePushHLRNotificationsListeners();
 	}
 
 }

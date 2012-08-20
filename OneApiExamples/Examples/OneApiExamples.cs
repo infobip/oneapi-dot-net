@@ -12,11 +12,10 @@ namespace OneApi.Examples
         private static Dictionary<string, string> projectClasses = new Dictionary<string, string>();
 
         static void Main(string[] args)
-		{
-            bool isInputConfigData = (args.Length > 0 && args[0].ToLower().Equals("input"));
-
+		{        
             int i = 1;
             WriteNamespaceClasses("OneApi.Scenarios", ref i);
+            WriteNamespaceClasses("OneApi.Examples.CustomerProfiles", ref i);
             WriteNamespaceClasses("OneApi.Examples.SmsMessaging", ref i);
             WriteNamespaceClasses("OneApi.Examples.Hlr", ref i);
             WriteNamespaceClasses("OneApi.Examples.ConfigFile", ref i);
@@ -45,17 +44,7 @@ namespace OneApi.Examples
             Type t  = Type.GetType(selectedClassName);
             MethodInfo method = t.GetMethod("Execute", BindingFlags.Static | BindingFlags.Public);
 
-            Object[] param = null;
-            if (method.GetParameters() != null)
-            {
-                if (method.GetParameters().Length > 0) 
-                {
-                    param = new Object[1];
-                    param[0] = isInputConfigData;    
-                }      
-            }
-
-            method.Invoke(null, param);
+            method.Invoke(null, null);
 
             Console.WriteLine("");
             Console.ReadKey();

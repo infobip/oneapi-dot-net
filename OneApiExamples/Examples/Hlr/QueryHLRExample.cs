@@ -6,15 +6,13 @@ using OneApi.Model;
 namespace OneApi.Examples.Hlr
 {
 
-    public class QueryHLRSyncExample : ExampleBase
+    public class QueryHLRExample : ExampleBase
 	{
 
         private static string address = "";
 
         public static void Execute()
 		{
-            log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo("OneApiExamples.exe.config"));
-
             Configuration configuration = new Configuration(username, password);    
 			SMSClient smsClient = new SMSClient(configuration);
 
@@ -26,7 +24,7 @@ namespace OneApi.Examples.Hlr
                 return;
             }
 
-            Roaming roaming = smsClient.HlrClient.QueryHLRSync(address);
+            Roaming roaming = smsClient.HlrClient.QueryHLR(address);
 			Console.WriteLine("HLR: " + roaming);
 		}
 	}

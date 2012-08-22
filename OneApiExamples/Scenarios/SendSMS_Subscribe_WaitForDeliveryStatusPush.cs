@@ -1,14 +1,11 @@
 using System;
-using System.Net;
-using System.Text;
 using System.IO;
 using log4net.Config;
-using OneApi.Config;
 using OneApi.Client.Impl;
-using OneApi.Exceptions;
-using OneApi.Model;
-using OneApi.Examples;
+using OneApi.Config;
 using OneApi.Listeners;
+using OneApi.Model;
+using OneApi.Exceptions;
 
 namespace OneApi.Scenarios
 {
@@ -20,7 +17,7 @@ namespace OneApi.Scenarios
       *
       *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project    
       *
-      *  3.) Open 'Scenarios.SendSMS_PushDeliveryStatusNotification' class to edit where you should populate the following fields: 
+      *  3.) Open 'Scenarios.SendSMS_Subscribe_WaitForDeliveryStatusPush' class to edit where you should populate the following fields: 
       *		'senderAddress'     'notifyUrl'   'username'
       *		'message'           'criteria'    'password'        
       *		'recipientAddress'   
@@ -35,33 +32,32 @@ namespace OneApi.Scenarios
       *  subscribing for the notifications using the 'SubscribeToDeliveryStatusNotifications' method.
       **/
 
-    public class SendSMS_PushDeliveryStatusNotification 
+    public class SendSMS_Subscribe_WaitForDeliveryStatusPush 
     {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
         private static string senderAddress = "";
         private static string message = "";
         private static string recipientAddress = "";
-        private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3000/" 3000=Default port for 'Delivery status Notifications' server simulator
+        private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3000/" 3000=Default port for 'Delivery Info Notifications' server simulator
         private static string criteria = "";
-
-           
+  
         public static void Execute()
         {
-            //Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
-            //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
+            // Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
+            // Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
 
-            //Initialize Configuration object 
-            Configuration configuration = new Configuration(username, password);
-           
-            //Initialize SMSClient using the Configuration object
-            SMSClient smsClient = new SMSClient(configuration);
-
             try
             {
-                //Login user
+                // Initialize Configuration object 
+                Configuration configuration = new Configuration(username, password);
+
+                // Initialize SMSClient using the Configuration object
+                SMSClient smsClient = new SMSClient(configuration);
+
+                // Login sms client
                 LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
                 if (loginResponse.Verified == false)
                 {
@@ -69,43 +65,39 @@ namespace OneApi.Scenarios
                     return;
                 }
 
-                //Add listener(start push server and wait for the Delivery Status Notifications)    
-                smsClient.SmsMessagingClient.AddPushDeliveryStatusNotificationsListener(new DeliveryStatusNotificationsListener(OnDeliveryInfoNotificationReceived));
+                // Add listener(start push server and wait for the 'Delivery Info Notifications')    
+                smsClient.SmsMessagingClient.AddPushDeliveryStatusNotificationsListener(new DeliveryStatusNotificationsListener((deliveryInfoNotification) =>
+                {
+                    // Handle pushed 'Delivery Info Notification'
+                    if (deliveryInfoNotification != null)
+                    {
+                        string deliveryStatus = deliveryInfoNotification.DeliveryInfo.DeliveryStatus;
+                        Console.WriteLine(deliveryStatus);
+                    }  
+                }));
 
-                //Subscribe to the Delivery Status notifications
+                // Store 'Delivery Info Notifications' subscription id because we can later remove subscription with it:
                 string subscriptionId = smsClient.SmsMessagingClient.SubscribeToDeliveryStatusNotifications(new SubscribeToDeliveryNotificationsRequest(senderAddress, notifyUrl, criteria, "", ""));
-                Console.WriteLine("Subscription Id: " + subscriptionId);
-
-                //Send SMS to 1 recipients (instead passing one recipient address you can put the recipeints addresses string array)
+               
+                // Send SMS 
                 string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, criteria + message, recipientAddress));
-                Console.WriteLine("Request Id: " + requestId);
 
-                //Waiting 2 minutes for the  'Delivery Info Notification' before close the server connection and canceling subscription.   
-                Console.WriteLine("Waiting 2 minutes for the Delivery Info Notifications.. after that subscription will be removed and push server connection will be closed."); 
-                System.Threading.Thread.Sleep(120000);
+                // Wait 30 seconds for 'Delivery Info Notification' push-es before removing subscription and closing the server connection 
+                System.Threading.Thread.Sleep(30000);
 
-                //Remove Delivery Status Notifications subscription
+                // Remove 'Delivery Info Notifications' subscription
                 smsClient.SmsMessagingClient.RemoveDeliveryNotificationsSubscription(subscriptionId);
 
-                //Logout user
+                // Logout sms client
                 smsClient.CustomerProfileClient.Logout();
 
-                //Remove Delivery Status Notification Listeners and stop the server
+                // Remove 'Delivery Info Notifications' push listeners and stop the server
                 smsClient.SmsMessagingClient.RemovePushDeliveryStatusNotificationsListeners();     
             }
             catch (RequestException e)
             {
-                Console.WriteLine("Request Exception: " + e.Message);
+                Console.WriteLine(e.Message);
             }          
-        }
-
-        //Handle pushed Delivery Info Notification
-        private static void OnDeliveryInfoNotificationReceived(DeliveryInfoNotification deliveryInfoNotification)
-        {
-            if (deliveryInfoNotification != null) 
-            {
-                Console.WriteLine("Delivery Info Notification " + deliveryInfoNotification);
-            }  
-        }
+        }  
     }
 }

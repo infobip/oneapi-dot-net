@@ -36,20 +36,20 @@ namespace OneApi.Scenarios
 
         public static void Execute()
         {
-            //Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
-            //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
+            // Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
+            // Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
 
-            //Initialize Configuration object 
+            // Initialize Configuration object 
             Configuration configuration = new Configuration(username, password);
            
-            //Initialize SMSClient using the Configuration object
+            // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
             try
             {
-                //Login user
+                // Login sms client
                 LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
                 if (loginResponse.Verified == false)
                 {
@@ -57,24 +57,22 @@ namespace OneApi.Scenarios
                     return;
                 }
 
-                //Send SMS to 1 recipients (instead passing one recipient address you can put the recipeints addresses string array)
+                // Send SMS 
                 string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
-                Console.WriteLine("Request Id: " +  requestId);
+              
+                // Wait for 30 seconds to give enought time for the message to be delivered
+                System.Threading.Thread.Sleep(30000);
 
-                //Waiting 2 minutes to give enought time for the message to be delivered
-                Console.WriteLine("Waiting 2 minutes to give enought time for the message to be delivered..");
-                System.Threading.Thread.Sleep(120000);
+                // Get 'Delivery Reports'
+                DeliveryReportList deliveryReportList = smsClient.SmsMessagingClient.GetDeliveryReports();
+                Console.WriteLine(deliveryReportList);
 
-                //Get Delivery Reports
-                DeliveryReport[] deliveryReports = smsClient.SmsMessagingClient.GetDeliveryReports();
-                Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReports));
-
-                //Logout user
+                // Logout sms client
                 smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {
-                Console.WriteLine("Request Exception: " + e.Message);
+                Console.WriteLine(e.Message);
             }   
         }
     }

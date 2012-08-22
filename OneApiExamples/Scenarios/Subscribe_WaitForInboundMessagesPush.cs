@@ -20,7 +20,7 @@ namespace OneApi.Scenarios
      *
      *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project    
      *
-     *  3.) Open 'Scenarios.PushInboundMessagesNotification' class to edit where you should populate the following fields: 
+     *  3.) Open 'Scenarios.Subscribe_WaitForInboundMessagesPush' class to edit where you should populate the following fields: 
      *		'destinationAddress'    'notificationFormat'
      *		'username'              'notifyUrl'           
      *		'password'              'criteria' 
@@ -35,7 +35,7 @@ namespace OneApi.Scenarios
      *  subscribing for the notifications using the 'SubscribeToInboundMessagesNotifications' method.
      **/
 
-    public class PushInboundMessagesNotification 
+    public class Subscribe_WaitForInboundMessagesPush 
     {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
@@ -46,20 +46,20 @@ namespace OneApi.Scenarios
            
         public static void Execute()
         {
-            //Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
-            //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
+            // Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
+            // Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
 
-            //Initialize Configuration object 
+            // Initialize Configuration object 
             Configuration configuration = new Configuration(username, password);           
 
-            //Initialize SMSClient using the Configuration object
+            // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
             try
             {
-                //Login user
+                // Login sms client
                 LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
                 if (loginResponse.Verified == false)
                 {
@@ -67,36 +67,32 @@ namespace OneApi.Scenarios
                     return;
                 }
 
-                //Add listener(start push server and wait for the Inbound Message Notifications)    
-                smsClient.SmsMessagingClient.AddPushInboundMessageNotificationsListener(new InboundMessageNotificationsListener(OnMessageReceived));
+                // Add listener(start push server and wait for the 'Inbound Message Notifications')    
+                smsClient.SmsMessagingClient.AddPushInboundMessageNotificationsListener(new InboundMessageNotificationsListener((smsMessageList) =>
+                {
+                    // Handle pushed 'Inbound Message Notification'
+                    Console.WriteLine(smsMessageList);      
+                }));
 
-                //Subscribe to the Inbound Message notifications
+                //Store 'Inbound Message Notifications' subscription id because we can later remove subscription with it:
                 string subscriptionId = smsClient.SmsMessagingClient.SubscribeToInboundMessagesNotifications(new SubscribeToInboundMessagesRequest(destinationAddress, notifyUrl, criteria, notificationFormat, "", ""));
-                Console.WriteLine("Subscription Id: " + subscriptionId);
+               
+                // Wait 30 seconds for 'Inbound Message Notification' push-es before removing subscription and closing the server connection 
+                System.Threading.Thread.Sleep(30000);
 
-                //Waiting 2 minutes for the  'Inbound Message Notification' before close the server connection and canceling subscription.   
-                Console.WriteLine("Waiting 2 minutes for the Inbound Message Notifications.. after that subscription will be removed and push server connection will be closed."); 
-                System.Threading.Thread.Sleep(120000);
-
-                //Remove Inbound Message Notifications subscription
+                //Remove 'Inbound Message Notifications' subscription
                 smsClient.SmsMessagingClient.RemoveInboundMessagesNotificationsSubscription(subscriptionId);
 
-                //Logout user
+                //Logout sms client
                 smsClient.CustomerProfileClient.Logout();
 
-                //Remove Inbound Message Notification Listeners and stop the server
+                //Remove 'Inbound Message Notifications' push listeners and stop the server
                 smsClient.SmsMessagingClient.RemovePushInboundMessageNotificationsListeners();    
             }
             catch (RequestException e)
             {
-                Console.WriteLine("Request Exception: " + e.Message);
+                Console.WriteLine(e.Message);
             }
-        }
-
-        //Handle pushed Inbound Messages Notification
-        private static void OnMessageReceived(InboundSMSMessageList smsMessageList)
-        {
-            Console.WriteLine("Inbound Messages " + string.Join("Inbound Message: ", (Object[])smsMessageList.InboundSMSMessage));             
-        }
+        } 
     }
 }

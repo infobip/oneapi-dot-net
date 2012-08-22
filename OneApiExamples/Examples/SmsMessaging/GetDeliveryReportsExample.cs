@@ -10,8 +10,8 @@ namespace OneApi.Examples.SmsMessaging
     { 
 
         public static void Execute() 
-        {        
-            Configuration configuration = new Configuration(username, password);    
+        {
+            Configuration configuration = new Configuration(username, password); 
             SMSClient smsClient = new SMSClient(configuration);
 
             //Login user
@@ -21,9 +21,9 @@ namespace OneApi.Examples.SmsMessaging
                 Console.WriteLine("User is not verified!");
                 return;
             }
-
-            DeliveryReport[] deliveryReports = smsClient.SmsMessagingClient.GetDeliveryReports();
-            Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReports)); 
+            
+            DeliveryReportList deliveryReportList = smsClient.SmsMessagingClient.GetDeliveryReports();
+            Console.WriteLine("Delivery Reports: " + deliveryReportList); 
         }    
     }
 

@@ -9,6 +9,7 @@ namespace OneApi.Retrievers
     using RequestException = OneApi.Exceptions.RequestException;
     using DeliveryReportListener = OneApi.Listeners.DeliveryReportListener;
     using DeliveryReport = OneApi.Model.DeliveryReport;
+    using OneApi.Model;
 
     public class DeliveryReportRetriever
     {
@@ -52,11 +53,12 @@ namespace OneApi.Retrievers
                 {
                     try
                     {
-                        DeliveryReport[] deliveryReports = smsMessagingImpl.GetDeliveryReports();
-                        if ((deliveryReports != null) &&
-                            (deliveryReports.Length > 0))
+                        DeliveryReportList deliveryReportList = smsMessagingImpl.GetDeliveryReports();
+                        if ((deliveryReportList != null) &&
+                            (deliveryReportList.DeliveryReports != null) &&
+                            (deliveryReportList.DeliveryReports.Length > 0))
                         {
-                            FireReportRetrieved(deliveryReports, null); 
+                            FireReportRetrieved(deliveryReportList, null); 
                         }
                     }
                     catch (RequestException e)
@@ -66,11 +68,11 @@ namespace OneApi.Retrievers
                 }
             }
 
-            private void FireReportRetrieved(DeliveryReport[] deliveryReports, Exception e)
+            private void FireReportRetrieved(DeliveryReportList deliveryReportList, RequestException e)
             {
                 for (int i = 0; i < this.smsMessagingImpl.DeliveryReportPullListeners.Count; i++)
                 {
-                    smsMessagingImpl.DeliveryReportPullListeners[i].OnDeliveryReportReceived(deliveryReports, e);
+                    smsMessagingImpl.DeliveryReportPullListeners[i].OnDeliveryReportReceived(deliveryReportList, e);
                 }
             }
         }

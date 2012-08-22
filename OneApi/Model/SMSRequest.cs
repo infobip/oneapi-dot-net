@@ -18,7 +18,7 @@ namespace OneApi.Model
 		}
 
 		/// <summary>
-		/// Initialize SMS object using mandatory parameters </summary>
+        /// Initialize SMSRequest object using mandatory parameters </summary>
 		/// <param name="senderAddress"> is the address to whom a responding SMS may be sent </param>
 		/// <param name="recipientAddress"> contains one or more addresses for end user ID to send to </param>
 		/// <param name="message"> contains the message text to send </param>
@@ -30,7 +30,7 @@ namespace OneApi.Model
 		}
 
 		/// <summary>
-		/// Initialize SMS object using mandatory parameters </summary>
+        /// Initialize SMSRequest object using mandatory and optional parameters </summary>
 		/// <param name="senderAddress"> is the address to whom a responding SMS may be sent </param>
 		/// <param name="recipientAddress"> contains one or more addresses for end user ID to send to </param>
 		/// <param name="message"> contains the message text to send </param>

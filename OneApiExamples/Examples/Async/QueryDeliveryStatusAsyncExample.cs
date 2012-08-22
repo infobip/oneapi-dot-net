@@ -4,15 +4,14 @@ using OneApi.Client.Impl;
 using OneApi.Model;
 using OneApi.Listeners;
 
-namespace OneApi.Examples.SmsMessaging
+namespace OneApi.Examples.Async
 {
 
-    public class SendSMSExample : ExampleBase
+    public class QueryDeliveryStatusAsyncExample : ExampleBase
     {
 
         private static string senderAddress = "";
-        private static string message = "";
-        private static string recipientAddress = "";
+        private static string requestId = "";
 
         public static void Execute()
         {
@@ -27,8 +26,16 @@ namespace OneApi.Examples.SmsMessaging
                 return;
             }
 
-            string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
-            Console.WriteLine("Request Id: " + requestId);       
-        } 
+            smsClient.SmsMessagingClient.QueryDeliveryStatusAsync(senderAddress, requestId, (deliveryInfoList, e) =>
+            {
+                if (e == null)
+                {
+                    Console.WriteLine("Delivery Infos: " + string.Join("Delivery Info: ", deliveryInfoList.DeliveryInfos));  
+                } else {
+                    Console.WriteLine("Exception: " + e.Message); 
+                }    
+            });  
+
+        }
     }
 }

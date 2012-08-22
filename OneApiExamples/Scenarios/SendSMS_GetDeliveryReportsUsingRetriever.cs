@@ -40,20 +40,20 @@ namespace OneApi.Scenarios
 
         public static void Execute()
         {
-            //Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
-            //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
+            // Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
+            // Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
 
-            //Initialize Configuration object 
+            // Initialize Configuration object 
             Configuration configuration = new Configuration(username, password);
           
-            //Initialize SMSClient using the Configuration object
+            // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
             try
             {
-                //Login user
+                // Login sms client
                 LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
                 if (loginResponse.Verified == false)
                 {
@@ -61,40 +61,36 @@ namespace OneApi.Scenarios
                     return;
                 }
 
-                //Add listener(start retriever and pull Delivery Reports)  
-                smsClient.SmsMessagingClient.AddPullDeliveryReportListener(new DeliveryReportListener(OnDeliveryReportReceived));
+                // Add listener(start retriever and pull 'Delivery Reports')  
+                smsClient.SmsMessagingClient.AddPullDeliveryReportListener(new DeliveryReportListener((deliveryReportList, e) =>
+                {
+                    //Handle pulled 'Delivery Reports'
+                    if (e == null)
+                    {
+                        Console.WriteLine(deliveryReportList);
+                    }
+                    else
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }));
 
-                //Send SMS to 1 recipients (instead passing one recipient address you can put the recipeints addresses string array)
+                // Send SMS 
                 string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
-                Console.WriteLine("Request Id: " +  requestId);
+              
+                // Wait 30 seconds for the 'Delivery Reports' before stop the retriever  
+                System.Threading.Thread.Sleep(30000);
 
-                //Waiting 2 minutes for the 'Delivery Reports' before stop the retriever.   
-                Console.WriteLine("Waiting 2 minutes for the Delivery Reports.. after that 'Delivery Reports' retriever will be stopped.");
-                System.Threading.Thread.Sleep(120000);
-
-                //Logout user
+                // Logout sms client
                 smsClient.CustomerProfileClient.Logout();
+
+                // Remove 'Delivery Reports' pull listeners and stop the retriever
+                smsClient.SmsMessagingClient.RemovePullDeliveryReportListeners();     
             }
             catch (RequestException e)
             {
-                Console.WriteLine("Request Exception: " + e.Message);
-            }
-
-            //Remove Delivery Reports Listeners and stop the retriever
-            smsClient.SmsMessagingClient.RemovePullDeliveryReportListeners();        
-        }
-
-        //Handle pulled Delivery Reports
-        private static void OnDeliveryReportReceived(DeliveryReport[] deliveryReports, Exception e)
-        {
-            if (e == null)
-            {
-                Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReports));
-            }
-            else
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
+                Console.WriteLine(e.Message);
+            }    
         }
     }
 }

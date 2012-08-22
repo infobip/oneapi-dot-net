@@ -1,5 +1,6 @@
 using System;
 using OneApi.Model;
+using OneApi.Exceptions;
 
 namespace OneApi.Listeners
 {
@@ -7,18 +8,18 @@ namespace OneApi.Listeners
 	public class DeliveryReportListener
 	{
 
-        private readonly Action<DeliveryReport[], Exception> _onDeliveryReportReceived;
+        private readonly Action<DeliveryReportList, RequestException> _onDeliveryReportReceived;
 
-        public DeliveryReportListener(Action<DeliveryReport[], Exception> onDeliveryReportReceived)    
+        public DeliveryReportListener(Action<DeliveryReportList, RequestException> onDeliveryReportReceived)    
         {       
              _onDeliveryReportReceived = onDeliveryReportReceived;    
         }
 
-        public void OnDeliveryReportReceived(DeliveryReport[] deliveryReports, Exception e) 
+        public void OnDeliveryReportReceived(DeliveryReportList deliveryReportList, RequestException e) 
         {
             if (_onDeliveryReportReceived != null) 
             {
-                _onDeliveryReportReceived(deliveryReports, e); 
+                _onDeliveryReportReceived(deliveryReportList, e); 
             } 
         } 
 	}

@@ -4,10 +4,10 @@ using OneApi.Client.Impl;
 using OneApi.Model;
 using OneApi.Listeners;
 
-namespace OneApi.Examples.SmsMessaging
+namespace OneApi.Examples.Async
 {
 
-    public class SendSMSExample : ExampleBase
+    public class SendSMSAsyncExample : ExampleBase
     {
 
         private static string senderAddress = "";
@@ -16,7 +16,7 @@ namespace OneApi.Examples.SmsMessaging
 
         public static void Execute()
         {
-            Configuration configuration = new Configuration(username, password);      
+            Configuration configuration = new Configuration(username, password);
             SMSClient smsClient = new SMSClient(configuration);
 
             //Login user
@@ -27,8 +27,18 @@ namespace OneApi.Examples.SmsMessaging
                 return;
             }
 
-            string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
-            Console.WriteLine("Request Id: " + requestId);       
-        } 
+            smsClient.SmsMessagingClient.SendSMSAsync(new SMSRequest(senderAddress, message, recipientAddress), (requestId, e) =>
+            {
+                if (e == null)
+                {
+                    Console.WriteLine("Request Id: " + requestId);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + e.Message);
+                }
+            });
+
+        }
     }
 }

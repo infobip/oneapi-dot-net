@@ -6,7 +6,7 @@ using OneApi.Model;
 namespace OneApi.Examples.SmsMessaging
 {
 
-    public class ConvertJsonToDeliveryInfoListExample
+    public class ConvertJsonToDeliveryInfoNotificationExample
 	{
         private const string JSON = "{\"deliveryInfoNotification\":{\"deliveryInfo\":{\"address\":\"38454234234\",\"deliveryStatus\":\"DeliveredToTerminal\"},\"callbackData\":\"\"}}";
 
@@ -15,7 +15,7 @@ namespace OneApi.Examples.SmsMessaging
             Configuration configuration = new Configuration();
             SMSClient smsClient = new SMSClient(configuration);
 
-            DeliveryInfoNotification deliveryInfoNotification = smsClient.SmsMessagingClient.ConvertJsonToDeliveryInfo(JSON);
+            DeliveryInfoNotification deliveryInfoNotification = smsClient.SmsMessagingClient.ConvertJsonToDeliveryInfoNotification(JSON);
             Console.WriteLine("Delivery Info Notification: " + deliveryInfoNotification);   
         }
 	}

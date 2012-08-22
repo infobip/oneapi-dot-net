@@ -15,6 +15,8 @@ using System.ComponentModel;
 using OneApi.Config;
 using OneApi.Exceptions;
 using OneApi.Model;
+using System.Threading;
+using RestSharp;
 
 namespace OneApi.Client.Impl
 {
@@ -25,7 +27,7 @@ namespace OneApi.Client.Impl
     /// </summary>
     public class OneAPIBaseClientImpl
     {
-        protected static readonly log4net.ILog LOGGER = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        protected static log4net.ILog LOGGER = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         protected const int RESPONSE_CODE_200_OK = 200;
 
@@ -33,10 +35,9 @@ namespace OneApi.Client.Impl
 
         protected const int RESPONSE_CODE_204_NO_CONTENT = 204;
 
-        private const string URL_ENCODED_CONTENT_TYPE = "application/x-www-form-urlencoded";
-
         private Configuration configuration = null;
 
+        private RestClient client = null;
 
         /// <summary>
         /// Initialize OneAPIClientBase </summary>
@@ -44,6 +45,7 @@ namespace OneApi.Client.Impl
         protected OneAPIBaseClientImpl(Configuration configuration)
         {
             this.configuration = configuration;
+            SetRestClient();
         }
 
         /// <summary>
@@ -58,135 +60,96 @@ namespace OneApi.Client.Impl
         }
 
         /// <summary>
+        /// Set Rest Client
+        /// </summary>
+        private void SetRestClient()
+        {
+            client = new RestClient(configuration.ApiUrl + "/" + configuration.VersionOneAPISMS);
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            AssemblyName assemblyName = new AssemblyName(assembly.FullName);
+            Version version = assemblyName.Version;
+
+            client.UserAgent = "OneApi-C#-" + version;
+        }
+
+        /// <summary>
         /// Execute method and deserialize response json
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="requestData"></param>
-        /// <returns></returns>
-        protected T Execute<T>(RequestData requestData)
+        /// <returns>T</returns>
+        protected T ExecuteMethod<T>(RequestData requestData)
         {
-            HttpWebResponse response = SendOneAPIRequest(requestData);
+            IRestResponse response = SendOneAPIRequest(requestData);
             return Deserialize<T>(response, requestData.RequiredStatus, requestData.RootElement);
         }
 
         /// <summary>
-        /// Execute method and validate response
+        /// Execute method asynchronously and deserialize response json
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="requestData"></param>
-        protected void Execute(RequestData requestData)
+        /// <param name="callbackResponse"></param>
+        /// 
+        protected void ExecuteMethodAsync<T>(RequestData requestData, Action<T, RequestException> callbackResponse) where T : new()
         {
-            HttpWebResponse response = SendOneAPIRequest(requestData);
-            validateResponse(response, requestData.RequiredStatus);
+            SendOneAPIRequestAsync(requestData, callbackResponse);
         }
 
         /// <summary>
-        /// Setup connection </summary>
-        /// <param name="requestMethod"> </param>
-        /// <param name="apiUrl"> </param>
-        /// <param name="formParams"> </param>
-        /// <param name="contentType"> </param>
-        /// <returns> HttpWebResponse </returns>
-        /// <exception cref="RequestException"> </exception>
-        private HttpWebResponse SendOneAPIRequest(RequestData requestData)
+        /// Execute method and validate response 
+        /// </summary>
+        /// <param name="requestData"></param>
+        protected void ExecuteMethod(RequestData requestData)
         {
-            try
-            {
-                HttpWebRequest request = null;
-                HttpWebResponse response = null;
-
-                //append base url
-                requestData.ApiUrl = AppendMessagingBaseUrl(requestData.ApiUrl);
-
-                //setup connection with custom authorization
-                if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.IBSSO))
-                {
-                    request = SetupRequestWithCustomAuthorization(requestData.ApiUrl, "IBSSO", configuration.Authentication.IbssoToken);
-                }
-                else if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.OAUTH))
-                {
-                    request = SetupRequestWithCustomAuthorization(requestData.ApiUrl, "OAuth", configuration.Authentication.AccessToken);
-                }
-
-                //Set Content Type
-                if (requestData.RequestMethod == RequestData.REQUEST_METHOD.POST)
-                {
-                    request.ContentType = URL_ENCODED_CONTENT_TYPE;
-                }
-
-                request.Accept = "*/*";
-                request.UserAgent = "OneApi-C#-" + SMSClient.VERSION;
-
-                //Set Request Method
-                request.Method = requestData.RequestMethod.ToString();
-
-                //Set Request Body
-                if (requestData.FormParams != null)
-                {
-                    // Encode form params to byte array
-                    byte[] formParamsByteArray = FormEncodeParams(requestData.FormParams);
-                    if (formParamsByteArray != null)
-                    {
-                        request.ContentLength = formParamsByteArray.Length;
-
-                        // Get the request stream.
-                        Stream dataStream = request.GetRequestStream();
-
-                        // Write the data to the request stream.
-                        dataStream.Write(formParamsByteArray, 0, formParamsByteArray.Length);
-                        // Close the Stream object.
-                        dataStream.Close();
-                    }
-                }
-
-                if (LOGGER.IsDebugEnabled)
-                {
-                    LOGGER.Debug("Getting response...");
-                }
-                // Get the response.
-                response = (HttpWebResponse)request.GetResponse();
-                return response;
-            }
-            catch (WebException e)
-            {
-                if (e.Response == null)
-                {
-                    throw new RequestException(e.Message);
-                }
-
-                return (HttpWebResponse)e.Response;
-            }
+            IRestResponse response = SendOneAPIRequest(requestData);
+            ValidateResponse(response, requestData.RequiredStatus);
         }
 
-        private HttpWebRequest SetupRequestWithCustomAuthorization(string url, string authorizationScheme, string authHeaderValue)
+        /// <summary>
+        /// Send OneAPI request
+        /// </summary>
+        /// <param name="requestData"></param>
+        /// <returns> IRestResponse </returns>
+        private IRestResponse SendOneAPIRequest(RequestData requestData)
         {
-            if (LOGGER.IsDebugEnabled)
+            RestRequest request = CreateRequest(requestData);
+            return client.Execute(request);
+        }
+
+        /// <summary>
+        /// Send OneAPI request asynchronously
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestData"></param>
+        /// <param name="callbackResponse"></param>
+        private void SendOneAPIRequestAsync<T>(RequestData requestData, Action<T, RequestException> callbackResponse) where T : new()
+        {
+            RestRequest request = CreateRequest(requestData);
+
+            client.ExecuteAsync(request, (response) =>
             {
-                LOGGER.Debug("Initiating connection to URL: " + url);
-            }
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-
-            if (authHeaderValue != null)
-            {
-                request.Headers.Add("Authorization", authorizationScheme + " " + authHeaderValue);
-
-                if (LOGGER.IsDebugEnabled)
+                try
                 {
-                    LOGGER.Debug("Authorization type " + authorizationScheme + " using " + authHeaderValue);
+                    T jsonObject = Deserialize<T>(response, requestData.RequiredStatus, requestData.RootElement);
+                    callbackResponse(jsonObject, null);
                 }
-            }
-            return request;
+                catch (RequestException e )
+                {
+                    callbackResponse(new T(), e);
+                }
+            });
         }
 
-        private string GetAuthorizationHeader(string username, string password)
+        /// <summary>
+        /// Add Request parameters 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="formParams"></param>
+        protected void AddRequestParams(ref RestRequest request, object formParams)
         {
-            string credentials = username + ":" + password;
-            byte[] credentialsAsBytes = Encoding.UTF8.GetBytes(credentials);
-            return System.Convert.ToBase64String(credentialsAsBytes).Trim();
-        }
-
-        private byte[] FormEncodeParams(object formParams)
-        {
+  
             Dictionary<string, object> formParamsDictionary = formParams.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(prop => (prop.GetCustomAttributes(typeof(DisplayNameAttribute), false).First() as DisplayNameAttribute).DisplayName, prop => prop.GetValue(formParams, null));
 
             if (formParamsDictionary == null)
@@ -195,11 +158,9 @@ namespace OneApi.Client.Impl
                 {
                     LOGGER.Debug("No request form parameters!");
                 }
-                return null;
+                return;
             }
 
-            StringBuilder sb = new StringBuilder();
-            int i = 0;
             foreach (KeyValuePair<string, object> entry in formParamsDictionary)
             {
                 if (entry.Value != null)
@@ -211,55 +172,66 @@ namespace OneApi.Client.Impl
                         {
                             if (arrItem != null)
                             {
-                                AppendEncodedParam(sb, entry.Key, arrItem, i++);
+                                request.AddParameter(entry.Key, arrItem, ParameterType.GetOrPost);
                             }
                         }
                     }
                     else
                     {
-                        AppendEncodedParam(sb, entry.Key, entry.Value, i++);
+                        request.AddParameter(entry.Key, Convert.ToString(entry.Value), ParameterType.GetOrPost);
                     }
                 }
             }
 
             if (LOGGER.IsDebugEnabled)
             {
-                LOGGER.Debug("Request form parameters: " + sb.ToString());
+                LOGGER.Debug("Request form parameters: " + string.Join(", ", (Object[])request.Parameters.ToArray()));
             }
-
-            return Encoding.UTF8.GetBytes(sb.ToString());
         }
 
-        private void AppendEncodedParam(StringBuilder sb, string key, object value, int paramCounter)
+        private RestRequest CreateRequest(RequestData requestData)
         {
-            if (paramCounter > 0)
+            if (LOGGER.IsDebugEnabled)
             {
-                sb.Append("&");
+                LOGGER.Debug("Initiating connection to resource path: " + requestData.ResourcePath);
             }
-            sb.Append(HttpUtility.UrlEncode(key));
-            sb.Append("=");
-            sb.Append(HttpUtility.UrlEncode(Convert.ToString(value)));
+
+            RestRequest request = new RestRequest(requestData.ResourcePath);
+
+            //setup connection with custom authorization
+            if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.IBSSO))
+            {
+                request = SetupRequestWithCustomAuthorization(ref request, "IBSSO", configuration.Authentication.IbssoToken);
+            }
+            else if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.OAUTH))
+            {
+                request = SetupRequestWithCustomAuthorization(ref request, "OAuth", configuration.Authentication.AccessToken);
+            }
+
+            request.AddHeader("Accept", "*/*");
+            request.Method = requestData.RequestMethod;
+
+            if (requestData.RequestMethod == Method.POST && requestData.FormParams != null)
+            {
+                AddRequestParams(ref request, requestData.FormParams);
+            }
+
+            return request;
         }
 
-        /// <summary>
-        /// Build url, append relativeScopeUrl to the messagingBaseUrl </summary>
-        /// <param name="relativeApiUrl"> relative URL </param>
-        /// <returns> String </returns>
-        protected internal string AppendMessagingBaseUrl(string relativeApiUrl)
+        private RestRequest SetupRequestWithCustomAuthorization(ref RestRequest request, string authorizationScheme, string authHeaderValue)
         {
-            StringBuilder urlBuilder = new StringBuilder(configuration.ApiUrl);
-            if (!configuration.ApiUrl.EndsWith("/"))
+            if (authHeaderValue != null)
             {
-                urlBuilder.Append("/");
-            }
-            urlBuilder.Append(configuration.VersionOneAPISMS);
-            if (!relativeApiUrl.StartsWith("/"))
-            {
-                urlBuilder.Append("/");
+                request.AddHeader("Authorization", authorizationScheme + " " + authHeaderValue);
+
+                if (LOGGER.IsDebugEnabled)
+                {
+                    LOGGER.Debug("Authorization type " + authorizationScheme + " using " + authHeaderValue);
+                }
             }
 
-            urlBuilder.Append(relativeApiUrl);
-            return urlBuilder.ToString();
+            return request;
         }
 
         /// <summary>
@@ -268,15 +240,18 @@ namespace OneApi.Client.Impl
         /// <param name="response"> </param>
         /// <param name="requiredStatus"> </param>
         /// <param name="rootElement"> </param>
-        protected internal T Deserialize<T>(HttpWebResponse response, int requiredStatus, string rootElement)
+        protected T Deserialize<T>(IRestResponse response, int requiredStatus, string rootElement)
         {
-            String json = String.Empty;
+            if (LOGGER.IsDebugEnabled)
+            {
+                LOGGER.Debug("Response status code: " + (int)response.StatusCode);
+            }
 
             if (((int)response.StatusCode) == (requiredStatus))
             {
                 try
                 {
-                    return DeserializeStream<T>(response.GetResponseStream(), response.CharacterSet, rootElement);
+                    return DeserializeStream<T>(response.Content, rootElement);
                 }
                 catch (Exception e)
                 {
@@ -291,47 +266,34 @@ namespace OneApi.Client.Impl
         }
 
         /// <summary>
-        /// Deserialize request stream
-        /// </summary>
-        /// <param name="request"> </param>
-        /// <param name="rootElement"> </param>
-        protected internal T Deserialize<T>(HttpWebRequest request, string rootElement)
-        {
-            return DeserializeStream<T>(request.GetRequestStream(), Encoding.UTF8.BodyName, rootElement);
-        }
-
-        /// <summary>
         /// Deserialize from stream
         /// </summary>
         /// <param name="request"> </param>
         /// <param name="rootElement"> </param>
-        protected internal T DeserializeStream<T>(Stream stream, string characterSet, string rootElement)
+        protected T DeserializeStream<T>(String content, string rootElement)
         {
-            string json = String.Empty;
-
-            Encoding encoding = Encoding.UTF8;
-            if ((characterSet != null) && (characterSet.Trim() != ""))
-            {
-                encoding = Encoding.GetEncoding(characterSet);
-            }
-
-            // read response
-            using (StreamReader sr = new StreamReader(stream, encoding))
-            {
-                json = sr.ReadToEnd();
-                // Close and clean up the StreamReader
-                sr.Close();
-            }
-
-            return ConvertJsonToObject<T>(json, rootElement);
+            return ConvertJsonToObject<T>(content, rootElement);
         }
 
-        protected internal T ConvertJsonToObject<T>(String json)
+        /// <summary>
+        /// Convert object to specific object type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        protected T ConvertJsonToObject<T>(String json)
         {
             return ConvertJsonToObject<T>(json, null);
         }
 
-        protected internal T ConvertJsonToObject<T>(String json, string rootElement)
+        /// <summary>
+        /// Convert JSON to specific object type using json root element
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <param name="rootElement"></param>
+        /// <returns></returns>
+        protected T ConvertJsonToObject<T>(String json, string rootElement)
         {
             if (LOGGER.IsDebugEnabled)
             {
@@ -364,14 +326,14 @@ namespace OneApi.Client.Impl
             }
         }
 
-        private RequestException ReadRequestException<T>(HttpWebResponse response)
+        private RequestException ReadRequestException<T>(IRestResponse response)
         {
             string errorText = "Unexpected error occured.";
             string messageId = "";
             string json = String.Empty;
             try
             {
-                RequestError requestError = DeserializeStream<RequestError>(response.GetResponseStream(), response.CharacterSet, "requestError");
+                RequestError requestError = DeserializeStream<RequestError>(response.Content, "requestError");
 
                 if (requestError != null)
                 {
@@ -395,12 +357,17 @@ namespace OneApi.Client.Impl
             return new RequestException(errorText, messageId, (int)response.StatusCode);
         }
 
-        protected internal void validateResponse(HttpWebResponse response, int requiredStatus)
+        protected void ValidateResponse(IRestResponse response, int requiredStatus)
         {
+            if (LOGGER.IsDebugEnabled)
+            {
+                LOGGER.Debug("Response status code: " + (int)response.StatusCode);
+            }
+
             if (((int)response.StatusCode) != (requiredStatus))
             {
                 throw ReadRequestException<RequestError>(response);
-            }
+            }  
         }
 
         protected string GetIdFromResourceUrl(string resourceUrl)
@@ -417,6 +384,5 @@ namespace OneApi.Client.Impl
 
             return id;
         }
-
     }
 }

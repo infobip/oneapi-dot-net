@@ -22,24 +22,23 @@ namespace OneApi.Examples.SmsMessaging
                 Console.WriteLine("User is not verified!");
                 return;
             }
+           
+            smsClient.SmsMessagingClient.AddPullDeliveryReportListener(new DeliveryReportListener((deliveryReportList, e) =>
+            {
+                //Handle pulled Delivery Reports
+                if (e == null)
+                {
+                    Console.WriteLine("Delivery Reports: " + deliveryReportList);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + e.Message);
+                }
+            }));
 
-            smsClient.SmsMessagingClient.AddPullDeliveryReportListener(new DeliveryReportListener(OnDeliveryReportReceived));
-
-            //Stop the Dlr Retriever and release listeners
-            //smsClient.SmsMessagingClient().ReleaseDeliveryReportListeners();    
+            //Stop the Delivery Reports retriever and release listeners
+            //smsClient.SmsMessagingClient.RemovePullDeliveryReportListeners();
 		}
-
-        private static void OnDeliveryReportReceived(DeliveryReport[] deliveryReports, Exception e)
-        {
-            if (e == null)
-            {
-                Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReports)); 
-            }
-            else
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-        }
 	}
 
 }

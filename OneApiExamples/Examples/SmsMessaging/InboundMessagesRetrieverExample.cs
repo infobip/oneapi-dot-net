@@ -23,22 +23,21 @@ namespace OneApi.Examples.SmsMessaging
                 return;
             }
 
-            smsClient.SmsMessagingClient.AddPullInboundMessageListener(new InboundMessageListener(OnMessageReceived));
-
-            //Stop the Inbound Messages Getr and release listeners
-            //smsClient.SmsMessagingClient.ReleaseInboundMessageListeners();       
-        }
-
-        private static void OnMessageReceived(InboundSMSMessageList smsMessageList, Exception e)
-        {
-            if (e == null)
+            smsClient.SmsMessagingClient.AddPullInboundMessageListener(new InboundMessageListener((smsMessageList, e) =>
             {
-                Console.WriteLine("Inbound Messages " + string.Join("Inbound Message: ", (Object[])smsMessageList.InboundSMSMessage)); 
-            }
-            else
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-        }
+                //Handle pulled Inbound Messages
+                if (e == null)
+                {
+                    Console.WriteLine("Inbound Messages " + smsMessageList);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + e.Message);
+                }
+            }));
+
+            //Stop the Inbound Messages retriever and release listeners
+            //smsClient.SmsMessagingClient.RemovePullInboundMessageListeners();
+        } 
     }
 }

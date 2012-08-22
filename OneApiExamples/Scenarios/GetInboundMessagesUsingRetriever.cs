@@ -36,57 +36,54 @@ namespace OneApi.Scenarios
 
         public static void Execute()
         {
-            //Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
-            //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
+            // Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
+            // Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
-
-            //Initialize Configuration object 
-            Configuration configuration = new Configuration(username, password);
-          
-            //Initialize SMSClient using the Configuration object
-            SMSClient smsClient = new SMSClient(configuration);
-
-            //Login user
+           
             try
             {
+                // Initialize Configuration object 
+                Configuration configuration = new Configuration(username, password);
+
+                // Initialize SMSClient using the Configuration object
+                SMSClient smsClient = new SMSClient(configuration);
+
+                // Login sms client
                 LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
                 if (loginResponse.Verified == false)
                 {
                     Console.WriteLine("User is not verified!");
                     return;
                 }
+
+                // Add listener(start retriever and pull 'Inbound Messages')    
+                smsClient.SmsMessagingClient.AddPullInboundMessageListener(new InboundMessageListener((smsMessageList, e) =>
+                {
+                    //Handle pulled 'Inbound Messages'
+                    if (e == null)
+                    {
+                        Console.WriteLine(smsMessageList);
+                    }
+                    else
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }));
+
+                // Wait 30 seconds for the 'Inbound Messages' before stop the retriever  
+                System.Threading.Thread.Sleep(30000);
+
+                // Remove 'Inbound Messages' pull listeners and stop the retriever
+                smsClient.SmsMessagingClient.RemovePullInboundMessageListeners();
+
+                // Logout sms client
+                smsClient.CustomerProfileClient.Logout();
             }
             catch (Exception e)
             {              
-                Console.WriteLine("Request Exception: " + e.Message);
-            }
-
-            //Add listener(start retriever and pull Inbound Messages)    
-            smsClient.SmsMessagingClient.AddPullInboundMessageListener(new InboundMessageListener(OnMessageReceived));
-
-            //Waiting 2 minutes for the  'Inbound Message' before stop the retriever.   
-            Console.WriteLine("Waiting 2 minutes for the Inbound Messages.. after that 'Incoming Messages' retriever will be stopped.");
-            System.Threading.Thread.Sleep(120000);
-
-            //Remove Inbound Messages Listeners and stop the retriever
-            smsClient.SmsMessagingClient.RemovePullInboundMessageListeners();
-
-            //Logout user
-            smsClient.CustomerProfileClient.Logout();
-        }
-
-        //Handle pulled Inbound Messages
-        private static void OnMessageReceived(InboundSMSMessageList smsMessageList, Exception e)
-        {
-            if (e == null)
-            {
-                Console.WriteLine("Inbound Messages " + string.Join("Inbound Message: ", (Object[])smsMessageList.InboundSMSMessage));
-            }
-            else
-            {
-                Console.WriteLine("Request Exception: " + e.Message);
-            }
+                Console.WriteLine(e.Message);
+            } 
         }
     }
 }

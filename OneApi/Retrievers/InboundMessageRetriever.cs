@@ -68,7 +68,7 @@ namespace OneApi.Retrievers
                 }
             }
 
-            private void FireMessageRetrieved(InboundSMSMessageList smsMessageList, Exception e)
+            private void FireMessageRetrieved(InboundSMSMessageList smsMessageList, RequestException e)
             {
                 for (int i = 0; i < smsMessagingImpl.InboundMessagePullListeners.Count; i++)
                 {

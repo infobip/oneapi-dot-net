@@ -26,43 +26,44 @@ namespace OneApi.Scenarios
      **/
 
     public class GetInboundMessages 
-    {   
+    {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
-       
+      
         public static void Execute()
         {
-            //Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
-            //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
+            // Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
+            // Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
 
-            //Initialize Configuration object 
+            // Initialize Configuration object 
             Configuration configuration = new Configuration(username, password);
         
-            //Initialize SMSClient using the Configuration object
+            // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
        
             try
             {
-                //Login user
+                // Login sms client
                 LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
                 if (loginResponse.Verified == false)
                 {
                     Console.WriteLine("User is not verified!");
                     return;
                 }
-          
-                //Get Inbound Messages
-                InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.GetInboundMessages();
-                Console.WriteLine("Inbound Messages " + string.Join("Inbound Message: ", (Object[])inboundSMSMessageList.InboundSMSMessage));
 
-                //Logout user
+                // example:retrieve-inbound-messages
+                InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.GetInboundMessages();
+                // ---------------------------------------------------------------------------------------------------- 
+                Console.WriteLine(inboundSMSMessageList);
+
+                // Logout sms client
                 smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {
-                Console.WriteLine("Request Exception: " + e.Message);
+                Console.WriteLine(e.Message);
             }  
         }
     }

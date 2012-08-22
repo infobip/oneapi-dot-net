@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Net;
 using System.Web;
@@ -6,6 +7,8 @@ using OneApi.Listeners;
 using OneApi.Config;
 using OneApi.Exceptions;
 using OneApi.Model;
+using RestSharp;
+
 
 namespace OneApi.Client.Impl
 {
@@ -26,12 +29,12 @@ namespace OneApi.Client.Impl
 
         //*************************DataresponseProfileClientImpl public******************************************************************************************************************************************************		
         /// <summary>
-        /// Get asynchronously the customer’s roaming status for a single network-connected mobile device  (HLR) </summary>
+        /// Query the customer’s roaming status for a single network-connected mobile device and get HLR to the specified notify url </summary>
         /// <param name="address"> (mandatory) mobile device number being queried </param>
         /// <param name="notifyURL"> (mandatory) URL to receive the roaming status asynchronously </param>
         /// <param name="clientCorrelator"> (optional) Active only if notifyURL is specified, otherwise ignored. Uniquely identifies this request. If there is a communication failure during the request, using the same clientCorrelator when retrying the request helps the operator to avoid call the same request twice. </param>
         /// <param name="callbackData"> (optional) Active only if notifyURL is specified, otherwise ignored. This is custom data to pass back in notification to notifyURL, so you can use it to identify the request or any other useful data, such as a function name. </param>
-        public void QueryHLRAsync(string address, string notifyURL, string clientCorrelator, string callbackData)
+        public void QueryHLR(string address, string notifyURL, string clientCorrelator, string callbackData)
         {
             if (notifyURL == null || notifyURL.Length == 0)
             {
@@ -57,32 +60,47 @@ namespace OneApi.Client.Impl
                 urlBuilder.Append(HttpUtility.UrlEncode(callbackData));
             }
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET);
-            Execute(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            ExecuteMethod(requestData);
         }
 
         /// <summary>
-        /// Get asynchronously the customer’s roaming status for a single network-connected mobile device  (HLR) </summary>
+        /// Query the customer’s roaming status for a single network-connected mobile device and get HLR to the specified notify url  </summary>
         /// <param name="address"> (mandatory) mobile device number being queried </param>	
         /// <param name="notifyURL"> (mandatory) URL to receive the roaming status asynchronously </param>
-        public void QueryHLRAsync(string address, string notifyURL)
+        public void QueryHLR(string address, string notifyURL)
         {
-            QueryHLRAsync(address, notifyURL, null, null);
+            QueryHLR(address, notifyURL, null, null);
         }
 
         /// <summary>
-        /// Get synchronously the customer’s roaming status for a single network-connected mobile device (HLR) </summary>
+        /// Query the customer’s roaming status for a single network-connected mobile device and get HLR as the response </summary>
         /// <param name="address"> (mandatory) mobile device number being queried </param>
         /// <returns> Roaming </returns>
-        public Roaming QueryHLRSync(string address)
+        public Roaming QueryHLR(string address)
         {
             StringBuilder urlBuilder = new StringBuilder(HLR_URL_BASE);
             urlBuilder.Append("/roamingStatus?address=");
             urlBuilder.Append(HttpUtility.UrlEncode(address));
             urlBuilder.Append("&includeExtendedData=true");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "roaming");
-            return Execute<Roaming>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "roaming");
+            return ExecuteMethod<Roaming>(requestData);
+        }
+
+        /// <summary>
+        /// Query asynchronously the customer’s roaming status for a single network-connected mobile device and get HLR as the response </summary>
+        /// <param name="address"> (mandatory) mobile device number being queried </param>
+        /// <param name="callback"> (mandatory) method to call after receiving HLR response </param>
+        public void QueryHLRAsync(string address, Action<Roaming, RequestException> callback)
+        {
+            StringBuilder urlBuilder = new StringBuilder(HLR_URL_BASE);
+            urlBuilder.Append("/roamingStatus?address=");
+            urlBuilder.Append(HttpUtility.UrlEncode(address));
+            urlBuilder.Append("&includeExtendedData=true");
+
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "roaming");
+            ExecuteMethodAsync<Roaming>(requestData, callback);
         }
 
         /// <summary>
@@ -99,8 +117,8 @@ namespace OneApi.Client.Impl
         /// <returns> string - Subscription Id </returns>
         public string SubscribeToHLRDeliveryNotifications(SubscribeToHLRDeliveryNotificationsRequest subscribeToHLRDeliveryNotificationsRequest)
         {
-            RequestData requestData = new RequestData(HLR_SUBSCRIPTION_URL_BASE, RESPONSE_CODE_201_CREATED, RequestData.REQUEST_METHOD.POST, "deliveryReceiptSubscription", subscribeToHLRDeliveryNotificationsRequest);
-            DeliveryReceiptSubscription deliveryReceiptSubscription = Execute<DeliveryReceiptSubscription>(requestData);
+            RequestData requestData = new RequestData(HLR_SUBSCRIPTION_URL_BASE, RESPONSE_CODE_201_CREATED, Method.POST, "deliveryReceiptSubscription", subscribeToHLRDeliveryNotificationsRequest);
+            DeliveryReceiptSubscription deliveryReceiptSubscription = ExecuteMethod<DeliveryReceiptSubscription>(requestData);
             return GetIdFromResourceUrl(deliveryReceiptSubscription.ResourceURL);
         }
 
@@ -113,8 +131,8 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReceiptSubscriptions");
-            return Execute<DeliveryReportSubscription[]>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryReceiptSubscriptions");
+            return ExecuteMethod<DeliveryReportSubscription[]>(requestData);
         }
 
         /// <summary>
@@ -125,8 +143,8 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, RequestData.REQUEST_METHOD.DELETE);
-            Execute(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, Method.DELETE);
+            ExecuteMethod(requestData);
         }
 
         /// <summary>

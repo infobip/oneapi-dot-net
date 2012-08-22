@@ -121,7 +121,7 @@ public class PushServerSimulator
                 {
                     if (json.Contains("deliveryInfoNotification"))
                     {
-                        DeliveryInfoNotification deliveryInfoNotification = smsMessagingImpl.ConvertJsonToDeliveryInfo(json);
+                        DeliveryInfoNotification deliveryInfoNotification = smsMessagingImpl.ConvertJsonToDeliveryInfoNotification(json);
                         if (smsMessagingImpl.DeliveryStatusPushNotificationsListeners != null)
                         {
                             for (int i = 0; i < smsMessagingImpl.DeliveryStatusPushNotificationsListeners.Count; i++)
@@ -136,7 +136,7 @@ public class PushServerSimulator
                         {
                             if (smsMessagingImpl.InboundMessagePushNotificationsListeners != null)
                             {
-                                InboundSMSMessageList smsMessagesList = smsMessagingImpl.ConvertJsonToInboundSMSMessageList(json);
+                                InboundSMSMessageList smsMessagesList = smsMessagingImpl.ConvertJsonToInboundSMSMessageNotification(json);
                                 for (int i = 0; i < smsMessagingImpl.InboundMessagePushNotificationsListeners.Count; i++)
                                 {
                                     smsMessagingImpl.InboundMessagePushNotificationsListeners[i].OnMessageReceived(smsMessagesList);

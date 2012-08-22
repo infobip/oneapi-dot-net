@@ -7,6 +7,8 @@ using OneApi.Retrievers;
 using OneApi.Listeners;
 using OneApi.Config;
 using OneApi.Model;
+using RestSharp;
+using OneApi.Exceptions;
 
 
 namespace OneApi.Client.Impl
@@ -42,10 +44,24 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(smsRequest.SenderAddress));
             urlBuilder.Append("/requests");
-
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, RequestData.REQUEST_METHOD.POST, "resourceReference", smsRequest);
-            ResourceReference resourceReference = Execute<ResourceReference>(requestData);
+           
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, Method.POST, "resourceReference", smsRequest);
+            ResourceReference resourceReference = ExecuteMethod<ResourceReference>(requestData);
             return GetIdFromResourceUrl(resourceReference.ResourceURL);
+        }
+
+        /// <summary>
+        /// Send an SMS asynchronously over OneAPI to one or more mobile terminals using the customized 'SMS' object </summary>
+        /// <param name="sms"> (mandatory) object containing data needed to be filled in order to send the SMS </param>
+        /// <param name="callback"> (mandatory) method to call after receiving sent SMS response </param>
+        public void SendSMSAsync(SMSRequest smsRequest, System.Action<string, RequestException> callback)
+        {
+            StringBuilder urlBuilder = new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE).Append("/");
+            urlBuilder.Append(HttpUtility.UrlEncode(smsRequest.SenderAddress));
+            urlBuilder.Append("/requests");
+
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, Method.POST, "resourceReference", smsRequest);
+            ExecuteMethodAsync<ResourceReference>(requestData, (response, e) => callback(GetIdFromResourceUrl(response.ResourceURL), e));
         }
 
         /// <summary>
@@ -61,14 +77,31 @@ namespace OneApi.Client.Impl
             urlBuilder.Append(HttpUtility.UrlEncode(requestId));
             urlBuilder.Append("/deliveryInfos");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryInfoList");
-            return Execute<DeliveryInfoList>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryInfoList");
+            return ExecuteMethod<DeliveryInfoList>(requestData);
+        }
+
+        /// <summary>
+        /// Query the delivery status asynchronously over OneAPI for an SMS sent to one or more mobile terminals </summary>
+        /// <param name="senderAddress"> (mandatory) is the address from which SMS messages are being sent. Do not URL encode this value prior to passing to this function </param>
+        /// <param name="requestId"> (mandatory) contains the requestId returned from a previous call to the sendSMS function </param>
+        /// <param name="callback"> (mandatory) method to call after receiving delivery status </param>
+        public void QueryDeliveryStatusAsync(string senderAddress, string requestId, Action<DeliveryInfoList, RequestException> callback)
+        {
+            StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/");
+            urlBuilder.Append(HttpUtility.UrlEncode(senderAddress));
+            urlBuilder.Append("/requests/");
+            urlBuilder.Append(HttpUtility.UrlEncode(requestId));
+            urlBuilder.Append("/deliveryInfos");
+
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryInfoList");
+            ExecuteMethodAsync<DeliveryInfoList>(requestData, callback);
         }
 
         /// <summary>
         /// Convert JSON to DeliveryInfoList </summary>
         /// <returns> DeliveryInfoNotification </returns>
-        public DeliveryInfoNotification ConvertJsonToDeliveryInfo(string json)
+        public DeliveryInfoNotification ConvertJsonToDeliveryInfoNotification(string json)
         {
             return ConvertJsonToObject<DeliveryInfoNotification>(json, "deliveryInfoNotification");
         }
@@ -87,8 +120,8 @@ namespace OneApi.Client.Impl
             }
             urlBuilder.Append("subscriptions");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, RequestData.REQUEST_METHOD.POST, "deliveryReceiptSubscription", subscribeToDeliveryNotificationsRequest);
-            DeliveryReceiptSubscription reliveryReceiptSubscription = Execute<DeliveryReceiptSubscription>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, Method.POST, "deliveryReceiptSubscription", subscribeToDeliveryNotificationsRequest);
+            DeliveryReceiptSubscription reliveryReceiptSubscription = ExecuteMethod<DeliveryReceiptSubscription>(requestData);
             return GetIdFromResourceUrl(reliveryReceiptSubscription.ResourceURL);
         }
 
@@ -102,8 +135,8 @@ namespace OneApi.Client.Impl
             urlBuilder.Append(HttpUtility.UrlEncode(senderAddress));
             urlBuilder.Append("/subscriptions");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReceiptSubscriptions");
-            return Execute<DeliveryReportSubscription[]>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryReceiptSubscriptions");
+            return ExecuteMethod<DeliveryReportSubscription[]>(requestData);
         }
 
         /// <summary>
@@ -115,8 +148,8 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReceiptSubscription");
-            return Execute<DeliveryReportSubscription>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryReceiptSubscription");
+            return ExecuteMethod<DeliveryReportSubscription>(requestData);
         }
 
         /// <summary>
@@ -124,8 +157,8 @@ namespace OneApi.Client.Impl
         /// <returns> DeliveryReportSubscription[] </returns>
         public DeliveryReportSubscription[] GetDeliveryNotificationsSubscriptions()
         {
-            RequestData requestData = new RequestData(SMS_MESSAGING_OUTBOUND_URL_BASE + "/subscriptions", RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReceiptSubscriptions");
-            return Execute<DeliveryReportSubscription[]>(requestData);
+            RequestData requestData = new RequestData(SMS_MESSAGING_OUTBOUND_URL_BASE + "/subscriptions", RESPONSE_CODE_200_OK, Method.GET, "deliveryReceiptSubscriptions");
+            return ExecuteMethod<DeliveryReportSubscription[]>(requestData);
         }
 
         /// <summary>
@@ -136,8 +169,8 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, RequestData.REQUEST_METHOD.DELETE);
-            Execute(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, Method.DELETE);
+            ExecuteMethod(requestData);
         }
 
         /// <summary>
@@ -159,14 +192,37 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?maxBatchSize=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(maxBatchSize)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "inboundSMSMessageList");
-            return Execute<InboundSMSMessageList>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "inboundSMSMessageList");
+            return ExecuteMethod<InboundSMSMessageList>(requestData);
+        }
+
+        /// <summary>
+        /// Get asynchronously SMS messages sent to your Web application over OneAPI </summary>
+        /// <param name="callback"> (mandatory) method to call after receiving inbound messages </param>
+        public void GetInboundMessagesAsync(Action<InboundSMSMessageList, RequestException> callback)
+        {
+            this.GetInboundMessagesAsync(100, callback);
+        }
+
+        /// <summary>
+        /// Get asynchronously SMS messages sent to your Web application over OneAPI </summary>
+        /// <param name="maxBatchSize"> (optional) is the maximum number of messages to get in this request </param>
+        /// <param name="callback"> (mandatory) method to call after receiving inbound messages </param>
+        public void GetInboundMessagesAsync(int maxBatchSize, Action<InboundSMSMessageList, RequestException> callback)
+        {
+            //Registration ID is obsolete so any string can be put: e.g. INBOUND
+            StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_INBOUND_URL_BASE)).Append("/registrations/INBOUND/messages");
+            urlBuilder.Append("?maxBatchSize=");
+            urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(maxBatchSize)));
+
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "inboundSMSMessageList");
+            ExecuteMethodAsync<InboundSMSMessageList>(requestData, callback);
         }
 
         /// <summary>
         /// Convert JSON to InboundSMSMessageList </summary>
         /// <returns> InboundSMSMessageList </returns>
-        public InboundSMSMessageList ConvertJsonToInboundSMSMessageList(string json)
+        public InboundSMSMessageList ConvertJsonToInboundSMSMessageNotification(string json)
         {
             return ConvertJsonToObject<InboundSMSMessageList>(json);
         }
@@ -177,8 +233,8 @@ namespace OneApi.Client.Impl
         /// <returns>string - Subscription Id </returns>
         public string SubscribeToInboundMessagesNotifications(SubscribeToInboundMessagesRequest subscribeToInboundMessagesRequest)
         {
-            RequestData requestData = new RequestData(SMS_MESSAGING_INBOUND_URL_BASE + "/subscriptions", RESPONSE_CODE_201_CREATED, RequestData.REQUEST_METHOD.POST, "resourceReference", subscribeToInboundMessagesRequest);
-            ResourceReference resourceReference = Execute<ResourceReference>(requestData);
+            RequestData requestData = new RequestData(SMS_MESSAGING_INBOUND_URL_BASE + "/subscriptions", RESPONSE_CODE_201_CREATED, Method.POST, "resourceReference", subscribeToInboundMessagesRequest);
+            ResourceReference resourceReference = ExecuteMethod<ResourceReference>(requestData);
             return GetIdFromResourceUrl(resourceReference.ResourceURL);
         }
 
@@ -193,8 +249,8 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("&pageSize=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(pageSize)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "subscriptions");
-            return Execute<MoSubscription[]>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "subscriptions");
+            return ExecuteMethod<MoSubscription[]>(requestData);
         }
 
         /// <summary>
@@ -213,38 +269,78 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_INBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, RequestData.REQUEST_METHOD.DELETE);
-            Execute(requestData);
-        }
-
-        /// <summary>
-        /// Get delivery reports </summary>
-        /// <param name="limit"> </param>
-        /// <returns> DeliveryReport[] </returns>
-        public DeliveryReport[] GetDeliveryReports(int limit)
-        {
-            StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/requests/deliveryReports");
-            urlBuilder.Append("?limit=");
-            urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
-
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReportList");
-            return Execute<DeliveryReport[]>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, Method.DELETE);
+            ExecuteMethod(requestData);
         }
 
         /// <summary>
         /// Get delivery reports
         /// </summary>
-        public DeliveryReport[] GetDeliveryReports()
+        public DeliveryReportList GetDeliveryReports()
         {
             return GetDeliveryReports(0);
+        }
+
+        /// <summary>
+        /// Get delivery reports asynchronously</summary>
+        /// <param name="callback"> (mandatory) method to call after receiving delivery reports </param>
+        public void GetDeliveryReportsAsync(Action<DeliveryReportList, RequestException> callback)
+        {
+            this.GetDeliveryReportsAsync(0, callback);
+        }
+
+        /// <summary>
+        /// Get delivery reports </summary>
+        /// <param name="limit"> </param>
+        /// <returns> DeliveryReportList </returns>
+        public DeliveryReportList GetDeliveryReports(int limit)
+        {
+            StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/requests/deliveryReports");
+            urlBuilder.Append("?limit=");
+            urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
+
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            return ExecuteMethod<DeliveryReportList>(requestData);
+        }
+
+        /// <summary>
+        /// Get delivery reports asynchronously</summary>
+        /// <param name="limit"> </param>
+        /// <param name="callback"> (mandatory) method to call after receiving delivery reports </param>
+        public void GetDeliveryReportsAsync(int limit, Action<DeliveryReportList, RequestException> callback) 
+        {
+            StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/requests/deliveryReports");
+            urlBuilder.Append("?limit=");
+            urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
+
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            ExecuteMethodAsync<DeliveryReportList>(requestData, callback);
+        }
+
+        /// <summary>
+        /// Get delivery reports by Request Id </summary>
+        /// <param name="requestId"> </param>
+        /// <returns> DeliveryReportList </returns>
+        public DeliveryReportList GetDeliveryReportsByRequestId(string requestId)
+        {
+            return GetDeliveryReportsByRequestId(requestId, 0);
+        }
+
+        /// <summary>
+        /// Get delivery reports asynchronously by Request Id </summary>
+        /// <param name="requestId"> </param>
+        /// <param name="callback"> (mandatory) method to call after receiving delivery reports </param>
+        public void GetDeliveryReportsByRequestIdAsync(string requestId, Action<DeliveryReportList, RequestException> callback)
+        {
+            GetDeliveryReportsByRequestIdAsync(requestId, 0, callback);
         }
 
         /// <summary>
         /// Get delivery reports by Request Id </summary>
         /// <param name="requestId"> </param>
         /// <param name="limit"> </param>
-        /// <returns> DeliveryReport[] </returns>
-        public DeliveryReport[] GetDeliveryReportsByRequestId(string requestId, int limit)
+        /// <returns> DeliveryReportList </returns>
+        public DeliveryReportList GetDeliveryReportsByRequestId(string requestId, int limit)
         {
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/requests/");
             urlBuilder.Append(HttpUtility.UrlEncode(requestId));
@@ -252,17 +348,25 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?limit=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, RequestData.REQUEST_METHOD.GET, "deliveryReportList");
-            return Execute<DeliveryReport[]>(requestData);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            return ExecuteMethod<DeliveryReportList>(requestData);
         }
 
         /// <summary>
-        /// Get delivery reports by Request Id </summary>
+        /// Get delivery reports asynchronously by Request Id </summary>
         /// <param name="requestId"> </param>
-        /// <returns> DeliveryReport[] </returns>
-        public DeliveryReport[] GetDeliveryReportsByRequestId(string requestId)
+        /// <param name="limit"> </param>
+        /// <param name="callback"> (mandatory) method to call after receiving delivery reports </param>
+        public void GetDeliveryReportsByRequestIdAsync(string requestId, int limit, Action<DeliveryReportList, RequestException> callback)
         {
-            return GetDeliveryReportsByRequestId(requestId, 0);
+            StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/requests/");
+            urlBuilder.Append(HttpUtility.UrlEncode(requestId));
+            urlBuilder.Append("/deliveryReports");
+            urlBuilder.Append("?limit=");
+            urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
+
+            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            ExecuteMethodAsync<DeliveryReportList>(requestData, callback);
         }
 
         /// <summary>

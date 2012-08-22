@@ -7,7 +7,7 @@ using OneApi.Model;
 namespace OneApi.Examples.Hlr
 {
 
-    public class QueryHLRAsyncExample : ExampleBase
+    public class QueryHLRUsingNotifyUrlExample : ExampleBase
 	{
 
         private static string address = "";
@@ -26,16 +26,13 @@ namespace OneApi.Examples.Hlr
                 return;
             }
 
-            smsClient.HlrClient.AddPushHLRNotificationsListener(new HLRNotificationsListener(OnHLRReceived));
+            smsClient.HlrClient.AddPushHLRNotificationsListener(new HLRNotificationsListener(roamingNotification => {
+                Console.WriteLine("HLR: " + roamingNotification);
+            }));
 
-            smsClient.HlrClient.QueryHLRAsync(address, notifyUrl);
-            Console.WriteLine("Async HLR request sent successfully.");
-		}
-
-        private static void OnHLRReceived(RoamingNotification roamingNotification)
-        {
-            Console.WriteLine("HLR: " + roamingNotification);
-        }
+            smsClient.HlrClient.QueryHLR(address, notifyUrl);
+            Console.WriteLine("HLR request sent successfully.");
+		} 
 	}
 
 }

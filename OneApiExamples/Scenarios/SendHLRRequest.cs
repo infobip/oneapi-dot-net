@@ -20,7 +20,7 @@ namespace OneApi.Scenarios
       *
       *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project
       *
-      *  3.) Open 'Scenarios.SendHLRSyncRequest' class to edit where you should populate the following fields: 
+      *  3.) Open 'Scenarios.SendHLRRequest' class to edit where you should populate the following fields: 
       *		'address'    'password'   
       *		'username'        
       *		
@@ -29,45 +29,42 @@ namespace OneApi.Scenarios
       *      on which the result will be displayed in the Console.
       **/
 
-    public class SendHLRSyncRequest 
+    public class SendHLRRequest
     {
         private static string username = "FILL USERNAME HERE !!!";
-        private static string password = "FILL PASSWORD HERE !!!";    
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string address = "";
                      
         public static void Execute()
         {
-            //Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
-            //Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
+            // Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
+            // Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
-
-
-            //Initialize Configuration object 
-            Configuration configuration = new Configuration(username, password);
-           
-            //Initialize SMSClient using the Configuration object
-            SMSClient smsClient = new SMSClient(configuration);
 
             try
             {
-                //Login user
+                // example:data-connection-client
+                Configuration configuration = new Configuration(username, password);
+                SMSClient smsClient = new SMSClient(configuration);
                 LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+                // ----------------------------------------------------------------------------------------------------
                 if (loginResponse.Verified == false)
                 {
                     Console.WriteLine("User is not verified!");
                     return;
                 }
 
-                //Send HLR Request Synchronously
-                Roaming roaming = smsClient.HlrClient.QueryHLRSync(address);
-                Console.WriteLine("HLR: " + roaming);
+                // example:retrieve-roaming-status
+                Roaming roaming = smsClient.HlrClient.QueryHLR(address);
+                // ----------------------------------------------------------------------------------------------------
+                Console.WriteLine(roaming);
 
-                //Logout user
+                // Logout sms client
                 smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {
-                Console.WriteLine("Request Exception: " + e.Message); 
+                Console.WriteLine(e.Message); 
             }  
         }
     }

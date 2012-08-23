@@ -6,6 +6,23 @@ using OneApi.Model;
 namespace OneApi.Scenarios
 {
 
+    /**
+    * To run this example follow these 4 steps:
+    *
+    *  1.) Download 'Parseco C# library' - available at www.github.com/parseco   or   www.parseco.com/apis    
+    *
+    *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
+    *
+    *  3.) Open 'Scenarios.ConvertJsonToHLRNotificationExample' class to edit where you should populate the following fields: 
+    *		'username' 
+    *		'password'  
+    *
+    *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
+    *       There you will enter the appropriate example number in the console and press 'Enter' key 
+    *       on which the result will be displayed in the Console.
+    *       
+    **/
+
     public class ConvertJsonToHLRNotificationExample
 	{
         // Pushed 'HLR Notification' JSON example
@@ -22,5 +39,4 @@ namespace OneApi.Scenarios
             Console.WriteLine(roamingNotification);   
         }
 	}
-
 }

@@ -30,7 +30,7 @@ namespace OneApi.Examples.Async
             {
                 if (e == null)
                 {
-                    Console.WriteLine("Delivery Infos: " + string.Join("Delivery Info: ", deliveryInfoList.DeliveryInfos));  
+                    Console.WriteLine("Delivery Infos: " + deliveryInfoList);  
                 } else {
                     Console.WriteLine("Exception: " + e.Message); 
                 }    

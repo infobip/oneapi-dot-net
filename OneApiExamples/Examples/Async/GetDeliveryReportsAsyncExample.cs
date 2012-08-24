@@ -27,7 +27,7 @@ namespace OneApi.Examples.Async
             {
                 if (e == null)
                 {
-                    Console.WriteLine("Delivery Reports: " + string.Join("Delivery Report: ", (Object[])deliveryReportList.DeliveryReports));
+                    Console.WriteLine("Delivery Reports: " + deliveryReportList);
                 }
                 else
                 {

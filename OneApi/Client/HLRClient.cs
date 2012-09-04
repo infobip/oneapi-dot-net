@@ -36,9 +36,9 @@ namespace OneApi.Client
         void QueryHLRAsync(string address, Action<Roaming, RequestException> callback);
 
         /// <summary>
-        /// Convert JSON to RoamingNotification </summary>
+        /// Convert JSON to HLR Notification </summary>
         /// <returns> RoamingNotification </returns>
-        RoamingNotification ConvertJsonToRoamingNotification(string json);
+        RoamingNotification ConvertJsonToHLRNotification(string json);
 
 		/// <summary>
 		/// Start subscribing to HLR delivery notifications over OneAPI </summary>

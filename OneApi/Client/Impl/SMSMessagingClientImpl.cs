@@ -99,7 +99,7 @@ namespace OneApi.Client.Impl
         }
 
         /// <summary>
-        /// Convert JSON to DeliveryInfoList </summary>
+        /// Convert JSON to Delivery Info Notification </summary>
         /// <returns> DeliveryInfoNotification </returns>
         public DeliveryInfoNotification ConvertJsonToDeliveryInfoNotification(string json)
         {
@@ -220,7 +220,7 @@ namespace OneApi.Client.Impl
         }
 
         /// <summary>
-        /// Convert JSON to InboundSMSMessageList </summary>
+        /// Convert JSON to Inbound SMS Message Notification </summary>
         /// <returns> InboundSMSMessageList </returns>
         public InboundSMSMessageList ConvertJsonToInboundSMSMessageNotification(string json)
         {

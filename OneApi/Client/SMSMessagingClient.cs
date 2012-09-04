@@ -38,7 +38,7 @@ namespace OneApi.Client
         void QueryDeliveryStatusAsync(string senderAddress, string requestId, Action<DeliveryInfoList, RequestException> callback);
  
         /// <summary>
-        /// Convert JSON to DeliveryInfoNotification </summary>
+        /// Convert JSON to Delivery Info Notification </summary>
         /// <returns> DeliveryInfoNotification </returns>
         DeliveryInfoNotification ConvertJsonToDeliveryInfoNotification(string json);
 
@@ -99,7 +99,7 @@ namespace OneApi.Client
         string SubscribeToInboundMessagesNotifications(SubscribeToInboundMessagesRequest subscribeToInboundMessagesRequest);
 
         /// <summary>
-        /// Convert JSON to InboundSMSMessageList </summary>
+        /// Convert JSON to Inbound SMS Message Notification </summary>
         /// <returns> InboundSMSMessageList </returns>
         InboundSMSMessageList ConvertJsonToInboundSMSMessageNotification(string json);
 

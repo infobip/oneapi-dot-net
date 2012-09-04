@@ -9,8 +9,6 @@ namespace OneApi.Client.Impl
 
 	public class SMSClient
 	{
-        public const String VERSION = "1.0.0"; 
-
         private CustomerProfileClient customerProfileClient  = null;
 		private SMSMessagingClient smsMessagingClient = null;
 		private HLRClient hlrClient = null;

@@ -16,7 +16,7 @@ namespace OneApi.Examples.Hlr
             Configuration configuration = new Configuration();
             SMSClient smsClient = new SMSClient(configuration);
 
-            RoamingNotification roamingNotification = smsClient.HlrClient.ConvertJsonToRoamingNotification(JSON);
+            RoamingNotification roamingNotification = smsClient.HlrClient.ConvertJsonToHLRNotification(JSON);
             Console.WriteLine("Roaming Notification: " + roamingNotification);   
         }
 	}

@@ -104,9 +104,9 @@ namespace OneApi.Client.Impl
         }
 
         /// <summary>
-        /// Convert JSON to RoamingNotification </summary>
+        /// Convert JSON to HLR Notification </summary>
         /// <returns> RoamingNotification </returns>
-        public RoamingNotification ConvertJsonToRoamingNotification(string json)
+        public RoamingNotification ConvertJsonToHLRNotification(string json)
         {
             return ConvertJsonToObject<RoamingNotification>(json, "terminalRoamingStatusList");
         }

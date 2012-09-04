@@ -83,8 +83,8 @@
     <Compile Include="Scenarios\SendSMS_GetDeliveryReportsUsingRetriever.cs" />
     <Compile Include="Scenarios\GetInboundMessagesUsingRetriever.cs" />
     <Compile Include="Scenarios\Subscribe_WaitForInboundMessagesPush.cs" />
-    <Compile Include="Scenarios\SendHLRRequest.cs" />
-    <Compile Include="Scenarios\SendHLRRequest_WaitForHLRPush.cs" />
+    <Compile Include="Scenarios\QueryHLR.cs" />
+    <Compile Include="Scenarios\QueryHLR_WaitForHLRPush.cs" />
     <Compile Include="Scenarios\SendSMS_Subscribe_WaitForDeliveryStatusPush.cs" />
     <Compile Include="Scenarios\GetInboundMessages.cs" />
     <Compile Include="Scenarios\SendSMS_GetDeliveryReports.cs" />

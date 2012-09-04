@@ -51,14 +51,14 @@ namespace OneApi.Scenarios
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
 
-            // Initialize Configuration object 
-            Configuration configuration = new Configuration(username, password);           
-
-            // Initialize SMSClient using the Configuration object
-            SMSClient smsClient = new SMSClient(configuration);
-
             try
             {
+                // Initialize Configuration object 
+                Configuration configuration = new Configuration(username, password);
+
+                // Initialize SMSClient using the Configuration object
+                SMSClient smsClient = new SMSClient(configuration);
+
                 // Login sms client
                 LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
                 if (loginResponse.Verified == false)
@@ -74,19 +74,19 @@ namespace OneApi.Scenarios
                     Console.WriteLine(smsMessageList);      
                 }));
 
-                //Store 'Inbound Message Notifications' subscription id because we can later remove subscription with it:
+                // Store 'Inbound Message Notifications' subscription id because we can later remove subscription with it:
                 string subscriptionId = smsClient.SmsMessagingClient.SubscribeToInboundMessagesNotifications(new SubscribeToInboundMessagesRequest(destinationAddress, notifyUrl, criteria, notificationFormat, "", ""));
                
                 // Wait 30 seconds for 'Inbound Message Notification' push-es before removing subscription and closing the server connection 
                 System.Threading.Thread.Sleep(30000);
 
-                //Remove 'Inbound Message Notifications' subscription
+                // Remove 'Inbound Message Notifications' subscription
                 smsClient.SmsMessagingClient.RemoveInboundMessagesNotificationsSubscription(subscriptionId);
 
-                //Logout sms client
+                // Logout sms client
                 smsClient.CustomerProfileClient.Logout();
 
-                //Remove 'Inbound Message Notifications' push listeners and stop the server
+                // Remove 'Inbound Message Notifications' push listeners and stop the server
                 smsClient.SmsMessagingClient.RemovePushInboundMessageNotificationsListeners();    
             }
             catch (RequestException e)

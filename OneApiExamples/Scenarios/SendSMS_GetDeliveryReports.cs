@@ -58,7 +58,7 @@ namespace OneApi.Scenarios
                 }
 
                 // Send SMS 
-                string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
+                smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
               
                 // Wait for 30 seconds to give enought time for the message to be delivered
                 System.Threading.Thread.Sleep(30000);

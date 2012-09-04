@@ -20,7 +20,7 @@ namespace OneApi.Scenarios
       *
       *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project    
       *
-      *  3.) Open 'Scenarios.SendHLRRequest_WaitForHLRPush' class to edit where you should populate the following fields: 
+      *  3.) Open 'Scenarios.QueryHLR_WaitForHLRPush' class to edit where you should populate the following fields: 
       *		'address'   'username'    
       *		'notifyUrl' 'password'         
       *		
@@ -33,7 +33,7 @@ namespace OneApi.Scenarios
       *  'Configuration' property 'HlrPushServerSimulatorPort'. 
       **/
 
-    public class SendHLRRequest_WaitForHLRPush 
+    public class QueryHLR_WaitForHLRPush 
     {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
@@ -65,7 +65,7 @@ namespace OneApi.Scenarios
                 // Add listener(start push server and wait for the 'HLR Notifications')
                 smsClient.HlrClient.AddPushHLRNotificationsListener(new HLRNotificationsListener((roamingNotification) =>
                 {
-                    //Handle pushed 'HLR Notification'
+                    // Handle pushed 'HLR Notification'
                     if (roamingNotification != null)
                     {
                         Console.WriteLine(roamingNotification);

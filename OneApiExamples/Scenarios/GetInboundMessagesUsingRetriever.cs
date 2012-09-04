@@ -60,7 +60,7 @@ namespace OneApi.Scenarios
                 // Add listener(start retriever and pull 'Inbound Messages')    
                 smsClient.SmsMessagingClient.AddPullInboundMessageListener(new InboundMessageListener((smsMessageList, e) =>
                 {
-                    //Handle pulled 'Inbound Messages'
+                    // Handle pulled 'Inbound Messages'
                     if (e == null)
                     {
                         Console.WriteLine(smsMessageList);

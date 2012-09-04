@@ -28,8 +28,8 @@ namespace OneApi.Scenarios
       *
       *  Note: 'Delivery Status Notifications' push server is started automatically by adding 'DeliveryStatusNotificationsListener'
       *  using the 'AddPushDeliveryStatusNotificationListener' method. Default server port is 3000 and it can be changed by set the 
-      *  'Configuration' property 'DlrStatusPushServerPort'. Used port should match the one used in the 'notifyUrl' property when 
-      *  subscribing for the notifications using the 'SubscribeToDeliveryStatusNotifications' method.
+      *  'Configuration' property 'DlrStatusPushServerPort'. 
+      *  Used port should match the one used in the 'SMSRequest' 'NotifyUrl' parameter.
       **/
 
     public class SendSMS_WaitForDeliveryStatusPush 
@@ -82,7 +82,7 @@ namespace OneApi.Scenarios
                 // ----------------------------------------------------------------------------------------------------
 
                 // Send SMS 
-                string requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+                smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
                 // Wait 30 seconds for 'Delivery Info Notification' push-es before closing the server connection 
                 System.Threading.Thread.Sleep(30000);

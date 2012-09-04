@@ -45,14 +45,14 @@ namespace OneApi.Scenarios
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
 
-            // Initialize Configuration object 
-            Configuration configuration = new Configuration(username, password);
-          
-            // Initialize SMSClient using the Configuration object
-            SMSClient smsClient = new SMSClient(configuration);
-
             try
             {
+                // Initialize Configuration object 
+                Configuration configuration = new Configuration(username, password);
+
+                // Initialize SMSClient using the Configuration object
+                SMSClient smsClient = new SMSClient(configuration);
+
                 // Login sms client
                 LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
                 if (loginResponse.Verified == false)
@@ -76,16 +76,16 @@ namespace OneApi.Scenarios
                 }));
 
                 // Send SMS 
-                string requestId = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
+                smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
               
                 // Wait 30 seconds for the 'Delivery Reports' before stop the retriever  
                 System.Threading.Thread.Sleep(30000);
 
+                // Remove 'Delivery Reports' pull listeners and stop the retriever
+                smsClient.SmsMessagingClient.RemovePullDeliveryReportListeners();
+
                 // Logout sms client
                 smsClient.CustomerProfileClient.Logout();
-
-                // Remove 'Delivery Reports' pull listeners and stop the retriever
-                smsClient.SmsMessagingClient.RemovePullDeliveryReportListeners();     
             }
             catch (RequestException e)
             {

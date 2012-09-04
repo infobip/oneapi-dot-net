@@ -151,7 +151,7 @@ public class PushServerSimulator
                     {
                         if (hlrClientImpl.HlrPushNotificationsListeners != null)
                         {
-                            RoamingNotification roamingNotification = hlrClientImpl.ConvertJsonToRoamingNotification(json);
+                            RoamingNotification roamingNotification = hlrClientImpl.ConvertJsonToHLRNotification(json);
                             for (int i = 0; i < hlrClientImpl.HlrPushNotificationsListeners.Count; i++)
                             {
                                 hlrClientImpl.HlrPushNotificationsListeners[i].OnHLRReceived(roamingNotification);

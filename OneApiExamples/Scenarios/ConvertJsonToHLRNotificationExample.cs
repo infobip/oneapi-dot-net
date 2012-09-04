@@ -13,10 +13,8 @@ namespace OneApi.Scenarios
     *
     *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
     *
-    *  3.) Open 'Scenarios.ConvertJsonToHLRNotificationExample' class to edit where you should populate the following fields: 
-    *		'username' 
-    *		'password'  
-    *
+    *  3.) Open 'Scenarios.ConvertJsonToHLRNotificationExample' class 
+    *  
     *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
     *       There you will enter the appropriate example number in the console and press 'Enter' key 
     *       on which the result will be displayed in the Console.
@@ -34,7 +32,7 @@ namespace OneApi.Scenarios
             SMSClient smsClient = new SMSClient(configuration);
 
             // example:on-roaming-status
-            RoamingNotification roamingNotification = smsClient.HlrClient.ConvertJsonToRoamingNotification(JSON);
+            RoamingNotification roamingNotification = smsClient.HlrClient.ConvertJsonToHLRNotification(JSON);
             //----------------------------------------------------------------------------------------------------
             Console.WriteLine(roamingNotification);   
         }

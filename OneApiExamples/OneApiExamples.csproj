@@ -75,9 +75,9 @@
     <Compile Include="Examples\Async\GetDeliveryReportsAsyncExample.cs" />
     <Compile Include="Examples\Async\QueryDeliveryStatusAsyncExample.cs" />
     <Compile Include="Examples\Async\SendSMSAsyncExample.cs" />
-    <Compile Include="Scenarios\ConvertJsonToDeliveryInfoNotificationExample.cs" />
-    <Compile Include="Scenarios\ConvertJsonToHLRNotificationExample.cs" />
-    <Compile Include="Scenarios\ConvertJsonToInboundSMSMessageNotificationExample.cs" />
+    <Compile Include="Scenarios\ConvertJsonToDeliveryInfoNotification.cs" />
+    <Compile Include="Scenarios\ConvertJsonToHLRNotification.cs" />
+    <Compile Include="Scenarios\ConvertJsonToInboundSMSMessageNotification.cs" />
     <Compile Include="Scenarios\SendSMS_WaitForDeliveryStatusPush.cs" />
     <Compile Include="Scenarios\SendSMS_CheckDeliveryStatus.cs" />
     <Compile Include="Scenarios\SendSMS_GetDeliveryReportsUsingRetriever.cs" />

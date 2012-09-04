@@ -13,7 +13,7 @@ namespace OneApi.Scenarios
     *
     *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
     *
-    *  3.) Open 'Scenarios.ConvertJsonToInboundSMSMessageNotificationExample' class 
+    *  3.) Open 'Scenarios.ConvertJsonToInboundSMSMessageNotification' class 
     *  
     *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
     *       There you will enter the appropriate example number in the console and press 'Enter' key 
@@ -21,7 +21,7 @@ namespace OneApi.Scenarios
     *       
     **/
 
-    public class ConvertJsonToInboundSMSMessageNotificationExample
+    public class ConvertJsonToInboundSMSMessageNotification
 	{
         // Pushed 'Inbound Message Notification' JSON example
         private const string JSON = "{\"inboundSMSMessage\":[{\"dateTime\":1343893501000,\"destinationAddress\":\"7567567657\",\"messageId\":null,\"message\":\"TestCriteria\",\"resourceURL\":null,\"senderAddress\":\"76756\",\"moSessionId\":0}],\"numberOfMessagesInThisBatch\":1,\"resourceURL\":null,\"totalNumberOfPendingMessages\":0,\"callbackData\":null}";

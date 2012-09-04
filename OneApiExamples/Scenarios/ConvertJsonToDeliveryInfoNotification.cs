@@ -12,7 +12,7 @@ namespace OneApi.Scenarios
     *
     *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
     *
-    *  3.) Open 'Scenarios.ConvertJsonToDeliveryInfoNotificationExample' class 
+    *  3.) Open 'Scenarios.ConvertJsonToDeliveryInfoNotification' class 
     *  
     *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
     *       There you will enter the appropriate example number in the console and press 'Enter' key 
@@ -20,7 +20,7 @@ namespace OneApi.Scenarios
     *       
     **/
 
-    public class ConvertJsonToDeliveryInfoNotificationExample
+    public class ConvertJsonToDeliveryInfoNotification
     {
         // Pushed 'Delivery Info Notification' JSON example
         private const string JSON = "{\"deliveryInfoNotification\":{\"deliveryInfo\":{\"address\":\"38454234234\",\"deliveryStatus\":\"DeliveredToTerminal\"},\"callbackData\":\"\"}}";

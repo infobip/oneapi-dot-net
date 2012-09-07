@@ -21,7 +21,9 @@ namespace OneApi.Model
 
 		public override string ToString()
 		{
-			return "DeliveryReport{" + "messageId='" + MessageId + '\'' + ", sentDate=" + SentDate + ", doneDate=" + DoneDate + ", status='" + Status + '\'' + '}';
+            return "DeliveryReport {messageId=" + MessageId + ", sentDate="
+            + SentDate + ", doneDate=" + DoneDate + ", status=" + Status
+            + "}";
 		}
 	}
 }

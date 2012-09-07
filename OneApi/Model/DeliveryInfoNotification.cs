@@ -17,12 +17,8 @@ namespace OneApi.Model
 
         public override string ToString()
         {
-            StringBuilder buffer = new StringBuilder();
-            buffer.Append("deliveryInfo = ");
-            buffer.Append(DeliveryInfo);
-            buffer.Append(", callbackData = ");
-            buffer.Append(CallbackData);
-            return buffer.ToString();
+            return "DeliveryInfoNotification {deliveryInfo=" + DeliveryInfo
+         + ", callbackData=" + CallbackData + "}";
         }
     }
 }

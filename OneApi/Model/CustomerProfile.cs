@@ -4,22 +4,22 @@ using Newtonsoft.Json;
 namespace OneApi.Model
 {
     [Serializable]
-	public class CustomerProfile
-	{
+    public class CustomerProfile
+    {
         [JsonProperty(PropertyName = "id")]
         public int Id;
 
         [JsonProperty(PropertyName = "username")]
-		public string Username;
+        public string Username;
 
         [JsonProperty(PropertyName = "forename")]
-		public string Forename;
+        public string Forename;
 
         [JsonProperty(PropertyName = "surname")]
-		public string Surname;
+        public string Surname;
 
         [JsonProperty(PropertyName = "street")]
-		public string Street;
+        public string Street;
 
         [JsonProperty(PropertyName = "city")]
         public string City;
@@ -60,10 +60,18 @@ namespace OneApi.Model
         [JsonProperty(PropertyName = "enabled")]
         public bool Enabled;
 
-		public override string ToString()
-		{
-			return "CustomerProfile{" + "id=" + Id + ", username='" + Username + '\'' + ", forename='" + Forename + '\'' + ", surname='" + Surname + '\'' + ", street='" + Street + '\'' + ", city='" + City + '\'' + ", zipCode='" + ZipCode + '\'' + ", telephone='" + Telephone + '\'' + ", gsm='" + Gsm + '\'' + ", fax='" + Fax + '\'' + ", email='" + Email + '\'' + ", msn='" + Msn + '\'' + ", skype='" + Skype + '\'' + ", countryId=" + CountryId + ", timezoneId=" + TimezoneId + ", primaryLanguageId=" + PrimaryLanguageId + ", secondaryLanguageId=" + SecondaryLanguageId + ", enabled=" + Enabled + '}';
-		}
-	}
+        public override string ToString()
+        {
+            return "CustomerProfile {id=" + Id + ", username=" + Username
+                    + ", forename=" + Forename + ", surname=" + Surname
+                    + ", street=" + Street + ", city=" + City + ", zipCode="
+                    + ZipCode + ", telephone=" + Telephone + ", gsm=" + Gsm
+                    + ", fax=" + Fax + ", email=" + Email + ", msn=" + Msn
+                    + ", skype=" + Skype + ", countryId=" + CountryId
+                    + ", timezoneId=" + TimezoneId + ", primaryLanguageId="
+                    + PrimaryLanguageId + ", secondaryLanguageId="
+                    + SecondaryLanguageId + ", enabled=" + Enabled + "}";
+        }
+    }
 
 }

@@ -15,8 +15,9 @@ namespace OneApi.Examples.CustomerProfiles
             Configuration configuration = new Configuration(username, password);    
             SMSClient smsClient = new SMSClient(configuration);
 
-            //Logout user
             smsClient.CustomerProfileClient.Logout();
+            
+            Console.WriteLine("Logout success.");
         }
     }
 }

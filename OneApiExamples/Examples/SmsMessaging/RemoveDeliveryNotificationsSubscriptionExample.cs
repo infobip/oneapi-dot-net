@@ -16,7 +16,6 @@ namespace OneApi.Examples.SmsMessaging
             Configuration configuration = new Configuration(username, password);        
 			SMSClient smsClient = new SMSClient(configuration);
 
-            //Login user
             LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
             if (loginResponse.Verified == false)
             {
@@ -25,7 +24,7 @@ namespace OneApi.Examples.SmsMessaging
             }
 
             smsClient.SmsMessagingClient.RemoveDeliveryNotificationsSubscription(subscriptionId);
-
+            
             Console.WriteLine("Subscription canceled.");  
 		} 
 	}

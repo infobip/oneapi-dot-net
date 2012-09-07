@@ -49,6 +49,12 @@ namespace OneApi.Model
         [JsonProperty(PropertyName = "senderAddress")]
         public string SenderAddress;
 
+        /// <summary>
+        /// return the sender MSISDN or other identifying number
+        /// </summary>
+        [JsonProperty(PropertyName = "moSessionId")]
+        public int MoSessionId;
+
 		/// <summary>
 		/// default constructor
 		/// </summary>
@@ -63,7 +69,8 @@ namespace OneApi.Model
 		/// <param name="message"> </param>
 		/// <param name="resourceURL"> </param>
 		/// <param name="senderAddress"> </param>
-        public InboundSMSMessage(DateTime submitTime, string destinationAddress, string messageId, string message, string resourceURL, string senderAddress)
+        /// <param name="moSessionId"> </param>
+        public InboundSMSMessage(DateTime submitTime, string destinationAddress, string messageId, string message, string resourceURL, string senderAddress, int moSessionId)
 		{
             this.SubmitTime = submitTime;
 			this.DestinationAddress = destinationAddress;
@@ -71,6 +78,7 @@ namespace OneApi.Model
 			this.Message = message;
 			this.ResourceURL = resourceURL;
 			this.SenderAddress = senderAddress;
+            this.MoSessionId = moSessionId;
 		}
 
 		/// <summary>
@@ -79,20 +87,11 @@ namespace OneApi.Model
 		/// </summary>
         public override string ToString()
 		{
-			StringBuilder buffer = new StringBuilder();
-            buffer.Append("submitTime = ");
-            buffer.Append(SubmitTime);
-			buffer.Append(", destinationAddress = ");
-			buffer.Append(DestinationAddress);
-			buffer.Append(", messageId = ");
-			buffer.Append(MessageId);
-			buffer.Append(", message = ");
-			buffer.Append(Message);
-			buffer.Append(", resourceURL = ");
-			buffer.Append(ResourceURL);
-			buffer.Append(", senderAddress = ");
-			buffer.Append(SenderAddress);
-			return buffer.ToString();
+            return "InboundSMSMessage {dateTime=" + SubmitTime
+                + ", destinationAddress=" + DestinationAddress + ", messageId="
+                + MessageId + ", message=" + Message + ", resourceURL="
+                + ResourceURL + ", senderAddress=" + SenderAddress
+                + ", moSessionId=" + MoSessionId + "}";
 		}
 	}
 }

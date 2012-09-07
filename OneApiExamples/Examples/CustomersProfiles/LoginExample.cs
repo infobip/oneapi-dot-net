@@ -15,13 +15,14 @@ namespace OneApi.Examples.CustomerProfiles
             Configuration configuration = new Configuration(username, password);    
             SMSClient smsClient = new SMSClient(configuration);
 
-            //Login user
             LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
             if (loginResponse.Verified == false)
             {
                 Console.WriteLine("User is not verified!");
                 return;
-            } 
+            }
+
+            Console.WriteLine("Login success.");
         }
     }
 }

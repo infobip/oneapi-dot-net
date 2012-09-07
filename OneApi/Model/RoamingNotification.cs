@@ -17,12 +17,8 @@ namespace OneApi.Model
 
         public override string ToString()
         {
-            StringBuilder buffer = new StringBuilder();
-            buffer.Append("roaming = ");
-            buffer.Append(Roaming);
-            buffer.Append(", callbackData = ");
-            buffer.Append(CallbackData);
-            return buffer.ToString();
+            return "RoamingNotification {roaming=" + Roaming + ", callbackData="
+                  + CallbackData + "}";
         }
     }
 }

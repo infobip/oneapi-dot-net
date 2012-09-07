@@ -108,41 +108,11 @@ namespace OneApi.Model
         /// </summary>
         public override string ToString()
         {
-            StringBuilder buffer = new StringBuilder();
-            buffer.Append("address = ");
-            buffer.Append(Address);
-
-            buffer.Append(", currentRoaming = ");
-            buffer.Append(CurrentRoaming);
-
-            buffer.Append(", retrievalStatus = ");
-            buffer.Append(RetrievalStatus);
-
-            buffer.Append(", callbackData = ");
-            buffer.Append(CallbackData);
-
-            buffer.Append(", servingMccMnc={");
-
-            if (ConnectionProfileServingMccMnc != null)
-            {
-                buffer.Append("mcc = ");
-                buffer.Append(ConnectionProfileServingMccMnc.Mcc);
-                buffer.Append(", mnc = ");
-                buffer.Append(ConnectionProfileServingMccMnc.Mnc);
-            }
-
-            buffer.Append(", resourceURL = ");
-            buffer.Append(ResourceURL);
-            buffer.Append("}");
-
-            buffer.Append(", extendedData={");
-            if (ExtendedData != null)
-            {
-                buffer.Append(ExtendedData);
-            }
-            buffer.Append("}");
-
-            return buffer.ToString();
+            return "Roaming {address=" + Address + ", currentRoaming="
+                  + CurrentRoaming + ", servingMccMnc=" + ConnectionProfileServingMccMnc
+                  + ", resourceURL=" + ResourceURL + ", retrievalStatus="
+                  + RetrievalStatus + ", extendedData=" + ExtendedData
+                  + ", callbackData=" + CallbackData + "}";
         }
 	}
 }

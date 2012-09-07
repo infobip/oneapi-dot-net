@@ -16,7 +16,6 @@ namespace OneApi.Examples.Async
             Configuration configuration = new Configuration(username, password);
             SMSClient smsClient = new SMSClient(configuration);
 
-            //Login user
             LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
             if (loginResponse.Verified == false)
             {

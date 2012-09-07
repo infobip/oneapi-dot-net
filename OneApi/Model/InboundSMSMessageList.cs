@@ -47,32 +47,13 @@ namespace OneApi.Model
 		/// </summary>
         public override string ToString()
 		{
-			StringBuilder buffer = new StringBuilder();
-			buffer.Append("numberOfMessagesInThisBatch = ");
-			buffer.Append(NumberOfMessagesInThisBatch);
-			buffer.Append(", resourceURL = ");
-			buffer.Append(ResourceURL);
-			buffer.Append(", totalNumberOfPendingMessages = ");
-			buffer.Append(TotalNumberOfPendingMessages);
-            buffer.Append(", callbackData = ");
-            buffer.Append(CallbackData);
-
-			buffer.Append(", inboundSMSMessage = {");
-			if (InboundSMSMessage != null)
-			{
-                for (int i = 0; i < InboundSMSMessage.Length; i++)
-				{
-					buffer.Append("[");
-					buffer.Append(i);
-					buffer.Append("] = {");
-                    buffer.Append(InboundSMSMessage[i].ToString());
-					buffer.Append("} ");
-				}
-			}
-			buffer.Append("} ");
-
-			return buffer.ToString();
-
+            return "InboundSMSMessageList {inboundSMSMessage="
+                + string.Join(", ", (Object[])InboundSMSMessage)
+                + ", numberOfMessagesInThisBatch="
+                + NumberOfMessagesInThisBatch + ", resourceURL=" + ResourceURL
+                + ", totalNumberOfPendingMessages="
+                + TotalNumberOfPendingMessages + ", callbackData="
+                + CallbackData + "}";
 		}
 	}
 

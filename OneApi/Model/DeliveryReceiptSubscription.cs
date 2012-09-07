@@ -5,88 +5,76 @@ using Newtonsoft.Json;
 namespace OneApi.Model
 {
 
-	/// <summary>
-	/// Confirms the details of a successful request to subscribe to SMS delivery receipts
-	/// </summary>
-	[Serializable]
-	public class DeliveryReceiptSubscription
-	{
-		/// <summary>
-		/// inner class CallbackReference details details the URL of the page/ service to notify and additional data that will be sent 
-		/// </summary>
-		public class CallbackReference
-		{
-			
-			/// <summary>
-			/// return the user data that will be sent along with the callback notification
-			/// </summary>
+    /// <summary>
+    /// Confirms the details of a successful request to subscribe to SMS delivery receipts
+    /// </summary>
+    [Serializable]
+    public class DeliveryReceiptSubscription
+    {
+        /// <summary>
+        /// inner class CallbackReference details details the URL of the page/ service to notify and additional data that will be sent 
+        /// </summary>
+        public class CallbackReference
+        {
+
+            /// <summary>
+            /// return the user data that will be sent along with the callback notification
+            /// </summary>
             /// 
             [JsonProperty(PropertyName = "callbackData")]
             public string CallbackData;
-			
-			/// <summary>
-			/// return the URL of the page / service to send the notification to
-			/// </summary>
+
+            /// <summary>
+            /// return the URL of the page / service to send the notification to
+            /// </summary>
             [JsonProperty(PropertyName = "notifyURL")]
             public string NotifyURL;
 
-		    /// <summary>
-			/// default constructor
-			/// </summary>
-			public CallbackReference(){}
+            /// <summary>
+            /// default constructor
+            /// </summary>
+            public CallbackReference() { }
 
-			/// <summary>
-			/// alternate constructor setting both callbackData and notifyURL </summary>
-			/// <param name="callbackData"> </param>
-			/// <param name="notifyURL"> </param>
-			public CallbackReference(string callbackData, string notifyURL)
-			{
-				CallbackData = callbackData;
-				NotifyURL = notifyURL;
-			}
+            /// <summary>
+            /// alternate constructor setting both callbackData and notifyURL </summary>
+            /// <param name="callbackData"> </param>
+            /// <param name="notifyURL"> </param>
+            public CallbackReference(string callbackData, string notifyURL)
+            {
+                CallbackData = callbackData;
+                NotifyURL = notifyURL;
+            }
 
-			/// <summary>
-			/// generate a textual representation of the CallbackReference  
-			/// </summary>
+            /// <summary>
+            /// generate a textual representation of the CallbackReference  
+            /// </summary>
             public override string ToString()
-			{
-				StringBuilder buffer = new StringBuilder();
-				buffer.Append("callbackData = ");
-				buffer.Append(CallbackData);
-				buffer.Append(", notifyURL = ");
-				buffer.Append(NotifyURL);
-				return buffer.ToString();
-			}
+            {
+                return "CallbackReference {callbackData=" + CallbackData
+                    + ", notifyURL=" + NotifyURL + "}";
+            }
 
-		}
+        }
 
-		/// <summary>
-		/// get the reference to the inner callbackReference class - the notification URL and user supplied callback data </summary>
-		/// <returns> CallbackReference </returns>
+        /// <summary>
+        /// get the reference to the inner callbackReference class - the notification URL and user supplied callback data </summary>
+        /// <returns> CallbackReference </returns>
         [JsonProperty(PropertyName = "callbackReference")]
         public CallbackReference InnerCallbackReference;
-         
-		/// <summary>
-		/// return resourceURL - a URL uniquely identifying this SMS delivery receipt subscription
-		/// </summary>
+
+        /// <summary>
+        /// return resourceURL - a URL uniquely identifying this SMS delivery receipt subscription
+        /// </summary>
         [JsonProperty(PropertyName = "resourceURL")]
         public string ResourceURL;
 
-		/// <summary>
-		/// generate a textual representation of the deliveryReceiptSubscription instance including nested elements and classes 
-		/// </summary>
+        /// <summary>
+        /// generate a textual representation of the deliveryReceiptSubscription instance including nested elements and classes 
+        /// </summary>
         public override string ToString()
-		{
-			StringBuilder buffer = new StringBuilder();
-			buffer.Append("callbackReference = {");
-			if (InnerCallbackReference != null)
-			{
-                buffer.Append(InnerCallbackReference.ToString());
-			}
-			buffer.Append("}, resourceURL = ");
-            buffer.Append(ResourceURL);
-			return buffer.ToString();
-		}
-
-	}
+        {
+            return "DeliveryReceiptSubscription {callbackReference="
+                    + InnerCallbackReference + ", resourceURL=" + ResourceURL + "}";
+        }
+    }
 }

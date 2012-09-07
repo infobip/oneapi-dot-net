@@ -11,7 +11,8 @@ namespace OneApi.Model
 		
 		public override string ToString()
 		{
-            return this.GetType().Name + "{" + "verified=" + Verified + ", ibAuthCookie='" + IbAuthCookie + '\'' + '}';
+            return "LoginResponse {verified=" + Verified + ", ibAuthCookie="
+                + IbAuthCookie + "}";
 		}
 	}
 

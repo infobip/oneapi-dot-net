@@ -19,13 +19,6 @@ namespace OneApi.Examples.SmsMessaging
             Configuration configuration = new Configuration(username, password);      
 			SMSClient smsClient = new SMSClient(configuration);
 
-            LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
-            if (loginResponse.Verified == false)
-            {
-                Console.WriteLine("User is not verified!");
-                return;
-            }
-
             string subscriptionId = smsClient.SmsMessagingClient.SubscribeToInboundMessagesNotifications(new SubscribeToInboundMessagesRequest(destinationAddress, notifyUrl, criteria, notificationFormat, "", ""));
             Console.WriteLine("Subscription Id: " + subscriptionId); 
 		}

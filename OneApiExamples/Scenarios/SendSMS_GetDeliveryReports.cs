@@ -49,14 +49,6 @@ namespace OneApi.Scenarios
 
             try
             {
-                // Login sms client
-                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
-                if (loginResponse.Verified == false)
-                {
-                    Console.WriteLine("User is not verified!");
-                    return;
-                }
-
                 // Send SMS 
                 smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
               
@@ -65,10 +57,7 @@ namespace OneApi.Scenarios
 
                 // Get 'Delivery Reports'
                 DeliveryReportList deliveryReportList = smsClient.SmsMessagingClient.GetDeliveryReports();
-                Console.WriteLine(deliveryReportList);
-
-                // Logout sms client
-                smsClient.CustomerProfileClient.Logout();
+                Console.WriteLine(deliveryReportList);    
             }
             catch (RequestException e)
             {

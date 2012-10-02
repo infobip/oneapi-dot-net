@@ -57,14 +57,6 @@ namespace OneApi.Scenarios
                 // Initialize SMSClient using the Configuration object
                 SMSClient smsClient = new SMSClient(configuration);
 
-                // Login sms client
-                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
-                if (loginResponse.Verified == false)
-                {
-                    Console.WriteLine("User is not verified!");
-                    return;
-                }
-
                 // Add listener(start push server and wait for the 'Delivery Info Notifications')    
                 smsClient.SmsMessagingClient.AddPushDeliveryStatusNotificationsListener(new DeliveryStatusNotificationsListener((deliveryInfoNotification) =>
                 {
@@ -87,9 +79,6 @@ namespace OneApi.Scenarios
 
                 // Remove 'Delivery Info Notifications' subscription
                 smsClient.SmsMessagingClient.RemoveDeliveryNotificationsSubscription(subscriptionId);
-
-                // Logout sms client
-                smsClient.CustomerProfileClient.Logout();
 
                 // Remove 'Delivery Info Notifications' push listeners and stop the server
                 smsClient.SmsMessagingClient.RemovePushDeliveryStatusNotificationsListeners();     

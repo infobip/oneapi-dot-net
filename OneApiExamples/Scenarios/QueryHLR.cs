@@ -46,21 +46,12 @@ namespace OneApi.Scenarios
                 // example:data-connection-client
                 Configuration configuration = new Configuration(username, password);
                 SMSClient smsClient = new SMSClient(configuration);
-                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
                 // ----------------------------------------------------------------------------------------------------
-                if (loginResponse.Verified == false)
-                {
-                    Console.WriteLine("User is not verified!");
-                    return;
-                }
-
+              
                 // example:retrieve-roaming-status
                 Roaming roaming = smsClient.HlrClient.QueryHLR(address);
                 // ----------------------------------------------------------------------------------------------------
                 Console.WriteLine(roaming);
-
-                // Logout sms client
-                smsClient.CustomerProfileClient.Logout();
             }
             catch (RequestException e)
             {

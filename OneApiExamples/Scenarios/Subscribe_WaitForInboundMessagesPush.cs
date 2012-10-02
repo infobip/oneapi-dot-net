@@ -59,14 +59,6 @@ namespace OneApi.Scenarios
                 // Initialize SMSClient using the Configuration object
                 SMSClient smsClient = new SMSClient(configuration);
 
-                // Login sms client
-                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
-                if (loginResponse.Verified == false)
-                {
-                    Console.WriteLine("User is not verified!");
-                    return;
-                }
-
                 // Add listener(start push server and wait for the 'Inbound Message Notifications')    
                 smsClient.SmsMessagingClient.AddPushInboundMessageNotificationsListener(new InboundMessageNotificationsListener((smsMessageList) =>
                 {
@@ -82,9 +74,6 @@ namespace OneApi.Scenarios
 
                 // Remove 'Inbound Message Notifications' subscription
                 smsClient.SmsMessagingClient.RemoveInboundMessagesNotificationsSubscription(subscriptionId);
-
-                // Logout sms client
-                smsClient.CustomerProfileClient.Logout();
 
                 // Remove 'Inbound Message Notifications' push listeners and stop the server
                 smsClient.SmsMessagingClient.RemovePushInboundMessageNotificationsListeners();    

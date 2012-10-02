@@ -54,14 +54,6 @@ namespace OneApi.Scenarios
                 // Initialize SMSClient using the Configuration object
                 SMSClient smsClient = new SMSClient(configuration);
 
-                // Login sms client
-                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
-                if (loginResponse.Verified == false)
-                {
-                    Console.WriteLine("User is not verified!");
-                    return;
-                }
-
                 // Add listener(start push server and wait for the 'HLR Notifications')
                 smsClient.HlrClient.AddPushHLRNotificationsListener(new HLRNotificationsListener((roamingNotification) =>
                 {
@@ -78,9 +70,6 @@ namespace OneApi.Scenarios
 
                 // Wait 30 seconds for 'HLR Notification' push-es before closing the server connection 
                 System.Threading.Thread.Sleep(30000);
-
-                // Logout sms client
-                smsClient.CustomerProfileClient.Logout();
 
                 // Remove 'HLR Notification' push listeners and stop the server
                 smsClient.HlrClient.RemovePushHLRNotificationsListeners();

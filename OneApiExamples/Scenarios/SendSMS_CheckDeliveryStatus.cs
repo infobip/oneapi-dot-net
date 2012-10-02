@@ -48,15 +48,6 @@ namespace OneApi.Scenarios
                 SMSClient smsClient = new SMSClient(configuration);
                 // ----------------------------------------------------------------------------------------------------
 
-                // example:login-sms-client
-                LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
-                // ----------------------------------------------------------------------------------------------------
-                if (loginResponse.Verified == false)
-                {
-                    Console.WriteLine("User is not verified!");
-                    return;
-                }
-
                 // example:prepare-message-without-notify-url
                 SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
                 // ----------------------------------------------------------------------------------------------------
@@ -73,11 +64,7 @@ namespace OneApi.Scenarios
                 DeliveryInfoList deliveryInfoList = smsClient.SmsMessagingClient.QueryDeliveryStatus(senderAddress, requestId);
                 string deliveryStatus = deliveryInfoList.DeliveryInfos[0].DeliveryStatus;
                 // ----------------------------------------------------------------------------------------------------
-                Console.WriteLine(deliveryStatus);
-
-                // example:logout-sms-client
-                smsClient.CustomerProfileClient.Logout();
-                // ----------------------------------------------------------------------------------------------------        
+                Console.WriteLine(deliveryStatus); 
             }
             catch (RequestException e)
             {

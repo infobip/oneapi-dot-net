@@ -41,13 +41,14 @@ namespace OneApi.Config
 		}
 
 		/// <summary>
-		/// Initialize configuration object using the 'IBSSO' Authentication credentials </summary>
-        /// <param name="username"> - 'IBSSO' Authentication user name </param>
-        /// <param name="password"> - 'IBSSO' Authentication password </param>
+        /// Initialize configuration object using the 'BASIC' Authentication credentials (to use 'IBSSO' Authentication you need to call 'CustomerProfileClient.Login()' method after client initialization) </summary>
+        /// <param name="username"> - 'BASIC' Authentication user name </param>
+        /// <param name="password"> - 'BASIC' Authentication password </param>
 		public Configuration(string username, string password)
 		{
 			authentication.Username = username;
 			authentication.Password = password;
+            authentication.Type = OneApi.Model.Authentication.AuthType.BASIC;
 		}
 
 		/// <summary>
@@ -56,6 +57,7 @@ namespace OneApi.Config
 		public Configuration(string accessToken)
 		{
 			authentication.AccessToken = accessToken;
+            authentication.Type = OneApi.Model.Authentication.AuthType.OAUTH;
 		}
 
 		/// <summary>

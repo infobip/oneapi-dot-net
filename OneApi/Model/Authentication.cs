@@ -6,17 +6,18 @@ namespace OneApi.Model
 	{
 		public enum AuthType
 		{
+            BASIC,
             IBSSO,
 			OAUTH
 		}
 
 		public Authentication() : base()
 		{
-            Type = AuthType.IBSSO;
+            Type = AuthType.BASIC;
 		}
 
 		/// <summary>
-		/// Initialize Authentication</summary>
+        /// Initialize 'BASIC' Authentication (to use 'IBSSO' Authentication you need to call 'CustomerProfileClient.Login()' method after client initialization)</summary>
 		/// <param name="username"> </param>
 		/// <param name="password"> </param>
 		public Authentication(string username, string password) : this()
@@ -35,31 +36,31 @@ namespace OneApi.Model
 		}
 
 		/// <summary>
-		/// Get Authentication type </summary>
-		/// <returns> AuthType - (AuthType.OAUTH, AuthType.IBSSO) </returns>
+		/// Authentication type </summary>
+		/// <returns> AuthType </returns>
         [JsonProperty(PropertyName = "type")]
         public AuthType Type;
 
 		/// <summary>
-		/// Get 'Basic' Authentication user name </summary>
+        /// 'BASIC' Authentication user name </summary>
 		/// <returns> String </returns>
         [JsonProperty(PropertyName = "username")]
         public string Username;
 
 		/// <summary>
-		/// Get Authentication password </summary>
+        /// 'BASIC' Authentication password </summary>
 		/// <returns> String </returns>
         [JsonProperty(PropertyName = "password")]
         public string Password;
 
         /// <summary>
-        /// Get Ibsso token </summary>
+        /// 'IBSSO' Authentication token </summary>
         /// <returns> String </returns>
         [JsonIgnore]
         public string IbssoToken;
 
 		/// <summary>
-		/// Get 'OAuth' Authentication Access Token </summary>
+        /// 'OAUTH' Authentication Access Token </summary>
 		/// <returns> String </returns>
         [JsonProperty(PropertyName = "accessToken")]
         public string AccessToken;

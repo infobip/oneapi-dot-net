@@ -199,13 +199,18 @@ namespace OneApi.Client.Impl
             RestRequest request = new RestRequest(requestData.ResourcePath);
 
             //setup connection with custom authorization
-            if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.IBSSO))
+            Authentication authentication = configuration.Authentication;
+            if (authentication.Type.Equals(OneApi.Model.Authentication.AuthType.BASIC))
             {
-                request = SetupRequestWithCustomAuthorization(ref request, "IBSSO", configuration.Authentication.IbssoToken);
+                request = SetupRequestWithCustomAuthorization(ref request, "Basic", GetAuthorizationHeader(authentication.Username, authentication.Password));
             }
-            else if (configuration.Authentication.Type.Equals(OneApi.Model.Authentication.AuthType.OAUTH))
+            else if (authentication.Type.Equals(OneApi.Model.Authentication.AuthType.IBSSO))
             {
-                request = SetupRequestWithCustomAuthorization(ref request, "OAuth", configuration.Authentication.AccessToken);
+                request = SetupRequestWithCustomAuthorization(ref request, "IBSSO", authentication.IbssoToken);
+            }
+            else if (authentication.Type.Equals(OneApi.Model.Authentication.AuthType.OAUTH))
+            {
+                request = SetupRequestWithCustomAuthorization(ref request, "OAuth", authentication.AccessToken);
             }
 
             request.AddHeader("Accept", "*/*");
@@ -383,6 +388,13 @@ namespace OneApi.Client.Impl
             }
 
             return id;
+        }
+
+        private string GetAuthorizationHeader(string username, string password)
+        {
+            string credentials = username + ":" + password;
+            byte[] credentialsAsBytes = Encoding.UTF8.GetBytes(credentials);
+            return System.Convert.ToBase64String(credentialsAsBytes).Trim();
         }
     }
 }

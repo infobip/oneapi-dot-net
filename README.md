@@ -10,11 +10,6 @@ First initialize the messaging client using your username and password:
     SMSClient smsClient = new SMSClient(configuration);
 
 
-Then login with the client:
-
-    LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
-
-
 An exception will be thrown if your username and/or password are incorrect.
 
 Prepare the message:
@@ -58,7 +53,6 @@ Initialize and login the data connection client:
 
     Configuration configuration = new Configuration(username, password);
     SMSClient smsClient = new SMSClient(configuration);
-    LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
 
 
 Retrieve the roaming status (HLR):
@@ -76,7 +70,7 @@ Similar to the previous example, but this time you must set the notification url
 
 When the roaming status notification is pushed to your server as a HTTP POST request, you must process the body of the message with the following code:
 
-    RoamingNotification roamingNotification = smsClient.HlrClient.ConvertJsonToRoamingNotification(JSON);
+    RoamingNotification roamingNotification = smsClient.HlrClient.ConvertJsonToHLRNotification(JSON);
 
 
 Retrieve inbound messages example

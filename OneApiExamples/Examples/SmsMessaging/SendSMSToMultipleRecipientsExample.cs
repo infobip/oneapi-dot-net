@@ -6,9 +6,10 @@ using OneApi.Model;
 namespace OneApi.Examples.SmsMessaging
 {
 
-	public class SendSMSToMultipleRecipientsExample : ExampleBase
+	public class SendSMSToMultipleRecipientsExample 
 	{
-
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string senderAddress = "";
         private static string message = "";
         private static string recipientAddress1 = "";

@@ -6,8 +6,10 @@ using OneApi.Model;
 namespace OneApi.Examples.SmsMessaging
 {
 
-	public class GetInboundMessagesExample : ExampleBase
+	public class GetInboundMessagesExample
 	{
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
 
 		public static void Execute()
 		{

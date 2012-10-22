@@ -5,7 +5,7 @@ namespace OneApi.Model
 
 	public class SubscribeToInboundMessagesRequest
 	{
-		private string destinationAddress = "";
+        private string destinationAddress = null;
 		private string notifyURL = null;
 		private string criteria = null;
 		private string notificationFormat = null;

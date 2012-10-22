@@ -6,9 +6,10 @@ using OneApi.Model;
 namespace OneApi.Examples.SmsMessaging
 {
 
-	public class SubscribeToInboundMessagesNotificationsExample : ExampleBase
+	public class SubscribeToInboundMessagesNotificationsExample 
 	{
-
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string destinationAddress = "";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3001/" 3001=Default port for 'Inbound Messages Notifications' server simulator
         private static string criteria = "";

@@ -9,8 +9,11 @@ using org.infobip.oneapi.model;
 
 namespace OneApi.Examples.CustomerProfiles
 {
-    class GetAccountBalanceExample : ExampleBase
+    class GetAccountBalanceExample 
     {
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
+
         public static void Execute()
         {
             Configuration configuration = new Configuration(username, password);    

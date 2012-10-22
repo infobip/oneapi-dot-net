@@ -8,8 +8,11 @@ using OneApi.Model;
 
 namespace OneApi.Examples.CustomerProfiles
 {
-    class GetCustomerProfileExample : ExampleBase
+    class GetCustomerProfileExample
     {
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
+
         public static void Execute()
         {
             Configuration configuration = new Configuration(username, password);    

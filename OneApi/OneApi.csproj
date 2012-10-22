@@ -67,7 +67,9 @@
     <Compile Include="Client\Impl\OneAPIBaseClientImpl.cs" />
     <Compile Include="Client\Impl\SMSClient.cs" />
     <Compile Include="Client\Impl\SMSMessagingClientImpl.cs" />
+    <Compile Include="Client\Impl\USSDClientImpl.cs" />
     <Compile Include="Client\SMSMessagingClient.cs" />
+    <Compile Include="Client\USSDClient.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\RequestException.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="Model\AccountBalance.cs" />
     <Compile Include="Model\Authentication.cs" />
     <Compile Include="Converter\CustomDateConverter.cs" />
+    <Compile Include="Model\USSDRequest.cs" />
     <Compile Include="Model\DeliveryReportList.cs" />
     <Compile Include="Model\Currency.cs" />
     <Compile Include="Model\CustomerProfile.cs" />

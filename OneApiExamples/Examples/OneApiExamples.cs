@@ -18,6 +18,7 @@ namespace OneApi.Examples
             WriteNamespaceClasses("OneApi.Examples.CustomerProfiles", ref i);
             WriteNamespaceClasses("OneApi.Examples.SmsMessaging", ref i);
             WriteNamespaceClasses("OneApi.Examples.Hlr", ref i);
+            WriteNamespaceClasses("OneApi.Examples.Ussd", ref i);
             WriteNamespaceClasses("OneApi.Examples.Async", ref i);
             WriteNamespaceClasses("OneApi.Examples.ConfigFile", ref i);
             WriteNamespaceClasses("OneApi.Examples.Logger", ref i);

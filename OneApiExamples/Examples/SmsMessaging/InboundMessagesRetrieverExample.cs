@@ -7,8 +7,10 @@ using OneApi.Listeners;
 namespace OneApi.Examples.SmsMessaging
 {
    
-	public class InboundMessagesRetrieverExample : ExampleBase
+	public class InboundMessagesRetrieverExample
 	{
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
 
         public static void Execute()
 		{

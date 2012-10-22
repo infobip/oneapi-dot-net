@@ -63,7 +63,6 @@
     <Compile Include="Examples\CustomersProfiles\GetCustomerProfilesExample.cs" />
     <Compile Include="Examples\CustomersProfiles\GetCustomerProfileByUserIdExample.cs" />
     <Compile Include="Examples\CustomersProfiles\GetCustomerProfileExample.cs" />
-    <Compile Include="Examples\ExampleBase.cs" />
     <Compile Include="Examples\Hlr\ConvertJsonToHLRNotificationExample.cs" />
     <Compile Include="Examples\Hlr\RemoveHLRDeliveryNotificationsSubscriptionExample.cs" />
     <Compile Include="Examples\Hlr\GetHLRDeliveryNotificationsSubscriptionsExample.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="Examples\Async\GetDeliveryReportsAsyncExample.cs" />
     <Compile Include="Examples\Async\QueryDeliveryStatusAsyncExample.cs" />
     <Compile Include="Examples\Async\SendSMSAsyncExample.cs" />
+    <Compile Include="Examples\Ussd\USSDExample.cs" />
     <Compile Include="Scenarios\ConvertJsonToDeliveryInfoNotification.cs" />
     <Compile Include="Scenarios\ConvertJsonToHLRNotification.cs" />
     <Compile Include="Scenarios\ConvertJsonToInboundSMSMessageNotification.cs" />

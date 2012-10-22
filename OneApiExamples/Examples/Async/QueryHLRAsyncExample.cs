@@ -7,8 +7,10 @@ using OneApi.Listeners;
 namespace OneApi.Examples.Async
 {
 
-    public class QueryHLRAsyncExample : ExampleBase
+    public class QueryHLRAsyncExample 
     {
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string address = "";
 
         public static void Execute()

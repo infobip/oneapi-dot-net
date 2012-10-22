@@ -7,8 +7,10 @@ using OneApi.Listeners;
 namespace OneApi.Examples.Async
 {
 
-    public class GetDeliveryReportsAsyncExample : ExampleBase
+    public class GetDeliveryReportsAsyncExample 
     {
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
 
         public static void Execute()
         {

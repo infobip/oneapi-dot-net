@@ -6,9 +6,10 @@ using OneApi.Model;
 namespace OneApi.Examples.Hlr
 {
 
-    public class QueryHLRExample : ExampleBase
+    public class QueryHLRExample 
 	{
-
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string address = "";
 
         public static void Execute()

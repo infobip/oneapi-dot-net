@@ -6,9 +6,10 @@ using OneApi.Model;
 namespace OneApi.Examples.Hlr
 {
 
-    public class SubscribeToHLRDeliveryNotificationsExample : ExampleBase
+    public class SubscribeToHLRDeliveryNotificationsExample 
 	{
-
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3002/" 3002=Default port for 'HLR Notifications' server simulator
 
         public static void Execute()

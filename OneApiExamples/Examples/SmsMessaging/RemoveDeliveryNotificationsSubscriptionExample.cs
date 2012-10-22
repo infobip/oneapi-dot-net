@@ -6,9 +6,10 @@ using OneApi.Model;
 namespace OneApi.Examples.SmsMessaging
 {
 
-    public class RemoveDeliveryNotificationsSubscriptionExample : ExampleBase
+    public class RemoveDeliveryNotificationsSubscriptionExample 
 	{
-
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
         private static string subscriptionId = "";
 
         public static void Execute()

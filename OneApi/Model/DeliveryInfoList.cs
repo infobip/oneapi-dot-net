@@ -37,6 +37,12 @@ namespace OneApi.Model
             [JsonProperty(PropertyName = "deliveryStatus")]
             public string DeliveryStatus;
 
+            [JsonProperty(PropertyName = "messageId")]
+            public string MessageId;
+
+            [JsonProperty(PropertyName = "clientCorrelator")]
+            public string ClientCorrelator;
+
             /// <summary>
             /// default constructor
             /// </summary>
@@ -46,10 +52,12 @@ namespace OneApi.Model
             /// utility constructor to create a DeliveryInfo instance with all fields set </summary>
             /// <param name="address"> </param>
             /// <param name="deliveryStatus"> </param>
-            public DeliveryInfo(string address, string deliveryStatus)
+            public DeliveryInfo(string address, string deliveryStatus, string messageId, string clientCorrelator)
             {
                 Address = address;
                 DeliveryStatus = deliveryStatus;
+                MessageId = messageId;
+                ClientCorrelator = clientCorrelator;
             }
 
             /// <summary>

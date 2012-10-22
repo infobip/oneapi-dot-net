@@ -5,7 +5,7 @@ namespace OneApi.Model
 
 	public class SMSRequest
 	{
-		private string senderAddress = "";
+        private string senderAddress = null;
 		private string[] address = null;
 		private string message = "";
 		private string clientCorrelator = null;

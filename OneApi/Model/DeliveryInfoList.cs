@@ -66,7 +66,8 @@ namespace OneApi.Model
             public override string ToString()
             {
                 return "DeliveryInfo {address=" + Address + ", deliveryStatus="
-                        + DeliveryStatus + "}";
+                    + DeliveryStatus + ", messageId=" + MessageId
+                    + ", clientCorrelator=" + ClientCorrelator + "}";
             }
         }
 

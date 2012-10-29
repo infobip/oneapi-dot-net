@@ -12,34 +12,32 @@ namespace OneApi.Model
 {
     public class RequestData
     {
-        public RequestData(string resourcePath, int requiredStatus, Method requestMethod)
+        public RequestData(string resourcePath, Method requestMethod)
         {
             ResourcePath = resourcePath;
-            RequiredStatus = requiredStatus;
             RequestMethod = requestMethod;
         }
 
-        public RequestData(string apiUrl, int requiredStatus, Method requestMethod, object formParams)
-            : this(apiUrl, requiredStatus, requestMethod)
+        public RequestData(string apiUrl, Method requestMethod, object formParams)
+            : this(apiUrl, requestMethod)
         {
             this.FormParams = formParams;
         }
 
-        public RequestData(string resourcePath, int requiredStatus, Method requestMethod, string rootElement)
-            : this(resourcePath, requiredStatus, requestMethod)
+        public RequestData(string resourcePath, Method requestMethod, string rootElement)
+            : this(resourcePath, requestMethod)
         {
             RootElement = rootElement;
         }
 
-        public RequestData(string resourcePath, int requiredStatus, Method requestMethod, string rootElement, object formParams)
-            : this(resourcePath, requiredStatus, requestMethod, rootElement)
+        public RequestData(string resourcePath, Method requestMethod, string rootElement, object formParams)
+            : this(resourcePath, requestMethod, rootElement)
         {
             FormParams = formParams;
         }
 
         public HttpWebRequest Request;
         public string ResourcePath;
-        public int RequiredStatus;
         public Method RequestMethod;
         public string RootElement;
         public object FormParams;

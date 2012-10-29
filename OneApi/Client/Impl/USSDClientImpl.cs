@@ -25,7 +25,7 @@ namespace OneApi.Client.Impl
         /// <returns> InboundSMSMessage </returns>
         public InboundSMSMessage SendMessage(String address, String message)
         {
-            RequestData requestData = new RequestData(USSD_URL_BASE, RESPONSE_CODE_200_OK, Method.POST);
+            RequestData requestData = new RequestData(USSD_URL_BASE, Method.POST);
             requestData.FormParams = new USSDRequest(address, message);
             return ExecuteMethod<InboundSMSMessage>(requestData);
         }
@@ -37,7 +37,7 @@ namespace OneApi.Client.Impl
         /// <param name="message"></param>
         public void StopSession(String address, String message)
         {
-            RequestData requestData = new RequestData(USSD_URL_BASE, RESPONSE_CODE_200_OK, Method.POST);
+            RequestData requestData = new RequestData(USSD_URL_BASE, Method.POST);
             requestData.FormParams = new USSDRequest(address, message, true);
             ExecuteMethod(requestData);
         }

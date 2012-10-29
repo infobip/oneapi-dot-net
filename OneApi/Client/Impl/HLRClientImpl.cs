@@ -60,7 +60,7 @@ namespace OneApi.Client.Impl
                 urlBuilder.Append(HttpUtility.UrlEncode(callbackData));
             }
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET);
             ExecuteMethod(requestData);
         }
 
@@ -84,7 +84,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append(HttpUtility.UrlEncode(address));
             urlBuilder.Append("&includeExtendedData=true");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "roaming");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "roaming");
             return ExecuteMethod<Roaming>(requestData);
         }
 
@@ -99,7 +99,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append(HttpUtility.UrlEncode(address));
             urlBuilder.Append("&includeExtendedData=true");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "roaming");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "roaming");
             ExecuteMethodAsync<Roaming>(requestData, callback);
         }
 
@@ -117,7 +117,7 @@ namespace OneApi.Client.Impl
         /// <returns> string - Subscription Id </returns>
         public string SubscribeToHLRDeliveryNotifications(SubscribeToHLRDeliveryNotificationsRequest subscribeToHLRDeliveryNotificationsRequest)
         {
-            RequestData requestData = new RequestData(HLR_SUBSCRIPTION_URL_BASE, RESPONSE_CODE_201_CREATED, Method.POST, "deliveryReceiptSubscription", subscribeToHLRDeliveryNotificationsRequest);
+            RequestData requestData = new RequestData(HLR_SUBSCRIPTION_URL_BASE, Method.POST, "deliveryReceiptSubscription", subscribeToHLRDeliveryNotificationsRequest);
             DeliveryReceiptSubscription deliveryReceiptSubscription = ExecuteMethod<DeliveryReceiptSubscription>(requestData);
             return GetIdFromResourceUrl(deliveryReceiptSubscription.ResourceURL);
         }
@@ -131,7 +131,7 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryReceiptSubscriptions");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "deliveryReceiptSubscriptions");
             return ExecuteMethod<DeliveryReportSubscription[]>(requestData);
         }
 
@@ -143,7 +143,7 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(HLR_SUBSCRIPTION_URL_BASE)).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, Method.DELETE);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.DELETE);
             ExecuteMethod(requestData);
         }
 

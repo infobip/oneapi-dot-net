@@ -38,30 +38,29 @@ namespace OneApi.Client.Impl
         /// <summary>
         /// Send an SMS over OneAPI to one or more mobile terminals using the customized 'SMS' object </summary>
         /// <param name="sms"> (mandatory) object containing data needed to be filled in order to send the SMS </param>
-        /// <returns>string - Request Id</returns>
-        public string SendSMS(SMSRequest smsRequest)
+        /// <returns> SendMessageResult </returns>
+        public SendMessageResult SendSMS(SMSRequest smsRequest)
         {
             StringBuilder urlBuilder = new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(smsRequest.SenderAddress));
             urlBuilder.Append("/requests");
            
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, Method.POST, "resourceReference", smsRequest);
-            ResourceReference resourceReference = ExecuteMethod<ResourceReference>(requestData);
-            return GetIdFromResourceUrl(resourceReference.ResourceURL);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.POST, null, smsRequest);
+            return ExecuteMethod<SendMessageResult>(requestData);
         }
 
         /// <summary>
         /// Send an SMS asynchronously over OneAPI to one or more mobile terminals using the customized 'SMS' object </summary>
         /// <param name="sms"> (mandatory) object containing data needed to be filled in order to send the SMS </param>
         /// <param name="callback"> (mandatory) method to call after receiving sent SMS response </param>
-        public void SendSMSAsync(SMSRequest smsRequest, System.Action<string, RequestException> callback)
+        public void SendSMSAsync(SMSRequest smsRequest, System.Action<SendMessageResult, RequestException> callback)
         {
             StringBuilder urlBuilder = new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(smsRequest.SenderAddress));
             urlBuilder.Append("/requests");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, Method.POST, "resourceReference", smsRequest);
-            ExecuteMethodAsync<ResourceReference>(requestData, (response, e) => callback(GetIdFromResourceUrl(response.ResourceURL), e));
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.POST, null, smsRequest);
+            ExecuteMethodAsync<SendMessageResult>(requestData, callback);
         }
 
         /// <summary>
@@ -77,7 +76,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append(HttpUtility.UrlEncode(requestId));
             urlBuilder.Append("/deliveryInfos");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryInfoList");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "deliveryInfoList");
             return ExecuteMethod<DeliveryInfoList>(requestData);
         }
 
@@ -94,7 +93,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append(HttpUtility.UrlEncode(requestId));
             urlBuilder.Append("/deliveryInfos");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryInfoList");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "deliveryInfoList");
             ExecuteMethodAsync<DeliveryInfoList>(requestData, callback);
         }
 
@@ -120,7 +119,7 @@ namespace OneApi.Client.Impl
             }
             urlBuilder.Append("subscriptions");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_201_CREATED, Method.POST, "deliveryReceiptSubscription", subscribeToDeliveryNotificationsRequest);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.POST, "deliveryReceiptSubscription", subscribeToDeliveryNotificationsRequest);
             DeliveryReceiptSubscription reliveryReceiptSubscription = ExecuteMethod<DeliveryReceiptSubscription>(requestData);
             return GetIdFromResourceUrl(reliveryReceiptSubscription.ResourceURL);
         }
@@ -135,7 +134,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append(HttpUtility.UrlEncode(senderAddress));
             urlBuilder.Append("/subscriptions");
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryReceiptSubscriptions");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "deliveryReceiptSubscriptions");
             return ExecuteMethod<DeliveryReportSubscription[]>(requestData);
         }
 
@@ -148,7 +147,7 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "deliveryReceiptSubscription");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "deliveryReceiptSubscription");
             return ExecuteMethod<DeliveryReportSubscription>(requestData);
         }
 
@@ -157,7 +156,7 @@ namespace OneApi.Client.Impl
         /// <returns> DeliveryReportSubscription[] </returns>
         public DeliveryReportSubscription[] GetDeliveryNotificationsSubscriptions()
         {
-            RequestData requestData = new RequestData(SMS_MESSAGING_OUTBOUND_URL_BASE + "/subscriptions", RESPONSE_CODE_200_OK, Method.GET, "deliveryReceiptSubscriptions");
+            RequestData requestData = new RequestData(SMS_MESSAGING_OUTBOUND_URL_BASE + "/subscriptions", Method.GET, "deliveryReceiptSubscriptions");
             return ExecuteMethod<DeliveryReportSubscription[]>(requestData);
         }
 
@@ -169,7 +168,7 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, Method.DELETE);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.DELETE);
             ExecuteMethod(requestData);
         }
 
@@ -192,7 +191,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?maxBatchSize=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(maxBatchSize)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "inboundSMSMessageList");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "inboundSMSMessageList");
             return ExecuteMethod<InboundSMSMessageList>(requestData);
         }
 
@@ -215,7 +214,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?maxBatchSize=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(maxBatchSize)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "inboundSMSMessageList");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "inboundSMSMessageList");
             ExecuteMethodAsync<InboundSMSMessageList>(requestData, callback);
         }
 
@@ -233,7 +232,7 @@ namespace OneApi.Client.Impl
         /// <returns>string - Subscription Id </returns>
         public string SubscribeToInboundMessagesNotifications(SubscribeToInboundMessagesRequest subscribeToInboundMessagesRequest)
         {
-            RequestData requestData = new RequestData(SMS_MESSAGING_INBOUND_URL_BASE + "/subscriptions", RESPONSE_CODE_201_CREATED, Method.POST, "resourceReference", subscribeToInboundMessagesRequest);
+            RequestData requestData = new RequestData(SMS_MESSAGING_INBOUND_URL_BASE + "/subscriptions", Method.POST, "resourceReference", subscribeToInboundMessagesRequest);
             ResourceReference resourceReference = ExecuteMethod<ResourceReference>(requestData);
             return GetIdFromResourceUrl(resourceReference.ResourceURL);
         }
@@ -249,7 +248,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("&pageSize=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(pageSize)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET, "subscriptions");
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET, "subscriptions");
             return ExecuteMethod<MoSubscription[]>(requestData);
         }
 
@@ -269,7 +268,7 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_INBOUND_URL_BASE)).Append("/subscriptions/");
             urlBuilder.Append(HttpUtility.UrlEncode(subscriptionId));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_204_NO_CONTENT, Method.DELETE);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.DELETE);
             ExecuteMethod(requestData);
         }
 
@@ -299,7 +298,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?limit=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET);
             return ExecuteMethod<DeliveryReportList>(requestData);
         }
 
@@ -313,7 +312,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?limit=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET);
             ExecuteMethodAsync<DeliveryReportList>(requestData, callback);
         }
 
@@ -348,7 +347,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?limit=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET);
             return ExecuteMethod<DeliveryReportList>(requestData);
         }
 
@@ -365,7 +364,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("?limit=");
             urlBuilder.Append(HttpUtility.UrlEncode(Convert.ToString(limit)));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET);
             ExecuteMethodAsync<DeliveryReportList>(requestData, callback);
         }
 

@@ -14,14 +14,14 @@ namespace OneApi.Client
 		/// <summary>
 		/// Send an SMS to one or more mobile terminals using the customized SMS object </summary>
 		/// <param name="sms"> - object containing data needed to be filled in order to send the SMS </param>
-        /// <returns> string - Request Id </returns>
-		string SendSMS(SMSRequest sms);
+        /// <returns> SendMessageResult </returns>
+        SendMessageResult SendSMS(SMSRequest sms);
 
         /// <summary>
         /// Send an SMS asynchronously over OneAPI to one or more mobile terminals using the customized 'SMS' object </summary>
         /// <param name="sms"> (mandatory) object containing data needed to be filled in order to send the SMS </param>
         /// <param name="callback"> (mandatory) method to call after receiving sent SMS response </param>
-        void SendSMSAsync(SMSRequest smsRequest, Action<string, RequestException> callback);
+        void SendSMSAsync(SMSRequest smsRequest, Action<SendMessageResult, RequestException> callback);
 
 		/// <summary>
 		/// Query the delivery status for an SMS sent to one or more mobile terminals </summary>

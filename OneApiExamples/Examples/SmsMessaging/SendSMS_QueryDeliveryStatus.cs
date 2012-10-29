@@ -52,14 +52,14 @@ namespace OneApi.Examples.SmsMessaging
 
             // example:send-message
             // Store request id because we can later query for the delivery status with it:
-            string requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+            SendMessageResult sendMessageResult = smsClient.SmsMessagingClient.SendSMS(smsRequest);
             // ----------------------------------------------------------------------------------------------------
 
             // Few seconds later we can check for the sending status   
             System.Threading.Thread.Sleep(10000);
 
             // example:query-for-delivery-status
-            DeliveryInfoList deliveryInfoList = smsClient.SmsMessagingClient.QueryDeliveryStatus(senderAddress, requestId);
+            DeliveryInfoList deliveryInfoList = smsClient.SmsMessagingClient.QueryDeliveryStatus(senderAddress, sendMessageResult.ClientCorrelator);
             string deliveryStatus = deliveryInfoList.DeliveryInfos[0].DeliveryStatus;
             // ----------------------------------------------------------------------------------------------------
             Console.WriteLine(deliveryStatus);

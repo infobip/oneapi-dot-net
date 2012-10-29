@@ -29,12 +29,6 @@ namespace OneApi.Client.Impl
     {
         protected static log4net.ILog LOGGER = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        protected const int RESPONSE_CODE_200_OK = 200;
-
-        protected const int RESPONSE_CODE_201_CREATED = 201;
-
-        protected const int RESPONSE_CODE_204_NO_CONTENT = 204;
-
         private Configuration configuration = null;
 
         private RestClient client = null;
@@ -82,7 +76,7 @@ namespace OneApi.Client.Impl
         protected T ExecuteMethod<T>(RequestData requestData)
         {
             IRestResponse response = SendOneAPIRequest(requestData);
-            return Deserialize<T>(response, requestData.RequiredStatus, requestData.RootElement);
+            return Deserialize<T>(response, requestData.RootElement);
         }
 
         /// <summary>
@@ -104,7 +98,7 @@ namespace OneApi.Client.Impl
         protected void ExecuteMethod(RequestData requestData)
         {
             IRestResponse response = SendOneAPIRequest(requestData);
-            ValidateResponse(response, requestData.RequiredStatus);
+            ValidateResponse(response);
         }
 
         /// <summary>
@@ -132,7 +126,7 @@ namespace OneApi.Client.Impl
             {
                 try
                 {
-                    T jsonObject = Deserialize<T>(response, requestData.RequiredStatus, requestData.RootElement);
+                    T jsonObject = Deserialize<T>(response, requestData.RootElement);
                     callbackResponse(jsonObject, null);
                 }
                 catch (RequestException e )
@@ -243,17 +237,18 @@ namespace OneApi.Client.Impl
         /// Deserialize response stream
         /// </summary>
         /// <param name="response"> </param>
-        /// <param name="requiredStatus"> </param>
         /// <param name="rootElement"> </param>
-        protected T Deserialize<T>(IRestResponse response, int requiredStatus, string rootElement)
+        protected T Deserialize<T>(IRestResponse response, string rootElement)
         {
+            int responseCode = (int)response.StatusCode;
+
             if (LOGGER.IsDebugEnabled)
             {
-                LOGGER.Debug("Response status code: " + (int)response.StatusCode);
+                LOGGER.Debug("Response status code: " + responseCode);
             }
 
-            if (((int)response.StatusCode) == (requiredStatus))
-            {
+            if (200 <= responseCode && responseCode < 300)
+            {	
                 try
                 {
                     return DeserializeStream<T>(response.Content, rootElement);
@@ -362,14 +357,16 @@ namespace OneApi.Client.Impl
             return new RequestException(errorText, messageId, (int)response.StatusCode);
         }
 
-        protected void ValidateResponse(IRestResponse response, int requiredStatus)
+        protected void ValidateResponse(IRestResponse response)
         {
+            int responseCode = (int)response.StatusCode;
+
             if (LOGGER.IsDebugEnabled)
             {
-                LOGGER.Debug("Response status code: " + (int)response.StatusCode);
+                LOGGER.Debug("Response status code: " + responseCode);
             }
 
-            if (((int)response.StatusCode) != (requiredStatus))
+            if (200 <= responseCode && responseCode < 300)
             {
                 throw ReadRequestException<RequestError>(response);
             }  

@@ -46,11 +46,11 @@ namespace OneApi.Examples.Async
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            smsClient.SmsMessagingClient.SendSMSAsync(new SMSRequest(senderAddress, message, recipientAddress), (requestId, e) =>
+            smsClient.SmsMessagingClient.SendSMSAsync(new SMSRequest(senderAddress, message, recipientAddress), (sendMessageResult, e) =>
             {
                 if (e == null)
                 {
-                    Console.WriteLine(requestId);
+                    Console.WriteLine(sendMessageResult);
                 }
                 else
                 {

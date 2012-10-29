@@ -53,8 +53,8 @@ namespace OneApi.Examples.SmsMessaging
 
             SMSRequest smsRequest = new SMSRequest(senderAddress, message, address);
 
-            string requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
-            Console.WriteLine("Request Id: " + requestId);
+            SendMessageResult sendMessageResult = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+            Console.WriteLine(sendMessageResult);
         }
     }
 }

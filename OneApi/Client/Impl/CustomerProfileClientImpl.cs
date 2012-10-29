@@ -32,7 +32,7 @@ namespace OneApi.Client.Impl
         public LoginResponse Login()
         {
             LoginRequest loginRequest = new LoginRequest(Configuration.Authentication.Username, Configuration.Authentication.Password);
-            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/login", RESPONSE_CODE_200_OK, Method.POST, "login", loginRequest);
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/login", Method.POST, "login", loginRequest);
             LoginResponse loginResponse = ExecuteMethod<LoginResponse>(requestData);
             onLogin(loginResponse);
             return loginResponse;
@@ -42,7 +42,7 @@ namespace OneApi.Client.Impl
         /// User Logout </summary>
         public void Logout()
         {
-            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/logout", RESPONSE_CODE_204_NO_CONTENT, Method.POST);
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/logout", Method.POST);
             ExecuteMethod(requestData);
             onLogout();
         }
@@ -52,7 +52,7 @@ namespace OneApi.Client.Impl
         /// <returns> CustomerProfile </returns>
         public CustomerProfile GetCustomerProfile()
         {
-            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE, RESPONSE_CODE_200_OK, Method.GET);
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE, Method.GET);
             return ExecuteMethod<CustomerProfile>(requestData);
         }
 
@@ -62,7 +62,7 @@ namespace OneApi.Client.Impl
         /// <returns> CustomerProfile[] </returns>
         public CustomerProfile[] GetCustomerProfiles()
         {
-            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/list", RESPONSE_CODE_200_OK, Method.GET);
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/list", Method.GET);
             return ExecuteMethod<CustomerProfile[]>(requestData);
         }
 
@@ -76,7 +76,7 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = new StringBuilder(CUSTOMER_PROFILE_URL_BASE).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(id.ToString()));
 
-            RequestData requestData = new RequestData(urlBuilder.ToString(), RESPONSE_CODE_200_OK, Method.GET);
+            RequestData requestData = new RequestData(urlBuilder.ToString(), Method.GET);
             return ExecuteMethod<CustomerProfile>(requestData);
         }
 
@@ -86,7 +86,7 @@ namespace OneApi.Client.Impl
         /// <returns> AccountBalance </returns>
         public AccountBalance GetAccountBalance()
         {
-            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/balance", RESPONSE_CODE_200_OK, Method.GET);
+            RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/balance", Method.GET);
             return ExecuteMethod<AccountBalance>(requestData);
         }
     }

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using OneApi.Config;
 using OneApi.Client.Impl;
 using OneApi.Model;
+using OneApi.Listeners;
 using log4net.Config;
 using System.IO;
 
-namespace OneApi.Examples.CustomerProfiles
+namespace OneApi.Examples.Async
 {
-
     /**
      * To run this example follow these 4 steps:
      *
@@ -18,7 +15,7 @@ namespace OneApi.Examples.CustomerProfiles
      *
      *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
      * 
-     *  3.) Open 'Examples.LogoutExample' class to edit where you should populate the following fields:  
+     *  3.) Open 'Examples.GetDeliveryReportsAsync' class to edit where you should populate the following fields:  
      *		'username' 
      *		'password'  
      *
@@ -27,7 +24,7 @@ namespace OneApi.Examples.CustomerProfiles
      *      on which the result will be displayed in the Console.
      **/
 
-    public class LogoutExample 
+    public class GetDeliveryReportsAsync
     {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
@@ -45,8 +42,18 @@ namespace OneApi.Examples.CustomerProfiles
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            smsClient.CustomerProfileClient.Logout();      
-            Console.WriteLine("Logout success.");
+            smsClient.SmsMessagingClient.GetDeliveryReportsAsync((deliveryReportList, e) =>
+            {
+                if (e == null)
+                {
+                    Console.WriteLine(deliveryReportList);
+                }
+                else
+                {
+                    Console.WriteLine(e.Message);
+                }
+            });
+
         }
     }
 }

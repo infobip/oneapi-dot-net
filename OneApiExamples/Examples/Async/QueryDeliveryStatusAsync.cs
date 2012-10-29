@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using OneApi.Config;
 using OneApi.Client.Impl;
 using OneApi.Model;
+using OneApi.Listeners;
 using log4net.Config;
 using System.IO;
 
-namespace OneApi.Examples.CustomerProfiles
+namespace OneApi.Examples.Async
 {
 
     /**
@@ -18,19 +16,21 @@ namespace OneApi.Examples.CustomerProfiles
      *
      *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
      * 
-     *  3.) Open 'Examples.LogoutExample' class to edit where you should populate the following fields:  
-     *		'username' 
-     *		'password'  
+     *  3.) Open 'Examples.QueryDeliveryStatusAsync' class to edit where you should populate the following fields:  
+     *		'username'   'senderAddress'
+     *		'password'   'requestId'
      *
      *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
      *      There you will enter the appropriate example number in the console and press 'Enter' key 
      *      on which the result will be displayed in the Console.
      **/
 
-    public class LogoutExample 
+    public class QueryDeliveryStatusAsync
     {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
+        private static string senderAddress = "";
+        private static string requestId = "";
 
         public static void Execute()
         {
@@ -45,8 +45,18 @@ namespace OneApi.Examples.CustomerProfiles
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            smsClient.CustomerProfileClient.Logout();      
-            Console.WriteLine("Logout success.");
+            smsClient.SmsMessagingClient.QueryDeliveryStatusAsync(senderAddress, requestId, (deliveryInfoList, e) =>
+            {
+                if (e == null)
+                {
+                    Console.WriteLine(deliveryInfoList);
+                }
+                else
+                {
+                    Console.WriteLine(e.Message);
+                }
+            });
+
         }
     }
 }

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using OneApi.Config;
 using OneApi.Client.Impl;
 using OneApi.Model;
+using OneApi.Listeners;
 using log4net.Config;
 using System.IO;
 
-namespace OneApi.Examples.CustomerProfiles
+namespace OneApi.Examples.Async
 {
 
     /**
@@ -18,19 +16,20 @@ namespace OneApi.Examples.CustomerProfiles
      *
      *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
      * 
-     *  3.) Open 'Examples.LogoutExample' class to edit where you should populate the following fields:  
-     *		'username' 
-     *		'password'  
+     *  3.) Open 'Examples.QueryHLRAsync' class to edit where you should populate the following fields:  
+     *		'username'   'address'
+     *		'password'   
      *
      *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
      *      There you will enter the appropriate example number in the console and press 'Enter' key 
      *      on which the result will be displayed in the Console.
      **/
 
-    public class LogoutExample 
+    public class QueryHLRAsync
     {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
+        private static string address = "";
 
         public static void Execute()
         {
@@ -45,8 +44,18 @@ namespace OneApi.Examples.CustomerProfiles
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            smsClient.CustomerProfileClient.Logout();      
-            Console.WriteLine("Logout success.");
+            smsClient.HlrClient.QueryHLRAsync(address, (roaming, e) =>
+            {
+                if (e == null)
+                {
+                    Console.WriteLine(roaming);
+                }
+                else
+                {
+                    Console.WriteLine(e.Message);
+                }
+            });
+
         }
     }
 }

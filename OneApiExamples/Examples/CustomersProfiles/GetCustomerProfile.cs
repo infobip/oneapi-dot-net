@@ -18,7 +18,7 @@ namespace OneApi.Examples.CustomerProfiles
      *
      *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
      * 
-     *  3.) Open 'Examples.LogoutExample' class to edit where you should populate the following fields:  
+     *  3.) Open 'Examples.GetCustomerProfile' class to edit where you should populate the following fields:  
      *		'username' 
      *		'password'  
      *
@@ -27,7 +27,7 @@ namespace OneApi.Examples.CustomerProfiles
      *      on which the result will be displayed in the Console.
      **/
 
-    public class LogoutExample 
+    public class GetCustomerProfile
     {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
@@ -45,8 +45,8 @@ namespace OneApi.Examples.CustomerProfiles
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            smsClient.CustomerProfileClient.Logout();      
-            Console.WriteLine("Logout success.");
+            CustomerProfile customerProfile = smsClient.CustomerProfileClient.GetCustomerProfile();
+            Console.WriteLine(customerProfile);
         }
     }
 }

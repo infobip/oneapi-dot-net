@@ -52,57 +52,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples\Async\QueryHLRAsyncExample.cs" />
-    <Compile Include="Examples\ConfigFile\LoadConfigFileExample.cs" />
-    <Compile Include="Examples\ConfigFile\LoadDefaultConfigFileExample.cs" />
-    <Compile Include="Examples\ConfigFile\SaveToConfigFileExample.cs" />
-    <Compile Include="Examples\ConfigFile\SaveToDefaultConfigFileExample.cs" />
-    <Compile Include="Examples\CustomersProfiles\GetAccountBalanceExample.cs" />
-    <Compile Include="Examples\CustomersProfiles\LogoutExample.cs" />
-    <Compile Include="Examples\CustomersProfiles\LoginExample.cs" />
-    <Compile Include="Examples\CustomersProfiles\GetCustomerProfilesExample.cs" />
-    <Compile Include="Examples\CustomersProfiles\GetCustomerProfileByUserIdExample.cs" />
-    <Compile Include="Examples\CustomersProfiles\GetCustomerProfileExample.cs" />
-    <Compile Include="Examples\Hlr\ConvertJsonToHLRNotificationExample.cs" />
-    <Compile Include="Examples\Hlr\RemoveHLRDeliveryNotificationsSubscriptionExample.cs" />
-    <Compile Include="Examples\Hlr\GetHLRDeliveryNotificationsSubscriptionsExample.cs" />
-    <Compile Include="Examples\Hlr\QueryHLRUsingNotifyUrlExample.cs" />
-    <Compile Include="Examples\Hlr\QueryHLRExample.cs" />
-    <Compile Include="Examples\Hlr\SubscribeToHLRDeliveryNotificationsExample.cs" />
+    <Compile Include="Examples\Async\QueryHLRAsync.cs" />
+    <Compile Include="Examples\ConfigFile\LoadConfigFile.cs" />
+    <Compile Include="Examples\ConfigFile\LoadDefaultConfigFile.cs" />
+    <Compile Include="Examples\ConfigFile\SaveToConfigFile.cs" />
+    <Compile Include="Examples\ConfigFile\SaveToDefaultConfigFile.cs" />
     <Compile Include="Examples\OneApiExamples.cs" />
-    <Compile Include="Examples\Logger\EnableLoggerExample.cs" />
-    <Compile Include="Examples\Async\GetDeliveryReportsAsyncExample.cs" />
-    <Compile Include="Examples\Async\QueryDeliveryStatusAsyncExample.cs" />
-    <Compile Include="Examples\Async\SendSMSAsyncExample.cs" />
-    <Compile Include="Examples\Ussd\USSDExample.cs" />
-    <Compile Include="Scenarios\ConvertJsonToDeliveryInfoNotification.cs" />
-    <Compile Include="Scenarios\ConvertJsonToHLRNotification.cs" />
-    <Compile Include="Scenarios\ConvertJsonToInboundSMSMessageNotification.cs" />
-    <Compile Include="Scenarios\SendSMS_WaitForDeliveryStatusPush.cs" />
-    <Compile Include="Scenarios\SendSMS_CheckDeliveryStatus.cs" />
-    <Compile Include="Scenarios\SendSMS_GetDeliveryReportsUsingRetriever.cs" />
-    <Compile Include="Scenarios\GetInboundMessagesUsingRetriever.cs" />
-    <Compile Include="Scenarios\Subscribe_WaitForInboundMessagesPush.cs" />
-    <Compile Include="Scenarios\QueryHLR.cs" />
-    <Compile Include="Scenarios\QueryHLR_WaitForHLRPush.cs" />
-    <Compile Include="Scenarios\SendSMS_Subscribe_WaitForDeliveryStatusPush.cs" />
-    <Compile Include="Scenarios\GetInboundMessages.cs" />
-    <Compile Include="Scenarios\SendSMS_GetDeliveryReports.cs" />
-    <Compile Include="Examples\SmsMessaging\RemoveDeliveryNotificationsSubscriptionExample.cs" />
-    <Compile Include="Examples\SmsMessaging\RemoveInboundMessagesNotificationsSubscriptionExample.cs" />
-    <Compile Include="Examples\SmsMessaging\ConvertJsonToDeliveryInfoNotificationExample.cs" />
-    <Compile Include="Examples\SmsMessaging\GetDeliveryReportsExample.cs" />
-    <Compile Include="Examples\SmsMessaging\DeliveryReportsRetrieverExample.cs" />
-    <Compile Include="Examples\SmsMessaging\ConvertJsonToInboundSMSMessageNotificationExample.cs" />
-    <Compile Include="Examples\SmsMessaging\InboundMessagesRetrieverExample.cs" />
-    <Compile Include="Examples\SmsMessaging\QueryDeliveryStatusExample.cs" />
-    <Compile Include="Examples\SmsMessaging\GetDeliveryNotificationsSubscriptionsExample.cs" />
-    <Compile Include="Examples\SmsMessaging\GetInboundMessagesExample.cs" />
-    <Compile Include="Examples\SmsMessaging\GetInboundMessagesNotificationsSubscriptionsExample.cs" />
-    <Compile Include="Examples\SmsMessaging\SendSMSExample.cs" />
-    <Compile Include="Examples\SmsMessaging\SendSMSToMultipleRecipientsExample.cs" />
-    <Compile Include="Examples\SmsMessaging\SubscribeToDeliveryStatusNotificationsExample.cs" />
-    <Compile Include="Examples\SmsMessaging\SubscribeToInboundMessagesNotificationsExample.cs" />
+    <Compile Include="Examples\Async\GetDeliveryReportsAsync.cs" />
+    <Compile Include="Examples\Async\QueryDeliveryStatusAsync.cs" />
+    <Compile Include="Examples\Async\SendSMSAsync.cs" />
+    <Compile Include="Examples\CustomersProfiles\GetAccountBalance.cs" />
+    <Compile Include="Examples\CustomersProfiles\GetCustomerProfileByUserId.cs" />
+    <Compile Include="Examples\CustomersProfiles\GetCustomerProfile.cs" />
+    <Compile Include="Examples\CustomersProfiles\GetCustomerProfiles.cs" />
+    <Compile Include="Examples\CustomersProfiles\LoginExample.cs" />
+    <Compile Include="Examples\CustomersProfiles\LogoutExample.cs" />
+    <Compile Include="Examples\Ussd\SendUSSD.cs" />
+    <Compile Include="Examples\SmsMessaging\ConvertJsonToDeliveryInfoNotification.cs" />
+    <Compile Include="Examples\Hlr\ConvertJsonToHLRNotification.cs" />
+    <Compile Include="Examples\SmsMessaging\ConvertJsonToInboundSMSMessageNotification.cs" />
+    <Compile Include="Examples\SmsMessaging\SendSMS_ToMultipleRecipients.cs" />
+    <Compile Include="Examples\SmsMessaging\SendSMS_WaitForDeliveryStatusPush.cs" />
+    <Compile Include="Examples\SmsMessaging\SendSMS_QueryDeliveryStatus.cs" />
+    <Compile Include="Examples\SmsMessaging\SendSMS_GetDeliveryReportsUsingRetriever.cs" />
+    <Compile Include="Examples\SmsMessaging\GetInboundMessagesUsingRetriever.cs" />
+    <Compile Include="Examples\SmsMessaging\Subscribe_WaitForInboundMessagesPush.cs" />
+    <Compile Include="Examples\Hlr\QueryHLR.cs" />
+    <Compile Include="Examples\Hlr\QueryHLR_WaitForHLRPush.cs" />
+    <Compile Include="Examples\SmsMessaging\SendSMS_Subscribe_WaitForDeliveryStatusPush.cs" />
+    <Compile Include="Examples\SmsMessaging\GetInboundMessages.cs" />
+    <Compile Include="Examples\SmsMessaging\SendSMS_GetDeliveryReports.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +95,7 @@
       <Name>OneApi</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy “$(SolutionDir)\OneApi\Etc” “$(TargetDir)”

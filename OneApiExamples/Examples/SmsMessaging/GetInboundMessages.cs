@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
+using System.IO;
+using log4net.Config;
 using OneApi.Config;
 using OneApi.Client.Impl;
 using OneApi.Model;
-using log4net.Config;
-using System.IO;
+using OneApi.Exceptions;
 
-namespace OneApi.Examples.CustomerProfiles
+namespace OneApi.Examples.SmsMessaging
 {
 
     /**
@@ -18,7 +16,7 @@ namespace OneApi.Examples.CustomerProfiles
      *
      *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
      * 
-     *  3.) Open 'Examples.LogoutExample' class to edit where you should populate the following fields:  
+     *  3.) Open 'Examples.GetInboundMessages' class to edit where you should populate the following fields:  
      *		'username' 
      *		'password'  
      *
@@ -27,7 +25,7 @@ namespace OneApi.Examples.CustomerProfiles
      *      on which the result will be displayed in the Console.
      **/
 
-    public class LogoutExample 
+    public class GetInboundMessages
     {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
@@ -45,8 +43,11 @@ namespace OneApi.Examples.CustomerProfiles
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            smsClient.CustomerProfileClient.Logout();      
-            Console.WriteLine("Logout success.");
+            // example:retrieve-inbound-messages
+            InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.GetInboundMessages();
+            // ---------------------------------------------------------------------------------------------------- 
+            Console.WriteLine(inboundSMSMessageList);
+
         }
     }
 }

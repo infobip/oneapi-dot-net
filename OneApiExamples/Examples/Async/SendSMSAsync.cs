@@ -1,36 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using OneApi.Config;
 using OneApi.Client.Impl;
 using OneApi.Model;
+using OneApi.Listeners;
 using log4net.Config;
 using System.IO;
 
-namespace OneApi.Examples.CustomerProfiles
+namespace OneApi.Examples.Async
 {
-
     /**
      * To run this example follow these 4 steps:
      *
-     *  1.) Download 'Parseco C# library' - available at www.github.com/parseco   
+     *  1.) Download 'Parseco C# library' - available at www.github.com/parseco    
      *
-     *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
-     * 
-     *  3.) Open 'Examples.LogoutExample' class to edit where you should populate the following fields:  
-     *		'username' 
-     *		'password'  
+     *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project    
+     *
+     *  3.) Open 'Examples.SendSMSAsync' class to edit where you should populate the following fields: 
+     *		'senderAddress'    'username'
+     *		'message'          'password' 
+     *		'recipientAddress'	
      *
      *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
      *      There you will enter the appropriate example number in the console and press 'Enter' key 
-     *      on which the result will be displayed in the Console.
+     *      on which the result will be displayed in the Console.      
      **/
 
-    public class LogoutExample 
+    public class SendSMSAsync
     {
         private static string username = "FILL USERNAME HERE !!!";
         private static string password = "FILL PASSWORD HERE !!!";
+        private static string senderAddress = "";
+        private static string message = "";
+        private static string recipientAddress = "";
 
         public static void Execute()
         {
@@ -45,8 +46,18 @@ namespace OneApi.Examples.CustomerProfiles
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            smsClient.CustomerProfileClient.Logout();      
-            Console.WriteLine("Logout success.");
+            smsClient.SmsMessagingClient.SendSMSAsync(new SMSRequest(senderAddress, message, recipientAddress), (requestId, e) =>
+            {
+                if (e == null)
+                {
+                    Console.WriteLine(requestId);
+                }
+                else
+                {
+                    Console.WriteLine(e.Message);
+                }
+            });
+
         }
     }
 }

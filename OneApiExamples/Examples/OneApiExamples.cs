@@ -14,15 +14,13 @@ namespace OneApi.Examples
         static void Main(string[] args)
 		{        
             int i = 1;
-            WriteNamespaceClasses("OneApi.Scenarios", ref i);
             WriteNamespaceClasses("OneApi.Examples.CustomerProfiles", ref i);
             WriteNamespaceClasses("OneApi.Examples.SmsMessaging", ref i);
             WriteNamespaceClasses("OneApi.Examples.Hlr", ref i);
             WriteNamespaceClasses("OneApi.Examples.Ussd", ref i);
             WriteNamespaceClasses("OneApi.Examples.Async", ref i);
             WriteNamespaceClasses("OneApi.Examples.ConfigFile", ref i);
-            WriteNamespaceClasses("OneApi.Examples.Logger", ref i);
-           
+                
             Console.WriteLine("");
             Console.WriteLine("Enter the example number and press 'Enter' key:");
            

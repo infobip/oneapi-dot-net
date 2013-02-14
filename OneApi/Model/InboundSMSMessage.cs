@@ -49,11 +49,18 @@ namespace OneApi.Model
         [JsonProperty(PropertyName = "senderAddress")]
         public string SenderAddress;
 
-        /// <summary>
-        /// return the sender MSISDN or other identifying number
-        /// </summary>
+     
         [JsonProperty(PropertyName = "moSessionId")]
         public int MoSessionId;
+
+        [JsonProperty(PropertyName = "moResponseKey")]
+        public string MoResponseKey;
+
+        [JsonProperty(PropertyName = "callbackData")]
+        public string CallbackData;
+
+        [JsonProperty(PropertyName = "price")]
+        public double Price;
 
 		/// <summary>
 		/// default constructor
@@ -91,7 +98,11 @@ namespace OneApi.Model
                 + ", destinationAddress=" + DestinationAddress + ", messageId="
                 + MessageId + ", message=" + Message + ", resourceURL="
                 + ResourceURL + ", senderAddress=" + SenderAddress
-                + ", moSessionId=" + MoSessionId + "}";
+                + ", moSessionId=" + MoSessionId 
+                + ", moResponseKey=" + MoResponseKey 
+                + ", callbackData=" + CallbackData 
+                + ", price=" + Price +
+                "}";
 		}
 	}
 }

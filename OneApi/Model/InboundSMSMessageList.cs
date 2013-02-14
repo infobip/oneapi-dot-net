@@ -52,8 +52,7 @@ namespace OneApi.Model
                 + ", numberOfMessagesInThisBatch="
                 + NumberOfMessagesInThisBatch + ", resourceURL=" + ResourceURL
                 + ", totalNumberOfPendingMessages="
-                + TotalNumberOfPendingMessages + ", callbackData="
-                + CallbackData + "}";
+                + TotalNumberOfPendingMessages + "}";
 		}
 	}
 

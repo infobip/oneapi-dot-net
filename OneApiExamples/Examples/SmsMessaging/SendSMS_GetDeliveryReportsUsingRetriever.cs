@@ -57,6 +57,7 @@ namespace OneApi.Examples.SmsMessaging
                 //Handle pulled 'Delivery Reports'
                 if (e == null)
                 {
+                    //TODO: update database
                     Console.WriteLine(deliveryReportList);
                 }
                 else

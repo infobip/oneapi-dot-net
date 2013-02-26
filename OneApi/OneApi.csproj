@@ -81,6 +81,7 @@
     <Compile Include="Model\AccountBalance.cs" />
     <Compile Include="Model\Authentication.cs" />
     <Compile Include="Converter\CustomDateConverter.cs" />
+    <Compile Include="Model\MessageStatus.cs" />
     <Compile Include="Model\SendMessageResultItem.cs" />
     <Compile Include="Model\SendMessageResult.cs" />
     <Compile Include="Model\USSDRequest.cs" />

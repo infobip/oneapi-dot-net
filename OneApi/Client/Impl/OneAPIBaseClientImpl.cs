@@ -293,7 +293,7 @@ namespace OneApi.Client.Impl
         /// <param name="json"></param>
         /// <param name="rootElement"></param>
         /// <returns></returns>
-        protected T ConvertJsonToObject<T>(String json, string rootElement)
+        public static T ConvertJsonToObject<T>(String json, string rootElement)
         {
             if (LOGGER.IsDebugEnabled)
             {

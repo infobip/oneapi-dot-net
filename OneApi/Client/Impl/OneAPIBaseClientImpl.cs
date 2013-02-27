@@ -247,7 +247,7 @@ namespace OneApi.Client.Impl
                 LOGGER.Debug("Response status code: " + responseCode);
             }
 
-            if (200 <= responseCode && responseCode < 300)
+            if (responseCode >= 200 && responseCode < 300)
             {	
                 try
                 {
@@ -366,7 +366,7 @@ namespace OneApi.Client.Impl
                 LOGGER.Debug("Response status code: " + responseCode);
             }
 
-            if (200 <= responseCode && responseCode < 300)
+            if (!(responseCode >= 200 && responseCode < 300))
             {
                 throw ReadRequestException<RequestError>(response);
             }  

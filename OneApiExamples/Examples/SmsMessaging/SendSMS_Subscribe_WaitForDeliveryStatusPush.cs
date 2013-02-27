@@ -34,19 +34,19 @@ namespace OneApi.Examples.SmsMessaging
 
     public class SendSMS_Subscribe_WaitForDeliveryStatusPush
     {
-        private static string username = "FILL USERNAME HERE !!!";
-        private static string password = "FILL PASSWORD HERE !!!";
-        private static string senderAddress = "";
-        private static string message = "";
-        private static string recipientAddress = "";
-        private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3000/" 3000=Default port for 'Delivery Info Notifications' server simulator
-        private static string criteria = "";
+        private static string username = "parseco";//"FILL USERNAME HERE !!!";
+        private static string password = "Parseco+1";//"FILL PASSWORD HERE !!!";
+        private static string senderAddress = "mirko";
+        private static string message = "pacofffff offffca";
+        private static string recipientAddress = "385922442858";
+        private static string notifyUrl = "http://192.168.10.102:3000/";//""; //e.g. "http://127.0.0.1:3000/" 3000=Default port for 'Delivery Info Notifications' server simulator
+        private static string criteria = "njok";
 
         public static void Execute()
         {
             // Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
             // Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
-            XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
+            //XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
 
             // Initialize Configuration object 

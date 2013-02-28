@@ -1,4 +1,4 @@
-namespace org.infobip.oneapi.model
+namespace OneApi.Model
 {
 
 	public class Currency

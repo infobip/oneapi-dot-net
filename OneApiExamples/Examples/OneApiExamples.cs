@@ -20,6 +20,7 @@ namespace OneApi.Examples
             WriteNamespaceClasses("OneApi.Examples.Ussd", ref i);
             WriteNamespaceClasses("OneApi.Examples.Async", ref i);
             WriteNamespaceClasses("OneApi.Examples.ConfigFile", ref i);
+            WriteNamespaceClasses("OneApi.Examples.Networks", ref i);
                 
             Console.WriteLine("");
             Console.WriteLine("Enter the example number and press 'Enter' key:");

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace org.infobip.oneapi.model
+namespace OneApi.Model
 {
     public class StringValue : System.Attribute
     {

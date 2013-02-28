@@ -1,13 +1,8 @@
-using System.Text;
-using System.Net;
-using System.Web;
 using System;
-using System.Collections.Generic;
-using OneApi.Listeners;
+using System.Text;
+using System.Web;
 using OneApi.Config;
-using OneApi.Exceptions;
 using OneApi.Model;
-using org.infobip.oneapi.model;
 using RestSharp;
 
 namespace OneApi.Client.Impl

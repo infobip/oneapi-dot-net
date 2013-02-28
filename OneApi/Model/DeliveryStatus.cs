@@ -1,4 +1,4 @@
-﻿namespace org.infobip.oneapi.model
+﻿namespace OneApi.Model
 {
     /// <summary>
     /// Use StringEnum.GetStringValue(DeliveryStatus.[VALUE]) to get the string value of the Enum

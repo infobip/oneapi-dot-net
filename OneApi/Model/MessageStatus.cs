@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace org.infobip.oneapi.model
+﻿namespace OneApi.Model
 {
     /// <summary>
     /// Use StringEnum.GetStringValue(MessageStatus.[VALUE]) to get the string value of the Enum

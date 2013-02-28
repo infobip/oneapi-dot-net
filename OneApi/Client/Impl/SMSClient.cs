@@ -1,18 +1,15 @@
-using System;
 using OneApi.Config;
-using OneApi.Exceptions;
 using OneApi.Model;
-
 
 namespace OneApi.Client.Impl
 {
-
     public class SMSClient
     {
         private CustomerProfileClient customerProfileClient = null;
         private SMSMessagingClient smsMessagingClient = null;
         private HLRClient hlrClient = null;
         private USSDClient ussdClient = null;
+        private NetworksClient networksClient = null;
         private Configuration configuration = null;
 
         //*************************SMSClient initialization***********************************************************************************************************************************************
@@ -28,6 +25,7 @@ namespace OneApi.Client.Impl
             smsMessagingClient = new SMSMessagingClientImpl(configuration);
             hlrClient = new HLRClientImpl(configuration);
             ussdClient = new USSDClientImpl(configuration);
+            networksClient = new NetworksClientImpl(configuration);
         }
 
         /// <summary>
@@ -62,6 +60,13 @@ namespace OneApi.Client.Impl
             get { return ussdClient; }
         }
 
+        /// <summary>
+        /// Networks client
+        /// </summary>
+        public NetworksClient NetworksClient
+        {
+            get { return networksClient; }
+        }
 
         private void onLogin(LoginResponse response)
         {

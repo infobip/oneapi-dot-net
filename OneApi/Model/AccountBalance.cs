@@ -1,9 +1,8 @@
-namespace org.infobip.oneapi.model
+namespace OneApi.Model
 {
 	public class AccountBalance
-	{
-		private const long serialVersionUID = 1L;		
-		public AccountBalance() : base()
+	{		
+		public AccountBalance()
 		{
 		}
 
@@ -15,5 +14,4 @@ namespace org.infobip.oneapi.model
             return "AccountBalance {balance=" + Balance + ", currency=" + Currency + "}";
 		}
 	}
-
 }

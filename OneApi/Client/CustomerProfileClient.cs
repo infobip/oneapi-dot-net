@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OneApi.Model;
-using org.infobip.oneapi.model;
 
 namespace OneApi.Client.Impl
 {

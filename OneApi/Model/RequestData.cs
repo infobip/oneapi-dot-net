@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.Web;
-using System.Reflection;
-using System.ComponentModel;
+﻿using System.Net;
 using RestSharp;
 
 namespace OneApi.Model

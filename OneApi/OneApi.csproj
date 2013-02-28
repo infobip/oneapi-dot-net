@@ -64,10 +64,12 @@
     <Compile Include="Client\CustomerProfileClient.cs" />
     <Compile Include="Client\Impl\CustomerProfileClientImpl.cs" />
     <Compile Include="Client\Impl\HLRClientImpl.cs" />
+    <Compile Include="Client\Impl\NetworksClientImpl.cs" />
     <Compile Include="Client\Impl\OneAPIBaseClientImpl.cs" />
     <Compile Include="Client\Impl\SMSClient.cs" />
     <Compile Include="Client\Impl\SMSMessagingClientImpl.cs" />
     <Compile Include="Client\Impl\USSDClientImpl.cs" />
+    <Compile Include="Client\NetworksClient.cs" />
     <Compile Include="Client\SMSMessagingClient.cs" />
     <Compile Include="Client\USSDClient.cs" />
     <Compile Include="Config\Configuration.cs" />
@@ -81,8 +83,11 @@
     <Compile Include="Model\AccountBalance.cs" />
     <Compile Include="Model\Authentication.cs" />
     <Compile Include="Converter\CustomDateConverter.cs" />
+    <Compile Include="Model\Country.cs" />
     <Compile Include="Model\DeliveryStatus.cs" />
     <Compile Include="Model\MessageStatus.cs" />
+    <Compile Include="Model\Network.cs" />
+    <Compile Include="Model\NumberInfo.cs" />
     <Compile Include="Model\SendMessageResultItem.cs" />
     <Compile Include="Model\SendMessageResult.cs" />
     <Compile Include="Model\StringEnum.cs" />

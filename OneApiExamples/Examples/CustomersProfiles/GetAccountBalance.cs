@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OneApi.Config;
-using OneApi.Client.Impl;
-using OneApi.Model;
-using org.infobip.oneapi.model;
-using log4net.Config;
 using System.IO;
+using log4net.Config;
+using OneApi.Client.Impl;
+using OneApi.Config;
+using OneApi.Model;
 
 namespace OneApi.Examples.CustomerProfiles
 {

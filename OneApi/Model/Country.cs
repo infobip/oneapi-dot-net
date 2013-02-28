@@ -1,11 +1,22 @@
-﻿namespace OneApi.Model
+﻿using Newtonsoft.Json;
+
+namespace OneApi.Model
 {
     public class Country
     {
+        [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
+
+        [JsonProperty(PropertyName = "code")]
         public string Code { get; set; }
+
+        [JsonProperty(PropertyName = "prefix")]
         public string Prefix { get; set; }
+
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "locale")]
         public string Locale { get; set; }
 
         public Country()

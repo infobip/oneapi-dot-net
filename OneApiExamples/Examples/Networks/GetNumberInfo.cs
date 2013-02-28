@@ -26,9 +26,9 @@ namespace OneApi.Examples.Networks
 
     public class GetNumberInfo
     {
-        private static string username = "parseco";//"FILL USERNAME HERE !!!";
-        private static string password = "Parseco+1";//"FILL PASSWORD HERE !!!";
-        private static string gsmNumber = "385922442858";
+        private static string username = "FILL USERNAME HERE !!!";
+        private static string password = "FILL PASSWORD HERE !!!";
+        private static string gsmNumber = "";
 
         public static void Execute()
         {

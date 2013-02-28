@@ -35,7 +35,7 @@ namespace OneApi.Client.Impl
             sb.Append("/resolve").Append("/").Append(gsmNumber);
 
             RequestData requestData = new RequestData(sb.ToString(), Method.POST);
-            requestData.Request.MediaType = "application/x-www-form-urlencoded";
+            //requestData.Request.MediaType = "application/x-www-form-urlencoded";
             return ExecuteMethod<NumberInfo>(requestData);
         }
     }

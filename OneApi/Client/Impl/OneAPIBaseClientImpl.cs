@@ -210,9 +210,13 @@ namespace OneApi.Client.Impl
             request.AddHeader("Accept", "*/*");
             request.Method = requestData.RequestMethod;
 
-            if (requestData.RequestMethod == Method.POST && requestData.FormParams != null)
+            if (requestData.RequestMethod == Method.POST)
             {
-                AddRequestParams(ref request, requestData.FormParams);
+                request.AddHeader("content-type", "application/x-www-form-urlencoded; charset=utf-8");
+
+                if (requestData.FormParams != null) {
+                    AddRequestParams(ref request, requestData.FormParams);
+                } 
             }
 
             return request;

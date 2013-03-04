@@ -4,9 +4,9 @@ namespace OneApi.Model
 {
     public class NumberInfo
     {
-        public Network network { get; set; }
-        public Country country { get; set; }
-        public string msisdn { get; set; }
-        public string networkPrefix { get; set; }
+        public Network Network { get; set; }
+        public Country Country { get; set; }
+        public string MSISDN { get; set; }
+        public string NetworkPrefix { get; set; }
     }
 }

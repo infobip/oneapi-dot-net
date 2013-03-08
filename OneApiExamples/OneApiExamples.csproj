@@ -59,6 +59,7 @@
     <Compile Include="Examples\ConfigFile\SaveToDefaultConfigFile.cs" />
     <Compile Include="Examples\Networks\GetNetworks.cs" />
     <Compile Include="Examples\Networks\GetNumberInfo.cs" />
+    <Compile Include="Examples\Networks\GetNumbersInfo.cs" />
     <Compile Include="Examples\OneApiExamples.cs" />
     <Compile Include="Examples\Async\GetDeliveryReportsAsync.cs" />
     <Compile Include="Examples\Async\QueryDeliveryStatusAsync.cs" />

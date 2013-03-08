@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using OneApi.Config;
 using OneApi.Model;
 using RestSharp;
@@ -36,6 +37,17 @@ namespace OneApi.Client.Impl
 
             RequestData requestData = new RequestData(sb.ToString(), Method.POST);
             return ExecuteMethod<NumberInfo>(requestData);
+        }
+
+        /// <summary>
+        /// Gets the given GSM numbers's informations
+        /// </summary>
+        /// <param name="gsmNumbers"></param>
+        /// <returns></returns>
+        public NumberInfo[] ResolveMSISDNs(List<string> gsmNumbers)
+        {
+            RequestData requestData = new RequestData(NETWORKS_URL_BASE, Method.POST, gsmNumbers);
+            return ExecuteMethod<NumberInfo[]>(requestData);
         }
     }
 }

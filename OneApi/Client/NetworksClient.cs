@@ -1,4 +1,5 @@
 ﻿using OneApi.Model;
+using System.Collections.Generic;
 
 namespace OneApi.Client
 {
@@ -11,5 +12,7 @@ namespace OneApi.Client
         Network[] GetNetworks();
 
         NumberInfo ResolveMSISDN(string gsmNumber);
+
+        NumberInfo[] ResolveMSISDNs(List<string> gsmNumbers);
     }
 }

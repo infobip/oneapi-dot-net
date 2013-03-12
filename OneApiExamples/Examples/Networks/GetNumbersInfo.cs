@@ -6,7 +6,7 @@ using OneApi.Config;
 using OneApi.Model;
 using System.Collections.Generic;
 
-namespace OneApiExamples.Examples.Networks
+namespace OneApi.Examples.Networks
 {
     /**
       * To run this example follow these 4 steps:
@@ -27,9 +27,9 @@ namespace OneApiExamples.Examples.Networks
 
     public class GetNumbersInfo
     {
-        private static string username = "FILL USERNAME HERE !!!";
-        private static string password = "FILL PASSWORD HERE !!!";
-        private static List<string> gsmNumbers = new List<string>() { "38598123456", "38591654321", "38595987654" };
+        private static string username = "parseco";
+        private static string password = "Parseco+1";
+        private static List<string> gsmNumbers = new List<string>() { "385989295194", "385922442858", "38595987654" };//"38598123456", "38591654321", "38595987654" };
 
         public static void Execute()
         {
@@ -39,7 +39,7 @@ namespace OneApiExamples.Examples.Networks
 
             // Initialize Configuration object 
             Configuration configuration = new Configuration(username, password);
-            configuration.ApiUrl = "http://127.0.0.1:8099/infobip-oneapi";
+            //configuration.ApiUrl = "http://127.0.0.1:8099/infobip-oneapi";
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);

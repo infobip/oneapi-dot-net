@@ -16,8 +16,6 @@ namespace OneApi.Examples.Networks
       *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project
       *
       *  3.) Open 'Examples.GetNetworks' class to edit where you should populate the following fields: 
-      *		'password'   
-      *		'username'  
       *		'gsmNumbers'
       *		
       *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
@@ -27,8 +25,6 @@ namespace OneApi.Examples.Networks
 
     public class GetNumbersInfo
     {
-        private static string username = "parseco";
-        private static string password = "Parseco+1";
         private static List<string> gsmNumbers = new List<string>() { "385989295194", "385922442858", "38595987654" };//"38598123456", "38591654321", "38595987654" };
 
         public static void Execute()
@@ -38,7 +34,8 @@ namespace OneApi.Examples.Networks
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
             // Initialize Configuration object 
-            Configuration configuration = new Configuration(username, password);
+            Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
+                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
             //configuration.ApiUrl = "http://127.0.0.1:8099/infobip-oneapi";
 
             // Initialize SMSClient using the Configuration object

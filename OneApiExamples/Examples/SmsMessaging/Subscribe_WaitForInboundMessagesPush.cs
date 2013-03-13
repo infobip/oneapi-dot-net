@@ -21,9 +21,10 @@ namespace OneApi.Examples.SmsMessaging
      *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project    
      *
      *  3.) Open 'Examples.Subscribe_WaitForInboundMessagesPush' class to edit where you should populate the following fields: 
-     *		'destinationAddress'    'notificationFormat'
-     *		'username'              'notifyUrl'           
-     *		'password'              'criteria' 
+     *		'destinationAddress'    
+     *		'notificationFormat'
+     *		'notifyUrl'           
+     *		'criteria' 
      *
      *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
      *       There you will enter the appropriate example number in the console and press 'Enter' key 
@@ -37,8 +38,6 @@ namespace OneApi.Examples.SmsMessaging
 
     public class Subscribe_WaitForInboundMessagesPush
     {
-        private static string username = "FILL USERNAME HERE !!!";
-        private static string password = "FILL PASSWORD HERE !!!";
         private static string destinationAddress = "";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3001/" 3001=Default port for 'Inbound Messages Notifications' server simulator
         private static string criteria = "";
@@ -52,7 +51,8 @@ namespace OneApi.Examples.SmsMessaging
 
 
             // Initialize Configuration object 
-            Configuration configuration = new Configuration(username, password);
+            Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
+                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);

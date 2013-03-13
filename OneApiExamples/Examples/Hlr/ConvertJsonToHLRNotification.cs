@@ -1,6 +1,6 @@
 using System;
-using OneApi.Config;
 using OneApi.Client.Impl;
+using OneApi.Config;
 using OneApi.Model;
 
 namespace OneApi.Examples.Hlr

@@ -18,8 +18,9 @@ namespace OneApi.Examples.SmsMessaging
       *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project    
       *
       *  3.) Open 'Examples.SendSMS_WaitForDeliveryStatusPush' class to edit where you should populate the following fields: 
-      *		'senderAddress'     'notifyUrl'   'username'
-      *		'message'           'password'        
+      *		'senderAddress'     
+     *		'notifyUrl'
+      *		'message'                   
       *		'recipientAddress'   
       *
       *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
@@ -34,8 +35,6 @@ namespace OneApi.Examples.SmsMessaging
 
     public class SendSMS_WaitForDeliveryStatusPush
     {
-        private static string username = "FILL USERNAME HERE !!!";
-        private static string password = "FILL PASSWORD HERE !!!";
         private static string senderAddress = "";
         private static string message = "";
         private static string recipientAddress = "";
@@ -49,7 +48,8 @@ namespace OneApi.Examples.SmsMessaging
 
 
             // Initialize Configuration object 
-            Configuration configuration = new Configuration(username, password);
+            Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
+                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);

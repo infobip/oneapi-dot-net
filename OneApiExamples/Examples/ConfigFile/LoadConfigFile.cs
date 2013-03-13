@@ -1,6 +1,6 @@
 using System;
-using OneApi.Config;
 using System.IO;
+using OneApi.Config;
 
 namespace OneApi.Examples.ConfigFile
 {

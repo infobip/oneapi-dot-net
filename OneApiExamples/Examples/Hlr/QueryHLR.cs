@@ -17,8 +17,7 @@ namespace OneApi.Examples.Hlr
       *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project
       *
       *  3.) Open 'Examples.QueryHLR' class to edit where you should populate the following fields: 
-      *		'address'    'password'   
-      *		'username'        
+      *		'address'        
       *		
       *  4.) Run the 'OneApiExample' project, where an a example list with ordered numbers will be displayed in the console. 
       *      There you will enter the appropriate example number in the console and press 'Enter' key 
@@ -27,8 +26,6 @@ namespace OneApi.Examples.Hlr
 
     public class QueryHLR
     {
-        private static string username = "FILL USERNAME HERE !!!";
-        private static string password = "FILL PASSWORD HERE !!!";
         private static string address = "";
                      
         public static void Execute()
@@ -40,7 +37,8 @@ namespace OneApi.Examples.Hlr
             try
             {
                 // example:data-connection-client
-                Configuration configuration = new Configuration(username, password);
+                Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
+                                                                System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
                 SMSClient smsClient = new SMSClient(configuration);
                 // ----------------------------------------------------------------------------------------------------
               

@@ -25,7 +25,7 @@ namespace OneApi.Examples.Networks
 
     public class GetNumbersInfo
     {
-        private static List<string> gsmNumbers = new List<string>() { "385989295194", "385922442858", "38595987654" };//"38598123456", "38591654321", "38595987654" };
+        private static List<string> gsmNumbers = new List<string>() { "1234567890", "0123456789", "9876543210", "0987654321" };
 
         public static void Execute()
         {
@@ -36,7 +36,6 @@ namespace OneApi.Examples.Networks
             // Initialize Configuration object 
             Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
                                                             System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
-            //configuration.ApiUrl = "http://127.0.0.1:8099/infobip-oneapi";
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);

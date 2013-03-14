@@ -5,7 +5,6 @@ using OneApi.Client.Impl;
 using OneApi.Config;
 using OneApi.Listeners;
 using OneApi.Model;
-using OneApi.Exceptions;
 
 namespace OneApi.Examples.SmsMessaging
 {

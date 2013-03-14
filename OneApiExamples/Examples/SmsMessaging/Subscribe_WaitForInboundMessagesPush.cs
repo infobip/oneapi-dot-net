@@ -1,14 +1,10 @@
 using System;
-using System.Net;
-using System.Text;
 using System.IO;
 using log4net.Config;
-using OneApi.Config;
 using OneApi.Client.Impl;
-using OneApi.Exceptions;
-using OneApi.Model;
-using OneApi.Examples;
+using OneApi.Config;
 using OneApi.Listeners;
+using OneApi.Model;
 
 namespace OneApi.Examples.SmsMessaging
 {

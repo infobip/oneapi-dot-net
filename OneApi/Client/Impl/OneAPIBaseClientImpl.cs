@@ -212,11 +212,20 @@ namespace OneApi.Client.Impl
 
             if (requestData.RequestMethod == Method.POST)
             {
-                request.AddHeader("content-type", "application/x-www-form-urlencoded; charset=utf-8");
+                request.AddHeader("content-type", requestData.ContentType);
 
-                if (requestData.FormParams != null) {
-                    AddRequestParams(ref request, requestData.FormParams);
-                } 
+                if (requestData.FormParams != null)
+                {
+                    if (requestData.ContentType.Equals(RequestData.JSON_CONTENT_TYPE))
+                    {
+                        request.RequestFormat = DataFormat.Json;
+                        request.AddBody(requestData.FormParams);
+                    }
+                    else if (requestData.ContentType.Equals(RequestData.FORM_URL_ENCOEDED_CONTENT_TYPE))
+                    {
+                        AddRequestParams(ref request, requestData.FormParams);
+                    }
+                }
             }
 
             return request;

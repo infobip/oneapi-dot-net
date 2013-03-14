@@ -5,6 +5,9 @@ namespace OneApi.Model
 {
     public class RequestData
     {
+        public const string FORM_URL_ENCOEDED_CONTENT_TYPE = "application/x-www-form-urlencoded; charset=utf-8";
+        public const string JSON_CONTENT_TYPE = "application/json; charset=utf-8";
+
         public RequestData(string resourcePath, Method requestMethod)
         {
             ResourcePath = resourcePath;
@@ -30,9 +33,10 @@ namespace OneApi.Model
         }
 
         public HttpWebRequest Request;
-        public string ResourcePath;
+        public string ResourcePath; 
         public Method RequestMethod;
         public string RootElement;
         public object FormParams;
+        public string ContentType = FORM_URL_ENCOEDED_CONTENT_TYPE;
     }
 }

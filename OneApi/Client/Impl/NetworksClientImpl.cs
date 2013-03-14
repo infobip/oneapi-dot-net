@@ -47,7 +47,12 @@ namespace OneApi.Client.Impl
         public NumberInfo[] ResolveMSISDNs(List<string> gsmNumbers)
         {
             RequestData requestData = new RequestData(NETWORKS_URL_BASE, Method.POST, gsmNumbers);
+            requestData.ContentType = RequestData.JSON_CONTENT_TYPE;
             return ExecuteMethod<NumberInfo[]>(requestData);
         }
+
+
+
+
     }
 }

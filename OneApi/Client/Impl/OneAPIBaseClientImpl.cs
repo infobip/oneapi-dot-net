@@ -142,8 +142,7 @@ namespace OneApi.Client.Impl
         /// <param name="request"></param>
         /// <param name="formParams"></param>
         protected void AddRequestParams(ref RestRequest request, object formParams)
-        {
-  
+        {  
             Dictionary<string, object> formParamsDictionary = formParams.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(prop => (prop.GetCustomAttributes(typeof(DisplayNameAttribute), false).First() as DisplayNameAttribute).DisplayName, prop => prop.GetValue(formParams, null));
 
             if (formParamsDictionary == null)

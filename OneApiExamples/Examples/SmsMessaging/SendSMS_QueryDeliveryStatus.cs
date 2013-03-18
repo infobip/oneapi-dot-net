@@ -39,7 +39,7 @@ namespace OneApi.Examples.SmsMessaging
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
 
-            // example:initialize-sms-client
+            // Initialize Configuration object 
             Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"), 
                                                             System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
             SMSClient smsClient = new SMSClient(configuration);

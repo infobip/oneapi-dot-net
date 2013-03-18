@@ -59,7 +59,7 @@ namespace OneApi.Examples.Hlr
                     }
                 }));
 
-                // example:retrieve-roaming-status-with-notify-url
+                // Retrieve Roaming Status With Notify URL
                 smsClient.HlrClient.QueryHLR(address, notifyUrl);
                 // ----------------------------------------------------------------------------------------------------
 

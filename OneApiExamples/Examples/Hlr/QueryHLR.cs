@@ -36,13 +36,13 @@ namespace OneApi.Examples.Hlr
 
             try
             {
-                // example:data-connection-client
+                // Initialize Configuration object 
                 Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
                                                                 System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
                 SMSClient smsClient = new SMSClient(configuration);
                 // ----------------------------------------------------------------------------------------------------
               
-                // example:retrieve-roaming-status
+                // Retrieve Roaming Status
                 Roaming roaming = smsClient.HlrClient.QueryHLR(address);
                 // ----------------------------------------------------------------------------------------------------
                 Console.WriteLine(roaming);

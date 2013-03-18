@@ -30,7 +30,7 @@ namespace OneApi.Examples.SmsMessaging
             Configuration configuration = new Configuration();
             SMSClient smsClient = new SMSClient(configuration);
 
-            // example:on-delivery-notification
+            // Get Delivery Notification
             DeliveryInfoNotification deliveryInfoNotification = smsClient.SmsMessagingClient.ConvertJsonToDeliveryInfoNotification(JSON);
             // ----------------------------------------------------------------------------------------------------
             Console.WriteLine(deliveryInfoNotification);

@@ -31,7 +31,7 @@ namespace OneApi.Examples.Hlr
             Configuration configuration = new Configuration();
             SMSClient smsClient = new SMSClient(configuration);
 
-            // example:on-roaming-status
+            // Get Roaming Status
             RoamingNotification roamingNotification = smsClient.HlrClient.ConvertJsonToHLRNotification(JSON);
             //----------------------------------------------------------------------------------------------------
             Console.WriteLine(roamingNotification);   

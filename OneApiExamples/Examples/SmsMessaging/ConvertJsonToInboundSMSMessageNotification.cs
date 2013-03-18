@@ -31,7 +31,7 @@ namespace OneApi.Examples.SmsMessaging
             Configuration configuration = new Configuration();
             SMSClient smsClient = new SMSClient(configuration);
 
-            // example:on-mo
+            // Get Inbound Message Notification
             InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.ConvertJsonToInboundSMSMessageNotification(JSON);
             // ----------------------------------------------------------------------------------------------------
             Console.WriteLine(inboundSMSMessageList); 

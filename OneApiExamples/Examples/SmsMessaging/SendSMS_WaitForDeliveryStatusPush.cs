@@ -64,7 +64,7 @@ namespace OneApi.Examples.SmsMessaging
                 }
             }));
 
-            // example:prepare-message-with-notify-url
+            // Prepare Message With Notify URL
             SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
             // The url where the delivery notification will be pushed:
             smsRequest.NotifyURL = notifyUrl;

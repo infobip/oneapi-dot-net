@@ -36,7 +36,7 @@ namespace OneApi.Examples.SmsMessaging
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            // example:retrieve-inbound-messages
+            // Retrieve Inbound Messages
             InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.GetInboundMessages();
             // ---------------------------------------------------------------------------------------------------- 
             Console.WriteLine(inboundSMSMessageList);

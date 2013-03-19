@@ -27,6 +27,8 @@ namespace OneApi.Examples.SmsMessaging
 
     public class SendSMS_QueryDeliveryStatus
     {
+        private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+        private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
         private static string senderAddress = "";
         private static string message = "";
         private static string recipientAddress = "";
@@ -37,29 +39,40 @@ namespace OneApi.Examples.SmsMessaging
             // Check http://logging.apache.org/log4net/release/manual/configuration.html for more informations about the log4net configuration
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
-            // Initialize Configuration object 
-            Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"), 
-                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+            // example:initialize-sms-client
+            // Initialize Configuration object
+            Configuration configuration = new Configuration(username, password);
+
+            // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
             // ----------------------------------------------------------------------------------------------------
 
+            // example:prepare-message-without-notify-url
             // Prepare Message Without Notify URL
             SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
             // ----------------------------------------------------------------------------------------------------
 
+            // example:send-message
             // Send Message
             // Store request id because we can later query for the delivery status with it:
             SendMessageResult sendMessageResult = smsClient.SmsMessagingClient.SendSMS(smsRequest);
             // ----------------------------------------------------------------------------------------------------
 
+            // example:send-message-client-correlator
+            // The client correlator is a unique identifier of this api call
+            string clientCorrelator = sendMessageResult.ClientCorrelator;
+            // ----------------------------------------------------------------------------------------------------
+
             // Few seconds later we can check for the sending status   
             System.Threading.Thread.Sleep(10000);
 
+            // example:query-for-delivery-status
             // Query for Delivery Status
-            DeliveryInfoList deliveryInfoList = smsClient.SmsMessagingClient.QueryDeliveryStatus(senderAddress, sendMessageResult.ClientCorrelator);
-            string deliveryStatus = deliveryInfoList.DeliveryInfos[0].DeliveryStatus;
-            // ----------------------------------------------------------------------------------------------------
+            DeliveryInfoList deliveryInfoList = smsClient.SmsMessagingClient.QueryDeliveryStatus(senderAddress, clientCorrelator);
+            string deliveryStatus = deliveryInfoList.DeliveryInfos[0].DeliveryStatus; 
+           
             Console.WriteLine(deliveryStatus);
+            // ----------------------------------------------------------------------------------------------------
         }
     }
 }

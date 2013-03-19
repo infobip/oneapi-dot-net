@@ -21,6 +21,9 @@ namespace OneApi.Examples.Networks
 
     public class GetNetworks
     {
+        private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+        private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
+
         public static void Execute()
         {
             // Configure in the 'app.config' which Logger levels are enabled(all levels are enabled in the example)
@@ -28,8 +31,7 @@ namespace OneApi.Examples.Networks
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
             // Initialize Configuration object 
-            Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
-                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+            Configuration configuration = new Configuration(username, password);
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);

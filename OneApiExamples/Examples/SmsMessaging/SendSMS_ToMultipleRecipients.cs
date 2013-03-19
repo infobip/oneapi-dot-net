@@ -27,6 +27,8 @@ namespace OneApi.Examples.SmsMessaging
 
     public class SendSMS_ToMultipleRecipients
     {
+        private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+        private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
         private static string senderAddress = "";
         private static string message = "";
         private static string recipientAddress = "";
@@ -40,8 +42,7 @@ namespace OneApi.Examples.SmsMessaging
 
 
             // Initialize Configuration object 
-            Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
-                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+            Configuration configuration = new Configuration(username, password);
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);

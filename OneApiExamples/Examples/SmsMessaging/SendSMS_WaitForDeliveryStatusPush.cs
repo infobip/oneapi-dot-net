@@ -34,6 +34,8 @@ namespace OneApi.Examples.SmsMessaging
 
     public class SendSMS_WaitForDeliveryStatusPush
     {
+        private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+        private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
         private static string senderAddress = "";
         private static string message = "";
         private static string recipientAddress = "";
@@ -47,23 +49,28 @@ namespace OneApi.Examples.SmsMessaging
 
 
             // Initialize Configuration object 
-            Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
-                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+            Configuration configuration = new Configuration(username, password);
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
             // Add listener(start push server and wait for the 'Delivery Info Notifications')    
             smsClient.SmsMessagingClient.AddPushDeliveryStatusNotificationsListener(new DeliveryStatusNotificationsListener((deliveryInfoNotification) =>
-            {
+            {                
                 // Handle pushed 'Delivery Info Notification'
                 if (deliveryInfoNotification != null)
                 {
-                    string deliveryStatus = deliveryInfoNotification.DeliveryInfo.DeliveryStatus;
-                    Console.WriteLine(deliveryStatus);
+                    // example:on-delivery-notification
+                    Console.WriteLine("status: " + deliveryInfoNotification.DeliveryInfo.DeliveryStatus);
+                    Console.WriteLine("address: " + deliveryInfoNotification.DeliveryInfo.Address);
+                    Console.WriteLine("messageId: " + deliveryInfoNotification.DeliveryInfo.MessageId);
+                    Console.WriteLine("clientCorrelator: " + deliveryInfoNotification.DeliveryInfo.ClientCorrelator);
+                    Console.WriteLine("callback data: " + deliveryInfoNotification.CallbackData);
+                    // ----------------------------------------------------------------------------------------------------
                 }
             }));
 
+            // example:prepare-message-with-notify-url
             // Prepare Message With Notify URL
             SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
             // The url where the delivery notification will be pushed:

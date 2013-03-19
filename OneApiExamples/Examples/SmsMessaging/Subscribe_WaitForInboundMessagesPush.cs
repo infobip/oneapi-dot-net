@@ -34,6 +34,8 @@ namespace OneApi.Examples.SmsMessaging
 
     public class Subscribe_WaitForInboundMessagesPush
     {
+        private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+        private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
         private static string destinationAddress = "";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3001/" 3001=Default port for 'Inbound Messages Notifications' server simulator
         private static string criteria = "";
@@ -47,8 +49,7 @@ namespace OneApi.Examples.SmsMessaging
 
 
             // Initialize Configuration object 
-            Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
-                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+            Configuration configuration = new Configuration(username, password);
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
@@ -57,7 +58,20 @@ namespace OneApi.Examples.SmsMessaging
             smsClient.SmsMessagingClient.AddPushInboundMessageNotificationsListener(new InboundMessageNotificationsListener((smsMessageList) =>
             {
                 // Handle pushed 'Inbound Message Notification'
-                Console.WriteLine(smsMessageList);
+                if (smsMessageList != null)
+                {
+                    // example:on-mo
+                    foreach (InboundSMSMessage inboundSMSMessage in smsMessageList.InboundSMSMessage)
+                    {
+                        Console.WriteLine("dateTime: " + inboundSMSMessage.SubmitTime);
+                        Console.WriteLine("destinationAddress: " + inboundSMSMessage.DestinationAddress);
+                        Console.WriteLine("messageId: " + inboundSMSMessage.MessageId);
+                        Console.WriteLine("message: " + inboundSMSMessage.Message);
+                        Console.WriteLine("resourceURL: " + inboundSMSMessage.ResourceURL);
+                        Console.WriteLine("senderAddress: " + inboundSMSMessage.SenderAddress);
+                    }
+                    // ----------------------------------------------------------------------------------------------------
+                }
             }));
 
             // Store 'Inbound Message Notifications' subscription id because we can later remove subscription with it:
@@ -71,7 +85,6 @@ namespace OneApi.Examples.SmsMessaging
 
             // Remove 'Inbound Message Notifications' push listeners and stop the server
             smsClient.SmsMessagingClient.RemovePushInboundMessageNotificationsListeners();
-
         }
     }
 }

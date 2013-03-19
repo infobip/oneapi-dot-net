@@ -83,74 +83,86 @@ These are possible states of the message once you have sent it:
 Now you are ready to send the message.
 
 	private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
-	private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
-	private static string senderAddress = "";
-	private static string message = "";
-	private static string recipientAddress = "";
+    private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
+	private static string senderAddress = "Some sender";
+	private static string message = "Hello world";
+	private static string recipientAddress = "123456789";
 	
 	static void Main(string[] args)
-	{
-		
-		
+	{	
+    // Initialize Configuration object
     Configuration configuration = new Configuration(username, password);
-    SMSClient smsClient = new SMSClient(configuration);
     
-    try
-    {
-        // example:login-sms-client
-        LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+    // Initialize SMSClient using the Configuration object
+    SMSClient smsClient = new SMSClient(configuration);
 
+    // Prepare Message Without Notify URL
     SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
 
+    // Send Message
     // Store request id because we can later query for the delivery status with it:
     SendMessageResult sendMessageResult = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
-    TODO
-    DeliveryInfoList deliveryInfoList = smsClient.SmsMessagingClient.QueryDeliveryStatus(senderAddress, sendMessageResult.ClientCorrelator);
-    string deliveryStatus = deliveryInfoList.DeliveryInfos[0].DeliveryStatus;
+    // The client correlator is a unique identifier of this api call
+    string clientCorrelator = sendMessageResult.ClientCorrelator;
+
+    // Query for Delivery Status
+    DeliveryInfoList deliveryInfoList = smsClient.SmsMessagingClient.QueryDeliveryStatus(senderAddress, clientCorrelator);
+    string deliveryStatus = deliveryInfoList.DeliveryInfos[0].DeliveryStatus; 
+    
+    Console.WriteLine(deliveryStatus);
 
     }
-	catch (Excetopn e)
-	{
-		//Handle exception here
-	}
-}
 
 
 ### Example 1.2: Basic messaging (Hello world) with notification push
 Set the notify URL when sending message:
 
-    <?php
- 
-    require_once(PATH_TO_LIBRARY);
-
+	private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+    private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
+	private static string senderAddress = "Some sender";
+	private static string message = "Hello world";
+	private static string recipientAddress = "123456789";
+	private static string notifyUrl = "http://127.0.0.1:3000/"; // 3000=Default port for 'Delivery Info Notifications' server simulator
+	
+	static void Main(string[] args)
+	{
+    // Initialize Configuration object
     Configuration configuration = new Configuration(username, password);
-    SMSClient smsClient = new SMSClient(configuration);
     
-    try
-    {
-        // example:login-sms-client
-        LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+    // Initialize SMSClient using the Configuration object
+    SMSClient smsClient = new SMSClient(configuration);
 
+    // Prepare Message With Notify URL
     SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
     // The url where the delivery notification will be pushed:
     smsRequest.NotifyURL = notifyUrl;
 
+    // Send Message
     // Store request id because we can later query for the delivery status with it:
     SendMessageResult sendMessageResult = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
-    ?>
+    }
 
 
 Parseco will send a HTTP POST request to this URL, and your web application must process it like this:
 
-    <?php
- 
-    require_once(PATH_TO_LIBRARY);
+    public void ProcessDeliveryNotification(HttpContext context)
+    {
+		// Get the JSON content of Parseco's request 
+		string deliveryInfoNotificationJson = new StreamReader(context.Request.InputStream, System.Text.Encoding.UTF8).ReadToEnd();
+		
+		// Convert the JSON to a DeliveryInfoNotification object
+		DeliveryInfoNotification deliveryInfoNotification =
+                OneAPIBaseClientImpl.ConvertJsonToObject<DeliveryInfoNotification>(deliveryInfoNotificationJson, "deliveryInfoNotification");
 
-    DeliveryInfoNotification deliveryInfoNotification = smsClient.SmsMessagingClient.ConvertJsonToDeliveryInfoNotification(JSON);
+    Console.WriteLine("status: " + deliveryInfoNotification.DeliveryInfo.DeliveryStatus);
+    Console.WriteLine("address: " + deliveryInfoNotification.DeliveryInfo.Address);
+    Console.WriteLine("messageId: " + deliveryInfoNotification.DeliveryInfo.MessageId);
+    Console.WriteLine("clientCorrelator: " + deliveryInfoNotification.DeliveryInfo.ClientCorrelator);
+    Console.WriteLine("callback data: " + deliveryInfoNotification.CallbackData);
 
-    ?>
+    }
 
 
 Note that there is nothing stopping you from running both code snippets on the same host or within the same web application, but it is not necessary.
@@ -159,44 +171,74 @@ Note that there is nothing stopping you from running both code snippets on the s
 When the cell phone is connected to a network other than his home operator network it is said to be [roaming](http://en.wikipedia.org/wiki/Roaming).
 This is just a part of the information about a cell phone that can be obtained via a [Number Context](http://www.infobip.com/messaging/end_users/number_context_packages) query like in the example below.
 
-    <?php
- 
-    require_once(PATH_TO_LIBRARY);
+    private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+    private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
+    private static string address = "123456789";
+	
+	static void Main(string[] args)
+	{
 
-    Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
-                                                    System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+    // Initialize Configuration object 
+    Configuration configuration = new Configuration(username, password);
+    
+    // Initialize SMSClient using the Configuration object
     SMSClient smsClient = new SMSClient(configuration);
 
-    Roaming roaming = smsClient.HlrClient.QueryHLR(address);
+    // Retrieve Roaming Status
+    Roaming roaming = smsClient.HlrClient.QueryHLR(address); 
+    
+    Console.WriteLine(roaming);
 
-    ?>
+    }
 
 
 ### Example 2.2: Cell phone roaming status (Number Context query) as notification push
 Set the notify URL when sending message:
 
-    <?php
- 
-    require_once(PATH_TO_LIBRARY);
+    private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+    private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
+    private static string address = "123456789";
+    private static string notifyUrl = "http://127.0.0.1:3002/"; // 3002=Default port for 'HLR Notifications' server simulator
+	
+	static void Main(string[] args)
+	{
 
-    Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
-                                                    System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+    // Initialize Configuration object 
+    Configuration configuration = new Configuration(username, password);
+    
+    // Initialize SMSClient using the Configuration object
     SMSClient smsClient = new SMSClient(configuration);
 
+    // Retrieve Roaming Status With Notify URL
     smsClient.HlrClient.QueryHLR(address, notifyUrl);
 
-    ?>
+    }
 
 
 Parseco will send a HTTP POST request to this URL, and your web application must process it like this:
 
-    <?php
- 
-    require_once(PATH_TO_LIBRARY);
+    public void ProcessRoamingStatusNotification(HttpContext context)
+    {
+		// Get the JSON content of Parseco's request 
+		string roamingStatusNotificationJson = new StreamReader(context.Request.InputStream, System.Text.Encoding.UTF8).ReadToEnd();
+		
+		// Convert the JSON to a RoamingNotification object
+		RoamingNotification roamingNotification =
+                OneAPIBaseClientImpl.ConvertJsonToObject<RoamingNotification>(roamingStatusNotificationJson, "roamingNotification");
 
-    RoamingNotification roamingNotification = smsClient.HlrClient.ConvertJsonToHLRNotification(JSON);
+    Console.WriteLine("servingMccMnc: " + roamingNotification.Roaming.ConnectionProfileServingMccMnc);
+    Console.WriteLine("address: " + roamingNotification.Roaming.Address);
+    Console.WriteLine("currentRoaming: " + roamingNotification.Roaming.CurrentRoaming);
+    Console.WriteLine("resourceURL: " + roamingNotification.Roaming.ResourceURL);
+    Console.WriteLine("retrievalStatus: " + roamingNotification.Roaming.RetrievalStatus);
+    Console.WriteLine("callbackData: " + roamingNotification.Roaming.CallbackData);
+    Console.WriteLine("extendedData: " + roamingNotification.Roaming.ExtendedData);
+    Console.WriteLine("IMSI: " + roamingNotification.Roaming.ExtendedData.Imsi);
+    Console.WriteLine("destinationAddres: " + roamingNotification.Roaming.ExtendedData.DestinationAddress);
+    Console.WriteLine("originalNetworkPrefix: " + roamingNotification.Roaming.ExtendedData.OriginalNetworkPrefix);
+    Console.WriteLine("portedNetworkPrefix: " + roamingNotification.Roaming.ExtendedData.PortedNetworkPrefix);
 
-    ?>
+    }
 
 
 Note that there is nothing stopping you from running both code snippets on the same host or within the same web application, but it is not necessary.
@@ -218,32 +260,48 @@ Our paid services include (info coming soon, mail to <a href="mailto:info@parsec
 
 In order for the below example to work make sure that you have a subscription with no notify URL set at your [Parseco account](http://www.parseco.com/application/setup-wizard/).
 
-    <?php
- 
-    require_once(PATH_TO_LIBRARY);
+    private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+    private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
 
+	static void Main(string[] args)
+	{
+	
+    // Initialize Configuration object
     Configuration configuration = new Configuration(username, password);
-    SMSClient smsClient = new SMSClient(configuration);
     
-    try
-    {
-        // example:login-sms-client
-        LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+    // Initialize SMSClient using the Configuration object
+    SMSClient smsClient = new SMSClient(configuration);
 
+    // Retrieve Inbound Messages
     InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.GetInboundMessages();
+    
+    Console.WriteLine(inboundSMSMessageList);
 
-    ?>
+    }
 
 
 ### Example 3.2: Process inbound messages (two way communication) as notification push
 In order for the below example to work make sure that you have a subscription with a notify URL set at your [Parseco account](http://www.parseco.com/application/setup-wizard/). 
 Of course, the notify URL must be mapped to your web application.
 
-    <?php
- 
-    require_once(PATH_TO_LIBRARY);
+    public void ProcessInboundMessageNotification(HttpContext context)
+    {
+		// Get the JSON content of Parseco's request 
+		string inboundMessageNotificationJson = new StreamReader(context.Request.InputStream, System.Text.Encoding.UTF8).ReadToEnd();
+		
+		// Convert the JSON to a InboundSMSMessageList object
+		InboundSMSMessageList smsMessageList =
+                OneAPIBaseClientImpl.ConvertJsonToObject<InboundSMSMessageList>(inboundMessageNotificationJson);
 
-    InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.ConvertJsonToInboundSMSMessageNotification(JSON);
+    foreach (InboundSMSMessage inboundSMSMessage in smsMessageList.InboundSMSMessage)
+    {
+        Console.WriteLine("dateTime: " + inboundSMSMessage.SubmitTime);
+        Console.WriteLine("destinationAddress: " + inboundSMSMessage.DestinationAddress);
+        Console.WriteLine("messageId: " + inboundSMSMessage.MessageId);
+        Console.WriteLine("message: " + inboundSMSMessage.Message);
+        Console.WriteLine("resourceURL: " + inboundSMSMessage.ResourceURL);
+        Console.WriteLine("senderAddress: " + inboundSMSMessage.SenderAddress);
+    }
 
-    ?>
+    }
 

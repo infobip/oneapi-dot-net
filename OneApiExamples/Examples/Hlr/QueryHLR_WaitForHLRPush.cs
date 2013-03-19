@@ -31,6 +31,8 @@ namespace OneApi.Examples.Hlr
 
     public class QueryHLR_WaitForHLRPush 
     {
+        private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+        private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
         private static string address = "";
         private static string notifyUrl = ""; //e.g. "http://127.0.0.1:3002/" 3002=Default port for 'HLR Notifications' server simulator
                 
@@ -43,8 +45,7 @@ namespace OneApi.Examples.Hlr
             try
             {
                 // Initialize Configuration object 
-                Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
-                                                                System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+                Configuration configuration = new Configuration(username, password);
 
                 // Initialize SMSClient using the Configuration object
                 SMSClient smsClient = new SMSClient(configuration);
@@ -55,10 +56,23 @@ namespace OneApi.Examples.Hlr
                     // Handle pushed 'HLR Notification'
                     if (roamingNotification != null)
                     {
-                        Console.WriteLine(roamingNotification);
+                        // example:on-roaming-status
+                        Console.WriteLine("servingMccMnc: " + roamingNotification.Roaming.ConnectionProfileServingMccMnc);
+                        Console.WriteLine("address: " + roamingNotification.Roaming.Address);
+                        Console.WriteLine("currentRoaming: " + roamingNotification.Roaming.CurrentRoaming);
+                        Console.WriteLine("resourceURL: " + roamingNotification.Roaming.ResourceURL);
+                        Console.WriteLine("retrievalStatus: " + roamingNotification.Roaming.RetrievalStatus);
+                        Console.WriteLine("callbackData: " + roamingNotification.Roaming.CallbackData);
+                        Console.WriteLine("extendedData: " + roamingNotification.Roaming.ExtendedData);
+                        Console.WriteLine("IMSI: " + roamingNotification.Roaming.ExtendedData.Imsi);
+                        Console.WriteLine("destinationAddres: " + roamingNotification.Roaming.ExtendedData.DestinationAddress);
+                        Console.WriteLine("originalNetworkPrefix: " + roamingNotification.Roaming.ExtendedData.OriginalNetworkPrefix);
+                        Console.WriteLine("portedNetworkPrefix: " + roamingNotification.Roaming.ExtendedData.PortedNetworkPrefix);
+                        // ----------------------------------------------------------------------------------------------------
                     }
                 }));
 
+                // example:retrieve-roaming-status-with-notify-url
                 // Retrieve Roaming Status With Notify URL
                 smsClient.HlrClient.QueryHLR(address, notifyUrl);
                 // ----------------------------------------------------------------------------------------------------

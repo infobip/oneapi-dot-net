@@ -25,6 +25,8 @@ namespace OneApi.Examples.Networks
 
     public class GetNumbersInfo
     {
+        private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
+        private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
         private static List<string> gsmNumbers = new List<string>() { "1234567890", "0123456789", "9876543210", "0987654321" };
 
         public static void Execute()
@@ -34,8 +36,7 @@ namespace OneApi.Examples.Networks
             XmlConfigurator.Configure(new FileInfo("OneApiExamples.exe.config"));
 
             // Initialize Configuration object 
-            Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
-                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+            Configuration configuration = new Configuration(username, password);
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);

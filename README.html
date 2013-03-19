@@ -1,0 +1,60 @@
+<html><head><title>OneApi doc</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"></head><body><h1 id="ONEAPI_NET_CLIENT">OneApi .NET client</h1>
+<h2 id="BASIC_MESSAGING_EXAMPLE">Basic messaging example</h2>
+<p>First initialize the messaging client using your username and password:</p>
+<pre><code>Configuration configuration = new Configuration(username, password);
+SMSClient smsClient = new SMSClient(configuration);
+
+try
+{
+    // example:login-sms-client
+    LoginResponse loginResponse = smsClient.CustomerProfileClient.Login();
+</code></pre>
+<p>An exception will be thrown if your username and/or password are incorrect.</p>
+<p>Prepare the message:</p>
+<pre><code>SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
+</code></pre>
+<p>Send the message:</p>
+<pre><code>// Store request id because we can later query for the delivery status with it:
+SendMessageResult sendMessageResult = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+</code></pre>
+<p>Later you can query for the delivery status of the message:</p>
+<pre><code>DeliveryInfoList deliveryInfoList = smsClient.SmsMessagingClient.QueryDeliveryStatus(senderAddress, sendMessageResult.ClientCorrelator);
+string deliveryStatus = deliveryInfoList.DeliveryInfos[0].DeliveryStatus;
+</code></pre>
+<p>Possible statuses are: <strong>DeliveredToTerminal</strong>, <strong>DeliveryUncertain</strong>, <strong>DeliveryImpossible</strong>, <strong>MessageWaiting</strong> and <strong>DeliveredToNetwork</strong>.</p>
+<h2 id="MESSAGING_WITH_NOTIFICATION_PUSH_EXAMPLE">Messaging with notification push example</h2>
+<p>Same as with the standard messaging example, but when preparing your message:</p>
+<pre><code>SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
+// The url where the delivery notification will be pushed:
+smsRequest.NotifyURL = notifyUrl;
+</code></pre>
+<p>When the delivery notification is pushed to your server as a HTTP POST request, you must process the body of the message with the following code:</p>
+<pre><code>DeliveryInfoNotification deliveryInfoNotification = smsClient.SmsMessagingClient.ConvertJsonToDeliveryInfoNotification(JSON);
+</code></pre>
+<h2 id="NUMBER_CONTEXT_EXAMPLE">Number Context example</h2>
+<p>Initialize and login the data connection client:</p>
+<pre><code>Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
+                                                System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+SMSClient smsClient = new SMSClient(configuration);
+</code></pre>
+<p>Retrieve the roaming status (Number Context):</p>
+<pre><code>Roaming roaming = smsClient.HlrClient.QueryHLR(address);
+</code></pre>
+<h2 id="NUMBER_CONTEXT_WITH_NOTIFICATION_PUSH_EXAMPLE">Number Context with notification push example</h2>
+<p>Similar to the previous example, but this time you must set the notification url where the result will be pushed:</p>
+<pre><code>smsClient.HlrClient.QueryHLR(address, notifyUrl);
+</code></pre>
+<p>When the roaming status notification is pushed to your server as a HTTP POST request, you must process the body of the message with the following code:</p>
+<pre><code>RoamingNotification roamingNotification = smsClient.HlrClient.ConvertJsonToHLRNotification(JSON);
+</code></pre>
+<h2 id="RETRIEVE_INBOUND_MESSAGES_EXAMPLE">Retrieve inbound messages example</h2>
+<p>With the existing sms client (see the basic messaging example to see how to start it):</p>
+<pre><code>InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.GetInboundMessages();
+</code></pre>
+<h2 id="INBOUND_MESSAGE_PUSH_EXAMPLE">Inbound message push example</h2>
+<p>The subscription to recive inbound messages can be set up on our site.
+When the inbound message notification is pushed to your server as a HTTP POST request, you must process the body of the message with the following code:</p>
+<pre><code>InboundSMSMessageList inboundSMSMessageList = smsClient.SmsMessagingClient.ConvertJsonToInboundSMSMessageNotification(JSON);
+</code></pre>
+<h2 id="LICENSE">License</h2>
+<p>This library is licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License, Version 2.0</a></p></body></html>

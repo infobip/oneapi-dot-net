@@ -22,7 +22,6 @@ namespace OneApi.Model
         [JsonProperty(PropertyName = "callbackData")]
         public string CallbackData;
 
-
         public override string ToString()
         {
             return "DeliveryReportSubscription {subscriptionId=" + SubscriptionId

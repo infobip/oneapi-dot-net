@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 
 namespace OneApi.Model
 {
-
 	/// <summary>
 	/// specific error case indicated by the OneAPI server as a Service Exception
 	/// </summary>
@@ -15,20 +14,19 @@ namespace OneApi.Model
 		/// return the distinctive error message identifier
 		/// </summary>
         [JsonProperty(PropertyName = "messageId")]
-        public string MessageId;
+        public string MessageId { get; set; }
 			
 		/// <summary>
 		/// return the textual representation of the error
 		/// </summary>
         [JsonProperty(PropertyName = "text")]
-        public string Text;
+        public string Text { get; set; }
 
 		/// <summary>
 		/// return any instance specific error variables
 		/// </summary>
         [JsonProperty(PropertyName = "variables")]
-        public string[] Variables;
-
+        public string[] Variables { get; set; }
 
 		/// <summary>
 		/// default constructor

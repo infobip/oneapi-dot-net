@@ -1,10 +1,8 @@
 using System;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace OneApi.Model
 {
-
 	/// <summary>
 	/// InboundMessageList contains the detail of the response to get a list of
 	/// received SMS messages
@@ -55,5 +53,4 @@ namespace OneApi.Model
                 + TotalNumberOfPendingMessages + "}";
 		}
 	}
-
 }

@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 
 namespace OneApi.Model
 {
-
 	/// <summary>
 	/// contains an error response returned from the OneAPI server
 	/// </summary>

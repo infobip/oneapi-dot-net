@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace OneApi.Model
 {
-
     /// <summary>
     /// Contains the detail of a request to obtain delivery information for SMS messages sent via the OneAPI server
     /// </summary>

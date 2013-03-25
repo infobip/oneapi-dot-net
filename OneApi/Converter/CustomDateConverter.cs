@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace OneApi.Model
 {
@@ -18,9 +15,13 @@ namespace OneApi.Model
                 date = date.AddMilliseconds(ticks);
                 return date;
 
-            } else if (reader.TokenType == JsonToken.Date) {
+            } 
+            else if (reader.TokenType == JsonToken.Date) 
+            {
                 return (DateTime)reader.Value; 
-            } else {
+            } 
+            else 
+            {
                 throw new Exception(
                    String.Format("Unexpected token parsing date.",
                    reader.TokenType));

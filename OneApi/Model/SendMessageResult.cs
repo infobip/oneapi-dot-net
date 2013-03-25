@@ -6,13 +6,13 @@ namespace OneApi.Model
     public class SendMessageResult
     {
         [JsonProperty(PropertyName = "clientCorrelator")]
-        public String ClientCorrelator;
+        public String ClientCorrelator { get; set; }
 
         [JsonProperty(PropertyName = "sendMessageResults")]
-        public SendMessageResultItem[] SendMessageResults;
+        public SendMessageResultItem[] SendMessageResults { get; set; }
 
         [JsonProperty(PropertyName = "resourceReference")]
-        public ResourceReference ResourceRef;
+        public ResourceReference ResourceRef { get; set; }
 
         public override string ToString()
         {

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace OneApi.Model
@@ -10,10 +7,10 @@ namespace OneApi.Model
     public class RoamingNotification
     {
         [JsonProperty(PropertyName = "roaming")]
-        public Roaming Roaming;
+        public Roaming Roaming { get; set; }
 
         [JsonProperty(PropertyName = "callbackData")]
-        public string CallbackData;
+        public string CallbackData { get; set; }
 
         public override string ToString()
         {

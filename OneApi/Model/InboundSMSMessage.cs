@@ -1,10 +1,8 @@
 using System;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace OneApi.Model
 {
-
 	/// <summary>
 	/// InboundMessage contains the main message information for an SMS message (not
 	/// including attachment information)

@@ -1,10 +1,8 @@
 using System;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace OneApi.Model
 {
-
 	/// <summary>
 	/// Roaming contains the result of an attempt to get a single mobile terminal roaming status - either successfully or unsuccessfully
 	/// </summary>
@@ -15,13 +13,13 @@ namespace OneApi.Model
 		/// return the MSISDN of the mobile terminal 
 		/// </summary>
         [JsonProperty(PropertyName = "address")]
-        public string Address;
+        public string Address { get; set; }
 
 		/// <summary>
 		/// return the status of the roaming
 		/// </summary>
         [JsonProperty(PropertyName = "currentRoaming")]
-        public string CurrentRoaming;
+        public string CurrentRoaming { get; set; }
 
 		/// <summary>
 		/// the inner class CurrentLocation contains the serving network country code/ network code 
@@ -32,13 +30,13 @@ namespace OneApi.Model
 			/// return mobile country code
 			/// </summary>
             [JsonProperty(PropertyName = "mcc")]
-            public string Mcc;
+            public string Mcc { get; set; }
 
 			/// <summary>
 			/// return mobile network code
 			/// </summary>
             [JsonProperty(PropertyName = "mnc")]
-            public string Mnc;
+            public string Mnc { get; set; }
 
 			/// <summary>
 			/// utility constructor to create a Roaming.ServingMccMnc object with all fields set
@@ -54,7 +52,7 @@ namespace OneApi.Model
         /// in case the terminal was successfully contacted servingMccMnc contains the connection profile details
         /// </summary>
         [JsonProperty(PropertyName = "servingMccMnc")]
-        public ServingMccMnc ConnectionProfileServingMccMnc;
+        public ServingMccMnc ConnectionProfileServingMccMnc { get; set; }
 
         public void SetServingMccMnc(String value)
         {
@@ -68,7 +66,7 @@ namespace OneApi.Model
 		/// return the url
 		/// </summary>
         [JsonProperty(PropertyName = "resourceURL")]
-        public string ResourceURL;
+        public string ResourceURL { get; set; }
 
 		/// <summary>
         /// the response status with possible values: "Retrieved", "Error"
@@ -92,13 +90,13 @@ namespace OneApi.Model
 	    * custom provided data when pushing HLR to a customer's URL
 	    */
         [JsonProperty(PropertyName = "callbackData")]
-        public string CallbackData;
+        public string CallbackData { get; set; }
 
         /// <summary>
         /// original detailed HLR data
         /// </summary>
         [JsonProperty(PropertyName = "extendedData")]
-        public HlrResponseData ExtendedData;
+        public HlrResponseData ExtendedData { get; set; }
 
 		/// <summary>
 		/// generate a textual representation of the Roaming instance including all nested elements and classes 

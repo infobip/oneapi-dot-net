@@ -3,7 +3,6 @@ using System.Text;
 
 namespace OneApi.Model
 {
-
 	/// <summary>
 	/// specific error case indicated by the OneAPI server as a Policy Exception
 	/// </summary>
@@ -14,17 +13,17 @@ namespace OneApi.Model
 		/// <summary>
 		/// return the distinctive error message identifier
 		/// </summary>
-        public string MessageId;
+        public string MessageId { get; set; }
 
 		/// <summary>
 		/// return the textual representation of the error
 		/// </summary>
-        public string Text;
+        public string Text { get; set; }
 
 		/// <summary>
 		/// return any instance specific error variables
 		/// </summary>
-        public string[] Variables;
+        public string[] Variables { get; set; }
 
 
 		/// <summary>

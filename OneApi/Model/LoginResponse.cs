@@ -2,12 +2,12 @@ namespace OneApi.Model
 {
 	public class LoginResponse
 	{
-		public LoginResponse()
-		{
-		}
+        public bool Verified { get; set; }
+        public string IbAuthCookie { get; set; }
 
-        public bool Verified;
-        public string IbAuthCookie;
+        public LoginResponse()
+        {
+        }
 		
 		public override string ToString()
 		{
@@ -15,5 +15,4 @@ namespace OneApi.Model
                 + IbAuthCookie + "}";
 		}
 	}
-
 }

@@ -2,13 +2,10 @@ using System;
 
 namespace OneApi.Exceptions
 {
-
     public class RequestException : Exception 
 	{
-		private const long serialVersionUID = 1L;
-
-		private string messageId;
-		private int responseCode;
+        public string MessageId { get; private set; }
+        public int ResponseCode { get; private set; }
 
 		public RequestException()
 		{
@@ -28,35 +25,18 @@ namespace OneApi.Exceptions
 
 		public RequestException(Exception e, int responseCode) : base(e.Message, e)
 		{
-			this.responseCode = responseCode;
+            this.ResponseCode = responseCode;
 		}
 
 		public RequestException(string s, string messageId) : base(s)
 		{
-			this.messageId = messageId;
+            this.MessageId = messageId;
 		}
 
 		public RequestException(string errorText, string messageId, int responseCode) : this(errorText)
 		{
-			this.messageId = messageId;
-			this.responseCode = responseCode;
-		}
-
-		public virtual string MessageId
-		{
-			get
-			{
-				return messageId;
-			}
-		}
-
-		public virtual int ResponseCode
-		{
-			get
-			{
-				return responseCode;
-			}
+            this.MessageId = messageId;
+			this.ResponseCode = responseCode;
 		}
 	}
-
 }

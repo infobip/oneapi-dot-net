@@ -4,10 +4,6 @@ namespace OneApi.Model
 {
     public class Network
     {
-        public Network()
-        {
-        }
-
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 
@@ -22,6 +18,10 @@ namespace OneApi.Model
 
         [JsonProperty(PropertyName = "nnc")]
         public string Nnc { get; set; }
+
+        public Network()
+        {
+        }
 
         public override string ToString()
         {

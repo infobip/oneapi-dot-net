@@ -73,5 +73,4 @@ namespace OneApi.Model
                     + SecondaryLanguageId + ", enabled=" + Enabled + "}";
         }
     }
-
 }

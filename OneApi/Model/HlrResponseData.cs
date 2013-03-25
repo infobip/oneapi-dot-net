@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 
 namespace OneApi.Model
 {
-
 	[Serializable]
 	public class HlrResponseData
 	{	

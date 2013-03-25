@@ -3,13 +3,13 @@ namespace OneApi.Model
 
 	public class Currency
 	{
-		public Currency()
-		{
-		}
+        public string CurrencyName { get; set; }
+        public string Symbol { get; set; }
+        public int Id { get; set; }
 
-        public string CurrencyName;
-        public string Symbol;
-        public int Id;
+        public Currency()
+        {
+        }
 
         public override string ToString()
         {

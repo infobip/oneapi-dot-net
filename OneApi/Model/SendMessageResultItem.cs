@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace OneApi.Model
@@ -9,16 +6,16 @@ namespace OneApi.Model
     public class SendMessageResultItem
     {
         [JsonProperty(PropertyName = "messageStatus")]
-        public String MessageStatus;
+        public String MessageStatus { get; set; }
 
         [JsonProperty(PropertyName = "messageId")]
-        public String MessageId;
+        public String MessageId { get; set; }
 
         [JsonProperty(PropertyName = "senderAddress")]
-        public String SenderAddress;
+        public String SenderAddress { get; set; }
 
         [JsonProperty(PropertyName = "destinationAddress")]
-        public String DestinationAddress;
+        public String DestinationAddress { get; set; }
 
         public override string ToString()
         {

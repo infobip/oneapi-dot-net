@@ -47,7 +47,7 @@ namespace OneApi.Examples.SmsMessaging
             SMSClient smsClient = new SMSClient(configuration);
 
             // Send SMS 
-            smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
+            var aaaa = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
 
             // Wait for 30 seconds to give enought time for the message to be delivered
             System.Threading.Thread.Sleep(30000);
@@ -55,7 +55,6 @@ namespace OneApi.Examples.SmsMessaging
             // Get 'Delivery Reports'
             DeliveryReportList deliveryReportList = smsClient.SmsMessagingClient.GetDeliveryReports();
             Console.WriteLine(deliveryReportList);
-
         }
     }
 }

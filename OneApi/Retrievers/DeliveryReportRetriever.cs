@@ -4,7 +4,6 @@ using System.Threading;
 
 namespace OneApi.Retrievers
 {
-
     using SMSMessagingClientImpl = OneApi.Client.Impl.SMSMessagingClientImpl;
     using RequestException = OneApi.Exceptions.RequestException;
     using DeliveryReportListener = OneApi.Listeners.DeliveryReportListener;

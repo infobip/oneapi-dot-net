@@ -4,10 +4,9 @@ using System.Threading;
 
 namespace OneApi.Retrievers
 {
-
-    using SMSMessagingClientImpl =OneApi.Client.Impl.SMSMessagingClientImpl;
+    using SMSMessagingClientImpl = OneApi.Client.Impl.SMSMessagingClientImpl;
     using RequestException = OneApi.Exceptions.RequestException;
-    using InboundMessageListener =OneApi.Listeners.InboundMessageListener;
+    using InboundMessageListener = OneApi.Listeners.InboundMessageListener;
     using InboundSMSMessageList = OneApi.Model.InboundSMSMessageList;
 
     public class InboundMessageRetriever

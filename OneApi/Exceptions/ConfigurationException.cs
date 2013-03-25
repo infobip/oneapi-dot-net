@@ -2,7 +2,6 @@ using System;
 
 namespace OneApi.Exceptions
 {
-
     public class ConfigurationException : Exception 
 	{
 		private const long serialVersionUID = 1L;
@@ -24,5 +23,4 @@ namespace OneApi.Exceptions
 		{
 		}
 	}
-
 }

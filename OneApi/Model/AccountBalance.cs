@@ -1,13 +1,13 @@
 namespace OneApi.Model
 {
 	public class AccountBalance
-	{		
-		public AccountBalance()
-		{
-		}
+	{
+        public Currency Currency { get; set; }
+        public decimal Balance { get; set; }
 
-        public Currency Currency;
-        public decimal Balance;
+        public AccountBalance()
+        {
+        }
 
 		public override string ToString()
 		{

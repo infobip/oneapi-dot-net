@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace OneApi.Model
@@ -16,7 +15,6 @@ namespace OneApi.Model
         /// </summary>
         public class CallbackReference
         {
-
             /// <summary>
             /// return the user data that will be sent along with the callback notification
             /// </summary>
@@ -53,7 +51,6 @@ namespace OneApi.Model
                 return "CallbackReference {callbackData=" + CallbackData
                     + ", notifyURL=" + NotifyURL + "}";
             }
-
         }
 
         /// <summary>

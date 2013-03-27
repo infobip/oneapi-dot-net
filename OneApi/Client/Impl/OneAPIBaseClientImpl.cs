@@ -1,21 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json.Converters;
-using System.IO;
-using System.Net;
-using System.Web;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.ComponentModel;
+using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OneApi.Config;
 using OneApi.Exceptions;
 using OneApi.Model;
-using System.Threading;
 using RestSharp;
 
 namespace OneApi.Client.Impl

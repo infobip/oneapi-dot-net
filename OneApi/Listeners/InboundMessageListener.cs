@@ -1,13 +1,11 @@
 using System;
-using OneApi.Model;
 using OneApi.Exceptions;
+using OneApi.Model;
 
 namespace OneApi.Listeners
 {
-
     public class InboundMessageListener
     {
-
         private readonly Action<InboundSMSMessageList, RequestException> _onMessageReceived;
 
         public InboundMessageListener(Action<InboundSMSMessageList, Exception> onMessageReceived)

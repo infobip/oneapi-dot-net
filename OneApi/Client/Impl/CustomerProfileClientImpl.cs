@@ -7,7 +7,6 @@ using RestSharp;
 
 namespace OneApi.Client.Impl
 {
-
     public class CustomerProfileClientImpl : OneAPIBaseClientImpl, CustomerProfileClient
     {
         private const string CUSTOMER_PROFILE_URL_BASE = "/customerProfile";

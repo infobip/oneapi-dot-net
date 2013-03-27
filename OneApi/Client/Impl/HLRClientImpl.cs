@@ -1,18 +1,15 @@
 using System;
-using System.Text;
-using System.Net;
-using System.Web;
 using System.Collections.Generic;
-using OneApi.Listeners;
+using System.Text;
+using System.Web;
 using OneApi.Config;
 using OneApi.Exceptions;
+using OneApi.Listeners;
 using OneApi.Model;
 using RestSharp;
 
-
 namespace OneApi.Client.Impl
 {
-
     public class HLRClientImpl : OneAPIBaseClientImpl, HLRClient
     {
         private const string HLR_URL_BASE = "/terminalstatus/queries";

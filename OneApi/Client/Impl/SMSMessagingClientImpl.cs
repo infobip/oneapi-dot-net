@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Net;
 using System.Web;
-using OneApi.Retrievers;
-using OneApi.Listeners;
 using OneApi.Config;
-using OneApi.Model;
-using RestSharp;
 using OneApi.Exceptions;
-
+using OneApi.Listeners;
+using OneApi.Model;
+using OneApi.Retrievers;
+using RestSharp;
 
 namespace OneApi.Client.Impl
 {
@@ -44,9 +42,24 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(smsRequest.SenderAddress));
             urlBuilder.Append("/requests");
+
+            if (smsRequest.Address != null)
+            {
+                if (String.IsNullOrEmpty(smsRequest.ClientCorrelator))
+                    smsRequest.ClientCorrelator = Guid.NewGuid().ToString();
+
+                LOGGER.InfoFormat("Number of destination addresses sent is {0} for message with ClientCorrelator = {1}.", smsRequest.Address.Length, smsRequest.ClientCorrelator);
+            }
            
             RequestData requestData = new RequestData(urlBuilder.ToString(), Method.POST, null, smsRequest);
-            return ExecuteMethod<SendMessageResult>(requestData);
+            SendMessageResult result = ExecuteMethod<SendMessageResult>(requestData);
+
+            if (result.SendMessageResults != null)
+            {
+                LOGGER.InfoFormat("Number of destination addresses received is {0} for message with ClientCorrelator = {1}.", result.SendMessageResults.Length, result.ClientCorrelator);
+            }
+
+            return result;
         }
 
         /// <summary>

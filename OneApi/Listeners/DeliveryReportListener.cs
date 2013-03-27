@@ -1,13 +1,11 @@
 using System;
-using OneApi.Model;
 using OneApi.Exceptions;
+using OneApi.Model;
 
 namespace OneApi.Listeners
 {
-
 	public class DeliveryReportListener
 	{
-
         private readonly Action<DeliveryReportList, RequestException> _onDeliveryReportReceived;
 
         public DeliveryReportListener(Action<DeliveryReportList, RequestException> onDeliveryReportReceived)    

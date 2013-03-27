@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
-using OneApi.Model;
-using OneApi.Listeners;
 using OneApi.Exceptions;
-
+using OneApi.Listeners;
+using OneApi.Model;
 
 namespace OneApi.Client
 {
-
 	public interface SMSMessagingClient
 	{
 		/// <summary>

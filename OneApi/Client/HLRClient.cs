@@ -1,8 +1,8 @@
 using System;
-using OneApi.Model;
-using OneApi.Listeners;
 using System.Collections.Generic;
 using OneApi.Exceptions;
+using OneApi.Listeners;
+using OneApi.Model;
 
 namespace OneApi.Client
 {

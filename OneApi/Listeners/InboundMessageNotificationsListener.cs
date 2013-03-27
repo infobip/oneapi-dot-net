@@ -3,7 +3,6 @@ using OneApi.Model;
 
 namespace OneApi.Listeners
 {
-
     public class InboundMessageNotificationsListener
     {
         private readonly Action<InboundSMSMessageList> _onMessageReceived;

@@ -4,6 +4,7 @@ using log4net.Config;
 using OneApi.Client.Impl;
 using OneApi.Config;
 using OneApi.Model;
+using System.Collections.Generic;
 
 namespace OneApi.Examples.SmsMessaging
 {
@@ -29,9 +30,9 @@ namespace OneApi.Examples.SmsMessaging
     {
         private static string username = System.Configuration.ConfigurationManager.AppSettings.Get("Username");
         private static string password = System.Configuration.ConfigurationManager.AppSettings.Get("Password");
-        private static string senderAddress = "";
-        private static string message = "";
-        private static string recipientAddress = "";
+        private static string senderAddress = "mirko";
+        private static string message = "ovo je poruka";
+        private static List<string> recipientAddress;
 
         public static void Execute()
         {
@@ -42,19 +43,40 @@ namespace OneApi.Examples.SmsMessaging
 
             // Initialize Configuration object 
             Configuration configuration = new Configuration(username, password);
+            configuration.ApiUrl = "http://192.168.10.18:9130";
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
+                        
+            string prefix = "38598";
+            Random r = new Random();
+            for (int i = 0; i < 10000; i++)
+            {
+                recipientAddress = new List<string>();
+                int numNumbers = r.Next(5, 20);
+                for (int j = 0; j < numNumbers; j++)
+                {
+                    recipientAddress.Add(prefix + r.Next(1000000, 9999999).ToString());
+                }
+
+                SMSRequest eeee = new SMSRequest(senderAddress, message, recipientAddress.ToArray());
+                eeee.NotifyURL = "http://ria.infobip.com/status/oneapi/";
+
+                var aaaa = smsClient.SmsMessagingClient.SendSMS(eeee);
+            }
+
+            //SMSRequest eeee = new SMSRequest(senderAddress, message, recipientAddress);
+            //eeee.NotifyURL = "http://ria.infobip.com/status/oneapi/";
 
             // Send SMS 
-            var aaaa = smsClient.SmsMessagingClient.SendSMS(new SMSRequest(senderAddress, message, recipientAddress));
+            //var aaaa = smsClient.SmsMessagingClient.SendSMS(eeee);  //new SMSRequest(senderAddress, message, recipientAddress));
 
             // Wait for 30 seconds to give enought time for the message to be delivered
-            System.Threading.Thread.Sleep(30000);
+            //System.Threading.Thread.Sleep(30000);
 
             // Get 'Delivery Reports'
-            DeliveryReportList deliveryReportList = smsClient.SmsMessagingClient.GetDeliveryReports();
-            Console.WriteLine(deliveryReportList);
+            //DeliveryReportList deliveryReportList = smsClient.SmsMessagingClient.GetDeliveryReports();
+            //Console.WriteLine(deliveryReportList);
         }
     }
 }

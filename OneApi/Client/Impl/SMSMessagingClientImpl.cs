@@ -56,6 +56,9 @@ namespace OneApi.Client.Impl
 
             if (result.SendMessageResults != null)
             {
+                if (result.SendMessageResults.Length == 0)
+                    throw new Exception("jeba ga patak!!!");
+
                 LOGGER.InfoFormat("Number of destination addresses received is {0} for message with ClientCorrelator = {1}.", result.SendMessageResults.Length, result.ClientCorrelator);
             }
 

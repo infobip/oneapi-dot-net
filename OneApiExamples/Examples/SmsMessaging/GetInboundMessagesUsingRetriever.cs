@@ -11,7 +11,7 @@ namespace OneApi.Examples.SmsMessaging
     /**
      * To run this example follow these 3 steps:
      *
-     *  1.) Download 'Parseco C# library' - available at www.github.com/parseco
+     *  1.) Download 'Infobip C# library' - available at www.github.com/infobip
      *
      *  2.) Open 'OneApi.sln' in 'Visual Studio 2010' and locate 'OneApiExamples' project 
      *

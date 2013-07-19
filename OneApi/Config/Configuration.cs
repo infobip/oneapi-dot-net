@@ -14,7 +14,7 @@ namespace OneApi.Config
 		private const string DEFAULT_CONFIG_FILE = "client.cfg";
        
         private Authentication authentication = new Authentication();
-        private string apiUrl = "https://api.parseco.com";
+        private string apiUrl = "https://oneapi.infobip.com";
 		private int versionOneAPISMS = 1;
 		private int inboundMessagesRetrievingInterval = 5000;
 		private int dlrRetrievingInterval = 5000;

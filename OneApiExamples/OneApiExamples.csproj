@@ -58,6 +58,7 @@
     <Compile Include="Examples\ConfigFile\LoadDefaultConfigFile.cs" />
     <Compile Include="Examples\ConfigFile\SaveToConfigFile.cs" />
     <Compile Include="Examples\ConfigFile\SaveToDefaultConfigFile.cs" />
+    <Compile Include="Examples\CustomersProfiles\AddClientFunds.cs" />
     <Compile Include="Examples\Networks\GetNetworks.cs" />
     <Compile Include="Examples\Networks\GetNumberInfo.cs" />
     <Compile Include="Examples\Networks\GetNumbersInfo.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Examples\SmsMessaging\SendSMS_Subscribe_WaitForDeliveryStatusPush.cs" />
     <Compile Include="Examples\SmsMessaging\GetInboundMessages.cs" />
     <Compile Include="Examples\SmsMessaging\SendSMS_GetDeliveryReports.cs" />
+    <Compile Include="Examples\CustomersProfiles\GetCustomerProfileClients.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

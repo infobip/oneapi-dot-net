@@ -6,7 +6,8 @@ namespace OneApi.Model
     [Serializable]
     public class CustomerProfile
     {
-        [JsonProperty(PropertyName = "id")]
+        [ObsoleteAttribute]
+		[JsonProperty(PropertyName = "id")]
         public int Id;
 
         [JsonProperty(PropertyName = "username")]
@@ -60,9 +61,15 @@ namespace OneApi.Model
         [JsonProperty(PropertyName = "enabled")]
         public bool Enabled;
 
-        public override string ToString()
+		[JsonProperty(PropertyName = "key")]
+		public string Key;
+
+		[JsonProperty(PropertyName = "accountKey")]
+		public string AccountKey;
+
+		public override string ToString()
         {
-            return "CustomerProfile {id=" + Id + ", username=" + Username
+			return "CustomerProfile {username="  + Username
                     + ", forename=" + Forename + ", surname=" + Surname
                     + ", street=" + Street + ", city=" + City + ", zipCode="
                     + ZipCode + ", telephone=" + Telephone + ", gsm=" + Gsm
@@ -70,7 +77,8 @@ namespace OneApi.Model
                     + ", skype=" + Skype + ", countryId=" + CountryId
                     + ", timezoneId=" + TimezoneId + ", primaryLanguageId="
                     + PrimaryLanguageId + ", secondaryLanguageId="
-                    + SecondaryLanguageId + ", enabled=" + Enabled + "}";
+                    + SecondaryLanguageId + ", enabled=" + Enabled +
+					", key=" + Key + ", accountKey=" + AccountKey + "}";
         }
     }
 

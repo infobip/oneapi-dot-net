@@ -81,9 +81,12 @@
     <Compile Include="Listeners\DeliveryStatusNotificationsListener.cs" />
     <Compile Include="Listeners\InboundMessageListener.cs" />
     <Compile Include="Model\AccountBalance.cs" />
+    <Compile Include="Model\AddClientFundsRequest.cs" />
+    <Compile Include="Model\AddClientFundsResponse.cs" />
     <Compile Include="Model\Authentication.cs" />
     <Compile Include="Converter\CustomDateConverter.cs" />
     <Compile Include="Model\Country.cs" />
+    <Compile Include="Model\CustomerProfileList.cs" />
     <Compile Include="Model\DeliveryStatus.cs" />
     <Compile Include="Model\MessageStatus.cs" />
     <Compile Include="Model\Network.cs" />

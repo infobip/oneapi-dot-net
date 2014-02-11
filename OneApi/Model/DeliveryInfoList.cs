@@ -43,6 +43,9 @@ namespace OneApi.Model
             [JsonProperty(PropertyName = "clientCorrelator")]
             public string ClientCorrelator;
 
+            [JsonProperty(PropertyName = "price")]
+            public decimal? Price;
+
             /// <summary>
             /// default constructor
             /// </summary>
@@ -67,7 +70,7 @@ namespace OneApi.Model
             {
                 return "DeliveryInfo {address=" + Address + ", deliveryStatus="
                     + DeliveryStatus + ", messageId=" + MessageId
-                    + ", clientCorrelator=" + ClientCorrelator + "}";
+                    + ", clientCorrelator=" + ClientCorrelator + ", price=" + Price + "}";
             }
         }
 

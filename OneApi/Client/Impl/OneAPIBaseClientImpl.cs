@@ -76,7 +76,8 @@ namespace OneApi.Client.Impl
         protected T ExecuteMethod<T>(RequestData requestData)
         {
             IRestResponse response = SendOneAPIRequest(requestData);
-            return Deserialize<T>(response, requestData.RootElement);
+             var deserializedResponse = Deserialize<T>(response, requestData.RootElement);
+             return deserializedResponse;
         }
 
         /// <summary>

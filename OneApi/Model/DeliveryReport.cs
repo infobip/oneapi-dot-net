@@ -19,10 +19,13 @@ namespace OneApi.Model
         [JsonProperty(PropertyName = "status")]
         public string Status;
 
+        [JsonProperty(PropertyName = "price")]
+        public decimal? Price;
+
 		public override string ToString()
 		{
             return "DeliveryReport {messageId=" + MessageId + ", sentDate="
-            + SentDate + ", doneDate=" + DoneDate + ", status=" + Status
+            + SentDate + ", doneDate=" + DoneDate + ", status=" + Status + ", price=" + Price
             + "}";
 		}
 	}

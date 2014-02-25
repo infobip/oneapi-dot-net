@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using log4net.Config;
 using OneApi.Client.Impl;
 using OneApi.Config;
@@ -37,7 +38,10 @@ namespace OneApi.Examples.CustomerProfiles
             SMSClient smsClient = new SMSClient(configuration);
 
             CustomerProfile[] customerProfiles = smsClient.CustomerProfileClient.GetCustomerProfiles();
-            Console.WriteLine(string.Join("Customer Profile: ", (Object[])customerProfiles));   
+            if (customerProfiles != null && customerProfiles.Length > 0)
+            {
+                Console.WriteLine(string.Join("Customer Profile: ", customerProfiles.Select<CustomerProfile, string>(cp => (cp != null) ? cp.ToString() : "[]").ToArray()));
+            }
             Console.WriteLine();
         }
     }

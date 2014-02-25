@@ -25,7 +25,7 @@ namespace OneApi.Model
 
         public override string ToString()
         {
-            return "Network{" +
+            return "Network {" +
                     "id=" + Id +
                     ", countryId=" + CountryId +
                     ", name='" + Name + '\'' +

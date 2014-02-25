@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace OneApi.Model
 {
@@ -27,6 +28,7 @@ namespace OneApi.Model
 		}
 
         [DisplayName("address")]
+        [JsonProperty(PropertyName="address")]
         public virtual string Address
         {
             get

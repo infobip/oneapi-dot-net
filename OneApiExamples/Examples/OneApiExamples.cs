@@ -30,25 +30,30 @@ namespace OneApi.Examples
             bool isCorrectNumberEntered = false;
             string selectedClassName = "";
 
-            while (isCorrectNumberEntered == false) 
-            {        
-                if (projectClasses.TryGetValue(exampleNumber, out selectedClassName))
+            do
+            {
+                while (!isCorrectNumberEntered)
                 {
-                    isCorrectNumberEntered = true;                                   
-                } else {
-                    Console.WriteLine("");
-                    Console.WriteLine("Please enter correct example number:");
-                    exampleNumber = Console.ReadLine();
+                    if (projectClasses.TryGetValue(exampleNumber, out selectedClassName))
+                    {
+                        isCorrectNumberEntered = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("Please enter correct example number:");
+                        exampleNumber = Console.ReadLine();
+                    }
                 }
-            }
-       
-            Type t  = Type.GetType(selectedClassName);
-            MethodInfo method = t.GetMethod("Execute", BindingFlags.Static | BindingFlags.Public);
 
-            method.Invoke(null, null);
+                Type t = Type.GetType(selectedClassName);
+                MethodInfo method = t.GetMethod("Execute", BindingFlags.Static | BindingFlags.Public);
 
-            Console.WriteLine("");
-            Console.ReadKey();
+                method.Invoke(null, null);
+
+                Console.WriteLine("");
+                Console.ReadLine();
+            } while (isCorrectNumberEntered);
 		}
 
         private static void WriteNamespaceClasses(string @namespace, ref int i)

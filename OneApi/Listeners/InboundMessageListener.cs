@@ -10,7 +10,7 @@ namespace OneApi.Listeners
 
         private readonly Action<InboundSMSMessageList, RequestException> _onMessageReceived;
 
-        public InboundMessageListener(Action<InboundSMSMessageList, Exception> onMessageReceived)
+        public InboundMessageListener(Action<InboundSMSMessageList, RequestException> onMessageReceived)
         {
             _onMessageReceived = onMessageReceived;
         }

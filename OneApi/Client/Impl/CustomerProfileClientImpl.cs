@@ -4,10 +4,10 @@ using System.Web;
 using OneApi.Config;
 using OneApi.Model;
 using RestSharp;
+using Newtonsoft.Json;
 
 namespace OneApi.Client.Impl
 {
-
 	public class CustomerProfileClientImpl : OneAPIBaseClientImpl, CustomerProfileClient
 	{
 		private const string CUSTOMER_PROFILE_URL_BASE = "/customerProfile";
@@ -57,8 +57,9 @@ namespace OneApi.Client.Impl
 		/// <returns> CustomerProfile[] </returns>
 		public CustomerProfile[] GetCustomerProfiles()
 		{
-			RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/list", Method.GET);
-			return ExecuteMethod<CustomerProfile[]>(requestData);
+			RequestData requestData = new RequestData(CUSTOMER_PROFILE_URL_BASE + "/all", Method.GET);
+            CustomerProfileArrayWrapper wrapped = ExecuteMethod<CustomerProfileArrayWrapper>(requestData);
+            return wrapped.profiles;
 		}
 
 		/// <summary>
@@ -106,5 +107,13 @@ namespace OneApi.Client.Impl
 			requestData.ContentType = RequestData.JSON_CONTENT_TYPE;
 			return ExecuteMethod<AddClientFundsResponse>(requestData);
 		}
+
+        class CustomerProfileArrayWrapper
+        {
+            [JsonProperty(PropertyName = "users")]
+            public CustomerProfile[] profiles { get; set; }
+        };
+
+
 	}
 }

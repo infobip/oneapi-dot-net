@@ -25,7 +25,7 @@ namespace OneApi.Examples.CustomerProfiles
 			SMSClient smsClient = new SMSClient(configuration);
 
 			CustomerProfile[] customerProfiles = smsClient.CustomerProfileClient.GetClients();
-			Console.WriteLine(string.Join("Customer Profile: ", (Object[])customerProfiles));
+			Console.WriteLine(string.Join("Customer Profile: ", customerProfiles.Select<CustomerProfile, string>(cProfile => cProfile != null ? cProfile.ToString() : "{}").ToArray()));
 			Console.WriteLine();
 		}
 	}

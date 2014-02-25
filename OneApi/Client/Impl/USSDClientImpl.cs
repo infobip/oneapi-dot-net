@@ -27,6 +27,7 @@ namespace OneApi.Client.Impl
         {
             RequestData requestData = new RequestData(USSD_URL_BASE, Method.POST);
             requestData.FormParams = new USSDRequest(address, message);
+            requestData.ContentType = RequestData.JSON_CONTENT_TYPE;
             return ExecuteMethod<InboundSMSMessage>(requestData);
         }
 

@@ -27,7 +27,7 @@ namespace OneApi.Examples.Ussd
     public class SendUSSD
     {
         private static string destination = "";
-        private static string message = "You language of choice?\n1. Java\n2. .NET";
+        private static string message = "Your language of choice?\n1. Java\n2. .NET";
 
         public static void Execute()
         {

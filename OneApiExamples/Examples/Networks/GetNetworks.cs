@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using log4net.Config;
 using OneApi.Client.Impl;
 using OneApi.Config;
@@ -38,7 +39,7 @@ namespace OneApi.Examples.Networks
             Network[] networks = smsClient.NetworksClient.GetNetworks();
 
             // Write response
-            Console.WriteLine(string.Join("Network: ", (Object[])networks));
+            Console.WriteLine(string.Join("Network: ", networks.Select<Network, string>(network => network !=null ? network.ToString(): "{}").ToArray()));
             Console.WriteLine();
         }
     }

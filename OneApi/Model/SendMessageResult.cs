@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace OneApi.Model
 {
@@ -17,8 +18,9 @@ namespace OneApi.Model
         public override string ToString()
         {
             return "SendMessageResult {clientCorrelator=" + ClientCorrelator
-                    + ", sendMessageResults=" + string.Join(", ", (Object[])SendMessageResults)
-                    + ", resourceReference=" + ResourceRef + "}";
+                + ", sendMessageResults=" + string.Join(", ", 
+                SendMessageResults.Select<SendMessageResultItem, string>(smr => smr != null ? smr.ToString() : "{}")
+                    .ToArray()) + ", resourceReference=" + ResourceRef + "}";
         }
     }
 }

@@ -7,7 +7,7 @@ namespace OneApi.Model
     public class CustomerProfile
     {
         [ObsoleteAttribute]
-		[JsonProperty(PropertyName = "id")]
+        [JsonProperty(PropertyName = "id")]
         public int Id;
 
         [JsonProperty(PropertyName = "username")]
@@ -61,24 +61,36 @@ namespace OneApi.Model
         [JsonProperty(PropertyName = "enabled")]
         public bool Enabled;
 
-		[JsonProperty(PropertyName = "key")]
-		public string Key;
+        [JsonProperty(PropertyName = "key")]
+        public string Key;
 
-		[JsonProperty(PropertyName = "accountKey")]
-		public string AccountKey;
+        [JsonProperty(PropertyName = "accountKey")]
+        public string AccountKey;
 
-		public override string ToString()
+        [JsonProperty(PropertyName = "canSendTraffic")]
+        public bool CanSendTraffic;
+
+        [JsonProperty(PropertyName = "locked")]
+        public bool Locked;
+
+        [JsonProperty(PropertyName = "url")]
+        public string Url;
+
+        [JsonProperty(PropertyName = "accountId")]
+        public string AccountId;
+
+        public override string ToString()
         {
-			return "CustomerProfile {username="  + Username
+            return "CustomerProfile {accountId=" + AccountId + ", username=" + Username
                     + ", forename=" + Forename + ", surname=" + Surname
                     + ", street=" + Street + ", city=" + City + ", zipCode="
                     + ZipCode + ", telephone=" + Telephone + ", gsm=" + Gsm
                     + ", fax=" + Fax + ", email=" + Email + ", msn=" + Msn
-                    + ", skype=" + Skype + ", countryId=" + CountryId
-                    + ", timezoneId=" + TimezoneId + ", primaryLanguageId="
+                    + ", skype=" + Skype + ", countryId=" + CountryId + ", timezoneId=" + TimezoneId
+                    + ", primaryLanguageId="
                     + PrimaryLanguageId + ", secondaryLanguageId="
                     + SecondaryLanguageId + ", enabled=" + Enabled +
-					", key=" + Key + ", accountKey=" + AccountKey + "}";
+                    ", key=" + Key + ", accountKey=" + AccountKey + ", canSendTraffic=" + CanSendTraffic + ", locked=" + Locked + ", url=" + Url + "}";
         }
     }
 

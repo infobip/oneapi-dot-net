@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace OneApi.Model
 {
@@ -48,7 +49,7 @@ namespace OneApi.Model
         public override string ToString()
 		{
             return "InboundSMSMessageList {inboundSMSMessage="
-                + string.Join(", ", (Object[])InboundSMSMessage)
+                + string.Join(", ", InboundSMSMessage.Select<InboundSMSMessage, string>(ism => ism !=null ? ism.ToString() : "{}").ToArray())
                 + ", numberOfMessagesInThisBatch="
                 + NumberOfMessagesInThisBatch + ", resourceURL=" + ResourceURL
                 + ", totalNumberOfPendingMessages="

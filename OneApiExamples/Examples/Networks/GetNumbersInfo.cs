@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using log4net.Config;
 using OneApi.Client.Impl;
 using OneApi.Config;
@@ -25,7 +26,7 @@ namespace OneApi.Examples.Networks
 
     public class GetNumbersInfo
     {
-        private static List<string> gsmNumbers = new List<string>() { "1234567890", "0123456789", "9876543210", "0987654321" };
+        private static List<string> gsmNumbers = new List<string>() {"38163651525"};
 
         public static void Execute()
         {
@@ -44,7 +45,7 @@ namespace OneApi.Examples.Networks
             NumberInfo[] numberInfo = smsClient.NetworksClient.ResolveMSISDNs(gsmNumbers);
 
             // Write reposonse
-            Console.WriteLine(string.Join("Number Info: ", (Object[])numberInfo));
+            Console.WriteLine(string.Join("Number Info: ", numberInfo.Select<NumberInfo, string>(nInfo => (nInfo!=null)?nInfo.ToString():"{}").ToArray()));
             Console.WriteLine();
         }
     }

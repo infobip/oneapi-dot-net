@@ -75,7 +75,7 @@ namespace OneApi.Client.Impl
         /// <returns>T</returns>
         protected T ExecuteMethod<T>(RequestData requestData)
         {
-            IRestResponse response = SendOneAPIRequest(requestData);
+             IRestResponse response = SendOneAPIRequest(requestData);
              var deserializedResponse = Deserialize<T>(response, requestData.RootElement);
              return deserializedResponse;
         }
@@ -179,7 +179,7 @@ namespace OneApi.Client.Impl
 
             if (LOGGER.IsDebugEnabled)
             {
-                LOGGER.Debug("Request form parameters: " + string.Join(", ", (Object[])request.Parameters.ToArray()));
+                LOGGER.Debug("Request form parameters: " + string.Join(", ", request.Parameters.ToArray().Select<Parameter, string>(ism => ism != null ? ism.ToString(): "{}").ToArray()));
             }
         }
 

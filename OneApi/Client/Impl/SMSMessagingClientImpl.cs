@@ -10,10 +10,8 @@ using OneApi.Model;
 using RestSharp;
 using OneApi.Exceptions;
 
-
 namespace OneApi.Client.Impl
 {
-
     public class SMSMessagingClientImpl : OneAPIBaseClientImpl, SMSMessagingClient
     {
         private const string SMS_MESSAGING_OUTBOUND_URL_BASE = "/smsmessaging/outbound";
@@ -22,18 +20,15 @@ namespace OneApi.Client.Impl
         private InboundMessageRetriever inboundMessageRetriever = null;
         private volatile IList<DeliveryReportListener> deliveryReportPullListenerList = null;
         private volatile IList<InboundMessageListener> inboundMessagePullListenerList = null;
-
         private volatile IList<DeliveryStatusNotificationsListener> deliveryStatusNotificationPushListenerList = null;
         private volatile IList<InboundMessageNotificationsListener> inboundMessagePushListenerList = null;
         private PushServerSimulator dlrStatusPushServerSimulator;
         private PushServerSimulator inboundMessagesPushServerSimulator;
-
         //*************************SMSMessagingClientImpl Initialization******************************************************************************************************************************************************
         public SMSMessagingClientImpl(Configuration configuration)
             : base(configuration)
         {
         }
-
         //*************************SMSMessagingClientImpl public******************************************************************************************************************************************************
         /// <summary>
         /// Send an SMS over OneAPI to one or more mobile terminals using the customized 'SMS' object </summary>
@@ -44,8 +39,9 @@ namespace OneApi.Client.Impl
             StringBuilder urlBuilder = new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE).Append("/");
             urlBuilder.Append(HttpUtility.UrlEncode(smsRequest.SenderAddress));
             urlBuilder.Append("/requests");
-           
+
             RequestData requestData = new RequestData(urlBuilder.ToString(), Method.POST, null, smsRequest);
+            requestData.ContentType = RequestData.JSON_CONTENT_TYPE;
             return ExecuteMethod<SendMessageResult>(requestData);
         }
 
@@ -60,6 +56,7 @@ namespace OneApi.Client.Impl
             urlBuilder.Append("/requests");
 
             RequestData requestData = new RequestData(urlBuilder.ToString(), Method.POST, null, smsRequest);
+            requestData.ContentType = RequestData.JSON_CONTENT_TYPE;
             ExecuteMethodAsync<SendMessageResult>(requestData, callback);
         }
 
@@ -306,7 +303,7 @@ namespace OneApi.Client.Impl
         /// Get delivery reports asynchronously</summary>
         /// <param name="limit"> </param>
         /// <param name="callback"> (mandatory) method to call after receiving delivery reports </param>
-        public void GetDeliveryReportsAsync(int limit, Action<DeliveryReportList, RequestException> callback) 
+        public void GetDeliveryReportsAsync(int limit, Action<DeliveryReportList, RequestException> callback)
         {
             StringBuilder urlBuilder = (new StringBuilder(SMS_MESSAGING_OUTBOUND_URL_BASE)).Append("/requests/deliveryReports");
             urlBuilder.Append("?limit=");
@@ -554,7 +551,6 @@ namespace OneApi.Client.Impl
                 LOGGER.Info("Inbound Message Listeners are successfully removed.");
             }
         }
-
         //*************************SMSMessagingClientImpl private******************************************************************************************************************************************************
         /// <summary>
         /// START DLR Retriever

@@ -39,12 +39,15 @@ namespace OneApi.Examples.Async
 
             // Initialize Configuration object 
             Configuration configuration = new Configuration(System.Configuration.ConfigurationManager.AppSettings.Get("Username"),
-                                                            System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
+                                              System.Configuration.ConfigurationManager.AppSettings.Get("Password"));
 
             // Initialize SMSClient using the Configuration object
             SMSClient smsClient = new SMSClient(configuration);
 
-            smsClient.SmsMessagingClient.SendSMSAsync(new SMSRequest(senderAddress, message, recipientAddress), (sendMessageResult, e) =>
+            SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
+            smsRequest.LanguageCode = new LanguageCode(Language.Default);
+
+            smsClient.SmsMessagingClient.SendSMSAsync(smsRequest, (sendMessageResult, e) =>
             {
                 if (e == null)
                 {

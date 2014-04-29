@@ -9,25 +9,20 @@ using OneApi.Exceptions;
 using OneApi.Model;
 using RestSharp;
 
-
 namespace OneApi.Client.Impl
 {
-
     public class HLRClientImpl : OneAPIBaseClientImpl, HLRClient
     {
         private const string HLR_URL_BASE = "/terminalstatus/queries";
         private const string HLR_SUBSCRIPTION_URL_BASE = "/smsmessaging/hlr/subscriptions";
-
         private volatile IList<HLRNotificationsListener> hlrMessagePushListenerList = null;
         private PushServerSimulator hlrPushServerSimulator;
-
         //*************************DataresponseProfileClientImpl Initialization******************************************************************************************************************************************************
         public HLRClientImpl(Configuration configuration)
             : base(configuration)
         {
         }
-
-        //*************************DataresponseProfileClientImpl public******************************************************************************************************************************************************		
+        //*************************DataresponseProfileClientImpl public******************************************************************************************************************************************************
         /// <summary>
         /// Query the customer’s roaming status for a single network-connected mobile device and get HLR to the specified notify url </summary>
         /// <param name="address"> (mandatory) mobile device number being queried </param>

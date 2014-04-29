@@ -3,32 +3,31 @@ using Newtonsoft.Json;
 
 namespace OneApi.Model
 {
+    public class USSDRequest
+    {
+        private string address = null;
+        private string message = null;
+        private bool stopSession = false;
 
-	public class USSDRequest
-	{
-		private string address = null;
-		private string message = null;
-		private bool stopSession = false;
-	
-		public USSDRequest()
-		{
-		}
+        public USSDRequest()
+        {
+        }
 
-		public USSDRequest(string address, string message)
-		{
-			this.address = address;
-			this.message = message;
-		}
+        public USSDRequest(string address, string message)
+        {
+            this.address = address;
+            this.message = message;
+        }
 
         public USSDRequest(string address, string message, bool stopSession)
-		{
-			this.address = address;
-			this.message = message;
+        {
+            this.address = address;
+            this.message = message;
             this.stopSession = stopSession;
-		}
+        }
 
         [DisplayName("address")]
-        [JsonProperty(PropertyName="address")]
+        [JsonProperty(PropertyName = "address")]
         public virtual string Address
         {
             get
@@ -42,29 +41,31 @@ namespace OneApi.Model
         }
 
         [DisplayName("message")]
+        [JsonProperty(PropertyName = "message")]
         public virtual string Message
-		{
-			get
-			{
+        {
+            get
+            {
                 return message;
-			}
-			set
-			{
+            }
+            set
+            {
                 this.message = value;
-			}
-		}
+            }
+        }
 
         [DisplayName("stopSession")]
+        [JsonProperty(PropertyName = "stopSession")]
         public virtual bool StopSession
-		{
-			get
-			{
+        {
+            get
+            {
                 return stopSession;
-			}
-			set
-			{
+            }
+            set
+            {
                 this.stopSession = value;
-			}
-		}	
-	}
+            }
+        }
+    }
 }

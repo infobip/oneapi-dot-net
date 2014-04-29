@@ -5,7 +5,7 @@ using System.Text;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 
-namespace OneApi.Model
+namespace OneApi.Converter
 {
     class CustomDateConverter : DateTimeConverterBase
     {

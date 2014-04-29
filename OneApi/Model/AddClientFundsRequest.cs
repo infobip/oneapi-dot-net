@@ -13,6 +13,7 @@ namespace OneApi.Model
 		[JsonProperty(PropertyName = "description")]
 		public string description;
 
+        // Yes, I know!
 		[JsonProperty(PropertyName = "ammount")]
 		public decimal ammount;
 

@@ -17,10 +17,10 @@ using OneApi.Exceptions;
 using OneApi.Model;
 using System.Threading;
 using RestSharp;
+using OneApi.Converter;
 
 namespace OneApi.Client.Impl
 {
-
     /// <summary>
     /// Client base class containing common methods and properties
     /// 
@@ -28,9 +28,7 @@ namespace OneApi.Client.Impl
     public class OneAPIBaseClientImpl
     {
         protected static log4net.ILog LOGGER = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private Configuration configuration = null;
-
         private RestClient client = null;
 
         /// <summary>
@@ -75,9 +73,9 @@ namespace OneApi.Client.Impl
         /// <returns>T</returns>
         protected T ExecuteMethod<T>(RequestData requestData)
         {
-             IRestResponse response = SendOneAPIRequest(requestData);
-             var deserializedResponse = Deserialize<T>(response, requestData.RootElement);
-             return deserializedResponse;
+            IRestResponse response = SendOneAPIRequest(requestData);
+            var deserializedResponse = Deserialize<T>(response, requestData.RootElement);
+            return deserializedResponse;
         }
 
         /// <summary>
@@ -130,7 +128,7 @@ namespace OneApi.Client.Impl
                     T jsonObject = Deserialize<T>(response, requestData.RootElement);
                     callbackResponse(jsonObject, null);
                 }
-                catch (RequestException e )
+                catch (RequestException e)
                 {
                     callbackResponse(new T(), e);
                 }
@@ -179,7 +177,7 @@ namespace OneApi.Client.Impl
 
             if (LOGGER.IsDebugEnabled)
             {
-                LOGGER.Debug("Request form parameters: " + string.Join(", ", request.Parameters.ToArray().Select<Parameter, string>(ism => ism != null ? ism.ToString(): "{}").ToArray()));
+                LOGGER.Debug("Request form parameters: " + string.Join(", ", request.Parameters.ToArray().Select<Parameter, string>(ism => ism != null ? ism.ToString() : "{}").ToArray()));
             }
         }
 
@@ -218,6 +216,7 @@ namespace OneApi.Client.Impl
                 {
                     if (requestData.ContentType.Equals(RequestData.JSON_CONTENT_TYPE))
                     {
+                        request.JsonSerializer = new RestSharpJsonNetSerializer();
                         request.RequestFormat = DataFormat.Json;
                         request.AddBody(requestData.FormParams);
                     }

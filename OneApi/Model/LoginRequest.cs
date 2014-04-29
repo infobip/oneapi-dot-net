@@ -1,4 +1,6 @@
+using Newtonsoft.Json;
 using System.ComponentModel;
+
 namespace OneApi.Model
 {
     public class LoginRequest
@@ -17,6 +19,7 @@ namespace OneApi.Model
         }
 
         [DisplayName("username")]
+        [JsonProperty("username")]
         public virtual string Username
         {
             get
@@ -30,6 +33,7 @@ namespace OneApi.Model
         }
 
         [DisplayName("password")]
+        [JsonProperty("password")]
         public virtual string Password
         {
             get

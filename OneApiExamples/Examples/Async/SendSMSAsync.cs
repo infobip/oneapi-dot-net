@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using log4net.Config;
 using OneApi.Client.Impl;
@@ -45,7 +45,9 @@ namespace OneApi.Examples.Async
             SMSClient smsClient = new SMSClient(configuration);
 
             SMSRequest smsRequest = new SMSRequest(senderAddress, message, recipientAddress);
-            smsRequest.LanguageCode = new LanguageCode(Language.Default);
+            smsRequest.Language = new Language(LanguageCode.Default);
+
+            // smsRequest.Language = new Language(LanguageCode.Turkish, true, false);
 
             smsClient.SmsMessagingClient.SendSMSAsync(smsRequest, (sendMessageResult, e) =>
             {

@@ -31,7 +31,17 @@ namespace OneApi
         private bool useLockingShift = false;
         private bool useSingleShift = false;
 
-        public LanguageCode Value { get; set; }
+        public LanguageCode Value 
+        {
+            get
+            {
+                return lang;
+            }
+            set
+            {
+                this.lang = value;
+            }
+        }
 
         /// <summary>
         /// (optional) see <see cref="OneApi.Model.SMSRequest.LanguageCode"/>.

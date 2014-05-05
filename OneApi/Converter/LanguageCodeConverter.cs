@@ -33,16 +33,18 @@ namespace OneApi.Converter
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var language = value as Language;
-            var code = language.Value as LanguageCode;
+            var code = language.Value;
             var codeString = StringEnum.GetStringValue(code);
             if (!String.IsNullOrEmpty(codeString))
             {
+                writer.WriteStartObject();
                 writer.WritePropertyName("languageCode");
                 writer.WriteValue(codeString);
                 writer.WritePropertyName("useLockingShift");
                 writer.WriteValue(language.UseLockingShift);
                 writer.WritePropertyName("useSingleShift");
                 writer.WriteValue(language.UseSingleShift);
+                writer.WriteEndObject();
             }
             else
             {

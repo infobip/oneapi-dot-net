@@ -27,16 +27,22 @@ namespace OneApi.Converter
                 // read until the end of the JsonReader
             }
 
-            return new LanguageCode((Language) StringEnum.GetEnumValue(objectIdParts[0], typeof(Language)));
+            return new Language((LanguageCode)StringEnum.GetEnumValue(objectIdParts[0], typeof(LanguageCode)));//TODO: add: , objectIdParts[1], objectIdParts[2]);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var languageCode = value as LanguageCode;
-            var code = languageCode.ToString();
-            if (!String.IsNullOrEmpty(code))
+            var language = value as Language;
+            var code = language.Value as LanguageCode;
+            var codeString = StringEnum.GetStringValue(code);
+            if (!String.IsNullOrEmpty(codeString))
             {
-                writer.WriteRawValue("\"" + code + "\"");
+                writer.WritePropertyName("languageCode");
+                writer.WriteValue(codeString);
+                writer.WritePropertyName("useLockingShift");
+                writer.WriteValue(language.UseLockingShift);
+                writer.WritePropertyName("useSingleShift");
+                writer.WriteValue(language.UseSingleShift);
             }
             else
             {

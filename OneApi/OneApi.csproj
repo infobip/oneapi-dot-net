@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BB105549-1799-4601-9D24-652773A187F5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -119,7 +117,7 @@
     <Compile Include="PushServer\PushServerSimulator.cs" />
     <Compile Include="Retrievers\DeliveryReportRetriever.cs" />
     <Compile Include="Retrievers\InboundMessageRetriever.cs" />
-    <Compile Include="Model\LanguageCode.cs" />
+    <Compile Include="Model\Language.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Etc\client.cfg" />

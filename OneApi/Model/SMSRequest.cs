@@ -12,9 +12,7 @@ namespace OneApi.Model
         private string notifyURL = null;
         private string senderName = null;
         private string callbackData = null;
-        private LanguageCode languageCode = null;
-        private bool useLockingShift = false;
-        private bool useSingleShift = false;
+        private Language language = null;
 
         public SMSRequest()
         {
@@ -181,51 +179,17 @@ namespace OneApi.Model
         /// <see cref="http://en.wikipedia.org/wiki/GSM_03.38"/>
         /// </summary>
         /// <param name="languageCode"> </param>
-        [DisplayName("languageCode")]
-        [JsonProperty("languageCode")]
-        public LanguageCode LanguageCode
+        [DisplayName("language")]
+        [JsonProperty("language")]
+        public Language Language
         {
             set
             {
-                this.languageCode = value;
+                this.language = value;
             }
             get
             {
-                return languageCode;
-            }
-        }
-
-        /// <summary>
-        /// (optional) see <see cref="OneApi.Model.SMSRequest.LanguageCode"/>.
-        /// </summary>
-        [DisplayName("useLockingShift")]
-        [JsonProperty("useLockingShift")]
-        public string UseLockingShift
-        {
-            set
-            {
-                this.useLockingShift = value;
-            }
-            get
-            {
-                return useLockingShift;
-            }
-        }
-
-        /// <summary>
-        /// (optional) see <see cref="OneApi.Model.SMSRequest.LanguageCode"/>.
-        /// </summary>
-        [DisplayName("useSingleShift")]
-        [JsonProperty("useSingleShift")]
-        public string UseSingleShift
-        {
-            set
-            { 
-                this.useSingleShift = value;
-            }
-            get
-            {
-                return useSingleShift;
+                return language;
             }
         }
     }

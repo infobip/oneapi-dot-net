@@ -72,6 +72,7 @@
     <Compile Include="Examples\CustomersProfiles\GetCustomerProfiles.cs" />
     <Compile Include="Examples\CustomersProfiles\LoginExample.cs" />
     <Compile Include="Examples\CustomersProfiles\LogoutExample.cs" />
+    <Compile Include="Examples\SmsMessaging\SendSMS_GetDeliveryReportsByRequestId.cs" />
     <Compile Include="Examples\Ussd\SendUSSD.cs" />
     <Compile Include="Examples\SmsMessaging\ConvertJsonToDeliveryInfoNotification.cs" />
     <Compile Include="Examples\Hlr\ConvertJsonToHLRNotification.cs" />

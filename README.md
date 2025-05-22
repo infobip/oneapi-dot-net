@@ -1,3 +1,11 @@
+## ⚠️ Deprecated
+
+**This repository is deprecated and no longer actively maintained, it will be archived in the near future.**
+
+If you're looking for an active alternative, we recommend using [infobip-api-csharp-client](https://github.com/infobip/infobip-api-csharp-client) instead.
+
+You’re still welcome to browse or fork the code, but issues and pull requests will not be monitored.
+
 OneApi dot-net client
 ============================
 
